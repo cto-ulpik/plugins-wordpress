@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 
 // Función principal del plugin
 function price_product_register_shortcode() {
-    function mostrar_precio_producto($atts) {
+    function show_price($atts) {
         date_default_timezone_set('America/Guayaquil');
         // Recibe el ID del producto desde el shortcode
         $atts = shortcode_atts(array(
@@ -78,7 +78,7 @@ function price_product_register_shortcode() {
     }
 
     // Registrar el shortcode
-    add_shortcode('price_product', 'mostrar_precio_producto');
+    add_shortcode('price_product', 'show_price');
 }
 
 // Hook para inicializar el plugin
