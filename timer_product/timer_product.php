@@ -13,7 +13,19 @@ if (!defined('ABSPATH')) {
     exit; // Salir si se accede directamente.
 }
 
-// Función principal del plugin
+// Registrar los scripts y estilos
+function price_product_enqueue_assets() {
+    // Registrar estilos
+    wp_register_style('price-product-styles', plugin_dir_url(__FILE__) . 'css/price-product-styles.css');
+
+    // Registrar script
+    wp_register_script('price-product-script', plugin_dir_url(__FILE__) . 'js/price-product-script.js', array('jquery'), null, true);
+}
+
+// Hook para registrar scripts y estilos
+add_action('wp_enqueue_scripts', 'price_product_enqueue_assets');
+
+// Función para renderizar el shortcode
 function price_product_register_shortcode() {
     function show_price($atts) {
         date_default_timezone_set('America/Guayaquil');
@@ -21,6 +33,10 @@ function price_product_register_shortcode() {
         $atts = shortcode_atts(array(
             'product_id' => '',
         ), $atts);
+
+        // Encolar estilos y scripts
+        wp_enqueue_style('price-product-styles');
+        wp_enqueue_script('price-product-script');
 
         // Obtiene el precio del producto
         $product = wc_get_product($atts['product_id']);
@@ -33,10 +49,6 @@ function price_product_register_shortcode() {
             $dia = $fecha_actual->format('w');
             
             if ($dia > 0) {
-                // Establecer la hora a las 8:00 AM
-                $fecha_8am = clone $fecha_actual; // Crear una copia para no modificar la fecha actual
-                $fecha_8am->setTime(8, 0, 0);
-
                 // Establecer la hora a las 11:00 PM
                 $fecha_5pm = clone $fecha_actual;
                 $fecha_5pm->setTime(23, 0, 0);
@@ -46,7 +58,6 @@ function price_product_register_shortcode() {
                 if (intval($fecha_actual->format('H')) < 23) {
                     
                     if ($product_sale_price) {
-                        $ahorrance = $product_price - $product_sale_price;    
                         return '
                         <div class="container-price">
                             <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
