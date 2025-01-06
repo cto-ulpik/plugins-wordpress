@@ -43,7 +43,17 @@ function price_product_register_shortcode() {
         
         if ($product) {
             $product_price = $product->get_regular_price();
-            $product_sale_price = $product->get_sale_price();
+			
+			if($product->get_id() == 3632){
+				$product->set_sale_price(297);
+				$product->save();
+			}
+			elseif($product->get_id() == 3633){
+				$product->set_sale_price(400);
+				$product->save();
+			}
+			
+            $product_sale_price = $product->get_sale_price();	
             
             $fecha_actual = new DateTime();
             $dia = $fecha_actual->format('w');
