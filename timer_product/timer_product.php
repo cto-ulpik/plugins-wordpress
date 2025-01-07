@@ -116,7 +116,20 @@ function price_product_register_shortcode() {
         $product_price = $product->get_regular_price();
 
         if($day < 20){
-            return '<p>$' . $product_price . '</p>';
+            $product->set_sale_price(190);
+			$product->save();
+
+            return '<div class="container-price">
+                        <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
+                        <p class="discount-price-marca">$' . $product_sale_price . '</p>
+                    </div>';
+        }else{
+            $product->set_sale_price($product_price);
+            $product->save();
+
+            return '<div class="container-price">
+                        <p class="discount-price-marca">USD$' . $product_price . '</p>
+                    </div>';
         }
     }
 
