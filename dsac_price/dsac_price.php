@@ -27,7 +27,7 @@ add_action('wp_enqueue_scripts', 'price_product_enqueue_assets');
 
 // Función para renderizar el shortcode
 function price_dsac_shortcode() {
-    function show_price($atts) {
+    function show_price_dsac($atts) {
         date_default_timezone_set('America/Guayaquil');
         // Recibe el ID del producto desde el shortcode
         $atts = shortcode_atts(array(
@@ -81,7 +81,7 @@ function price_dsac_shortcode() {
     }
 
     // Registrar el shortcode
-    add_shortcode('price_dsac', 'show_price');
+    add_shortcode('price_dsac', 'show_price_dsac');
 }
 
 // Hook para inicializar el plugin
