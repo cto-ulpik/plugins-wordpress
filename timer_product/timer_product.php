@@ -102,20 +102,26 @@ function price_product_register_shortcode() {
     add_shortcode('price_product', 'show_price');
 
 
-    // function show_price_dsac($atts) {
-    //     date_default_timezone_set('America/Guayaquil');
-    //     // Recibe el ID del producto desde el shortcode
-    //     $atts = shortcode_atts(array(
-    //         'product_id' => '',
-    //     ), $atts);
+    function show_price_dsac($atts) {
+        date_default_timezone_set('America/Guayaquil');
+        // Recibe el ID del producto desde el shortcode
+        $atts = shortcode_atts(array(
+            'product_id' => '',
+        ), $atts);
 
-    //     $product = wc_get_product($atts['product_id']);
-    //     $product_price = $product->get_regular_price();
-    //     return '<p>$' . $product_price . '</p>';
-    // }
+        $fecha_actual = new DateTime();
+        $dia = $fecha_actual->format('d');
 
-    // // Registrar el shortcode
-    // add_shortcode('price_dsac', 'show_price_dsac');
+        $product = wc_get_product($atts['product_id']);
+        $product_price = $product->get_regular_price();
+
+        if($day < 20){
+            return '<p>$' . $product_price . '</p>';
+        }
+    }
+
+    // Registrar el shortcode
+    add_shortcode('price_dsac', 'show_price_dsac');
 
     
 }
