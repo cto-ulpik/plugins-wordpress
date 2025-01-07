@@ -118,7 +118,8 @@ function price_product_register_shortcode() {
             $product->set_sale_price(190);
 			$product->save();
             $product_sale_price = $product->get_sale_price();	
-
+            echo $day;
+            
             return '<div class="container-price">
                             
                         <h3 class="real-price-marca">De '. $day .'<span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
