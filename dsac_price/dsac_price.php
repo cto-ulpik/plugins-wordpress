@@ -18,8 +18,6 @@ function price_product_enqueue_assets() {
     // Registrar estilos
     wp_register_style('price-product-styles', plugin_dir_url(__FILE__) . 'css/price-product-styles.css');
 
-    // Registrar script
-    wp_register_script('price-product-script', plugin_dir_url(__FILE__) . 'js/price-product-script.js', array('jquery'), null, true);
 }
 
 // Hook para registrar scripts y estilos
