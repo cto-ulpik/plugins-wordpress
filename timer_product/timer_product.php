@@ -118,7 +118,7 @@ function price_product_register_shortcode() {
         if($day < 20){
             $product->set_sale_price(190);
 			$product->save();
-            $product_price = $product->get_regular_price();
+            $product_sale_price = $product->get_sale_price();	
 
             return '<div class="container-price">
                         <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
