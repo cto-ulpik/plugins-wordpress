@@ -109,7 +109,8 @@ function price_product_register_shortcode() {
             'product_id' => '',
         ), $atts);
 
-        
+        $fecha_actual = new DateTime();
+        $day = $fecha_actual->format('d');
 
         $product = wc_get_product($atts['product_id']);
         $product_price = $product->get_regular_price();
@@ -119,7 +120,7 @@ function price_product_register_shortcode() {
 			$product->save();
             $product_sale_price = $product->get_sale_price();	
             echo $day;
-            
+
             return '<div class="container-price">
                             
                         <h3 class="real-price-marca">De '. $day .'<span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
