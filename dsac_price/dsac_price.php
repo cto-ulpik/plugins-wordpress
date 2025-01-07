@@ -25,10 +25,10 @@ function show_price_dsac($atts) {
 
     // Validar y sanitizar atributos
     $atts = shortcode_atts(array(
-        'product_id' => '',
+        'p_id' => '',
     ), $atts);
 
-    $product_id = intval($atts['product_id']);
+    $product_id = intval($atts['p_id']);
     if (!$product_id) {
         return '<div class="container-price"><p>Producto no válido.</p></div>';
     }
