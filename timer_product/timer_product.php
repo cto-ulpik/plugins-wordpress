@@ -101,6 +101,22 @@ function price_product_register_shortcode() {
     // Registrar el shortcode
     add_shortcode('price_product', 'show_price');
 
+
+    function show_price_dsac(atts) {
+        date_default_timezone_set('America/Guayaquil');
+        // Recibe el ID del producto desde el shortcode
+        $atts = shortcode_atts(array(
+            'product_id' => '',
+        ), $atts);
+
+        $product = wc_get_product($atts['product_id']);
+        $product_price = $product->get_regular_price();
+        return '<p>$' . $product_price . '</p>';
+    }
+
+    // Registrar el shortcode
+    add_shortcode('price_dsac', 'show_price_dsac');
+
     
 }
 
