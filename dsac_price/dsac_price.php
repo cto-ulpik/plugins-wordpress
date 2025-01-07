@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 // Registrar los scripts y estilos
 function price_product_enqueue_assets() {
     // Registrar estilos
-    wp_register_style('price-product-styles', plugin_dir_url(__FILE__) . 'css/price-product-styles.css');
+    wp_register_style('price-dsac-styles', plugin_dir_url(__FILE__) . 'css/price-dsac-styles.css');
 
 }
 
@@ -33,8 +33,7 @@ function price_dsac_shortcode() {
         ), $atts);
 
         // Encolar estilos y scripts
-        wp_enqueue_style('price-product-styles');
-        wp_enqueue_script('price-product-script');
+        wp_enqueue_style('price-dsac-styles');
 
         // Obtiene el precio del producto
         $product = wc_get_product($atts['product_id']);
