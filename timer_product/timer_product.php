@@ -116,7 +116,7 @@ function price_product_register_shortcode() {
         $product_price = $product->get_regular_price();
 
         if($day < 20){
-            $product->set_sale_price(190);
+            $product->set_sale_price(300);
 			$product->save();
             $product_sale_price = $product->get_sale_price();	
 
