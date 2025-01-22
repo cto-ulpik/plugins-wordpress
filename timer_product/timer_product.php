@@ -147,7 +147,34 @@ function price_product_register_shortcode() {
     // Registrar el shortcode
     add_shortcode('price_dsac', 'show_price_dsac');
 
+
+
+    /// CITAS
+    function show_price_citas($atts) {
+        date_default_timezone_set('America/Guayaquil');
+        // Recibe el ID del producto desde el shortcode
+        $atts = shortcode_atts(array(
+            'product_id' => '',
+        ), $atts);
+
+        $fecha_actual = new DateTime();
+        $day = $fecha_actual->format('d');
+
+        $product = wc_get_product($atts['product_id']);
+        $product_price = $product->get_regular_price();
+
+        
+
+            return '<div class="container-price">
+                        <p class="discount-price-marca">USD$' . $product_price . '</p>
+                    </div>';
+        
+    }
+
+    // Registrar el shortcode
+    add_shortcode('price_citas', 'show_price_citas');
     
+
 }
 
 // Hook para inicializar el plugin
