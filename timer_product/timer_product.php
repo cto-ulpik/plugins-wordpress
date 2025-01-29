@@ -191,7 +191,7 @@ function price_product_register_shortcode() {
         $product_price = $product->get_regular_price();
 
         if(($day >= 27 && $month == 1) || ($day <=6 && $month == 2)){
-            $product->set_sale_price(287);
+            $product->set_sale_price(387);
 			$product->save();
             $product_sale_price = $product->get_sale_price();	
 
@@ -203,7 +203,7 @@ function price_product_register_shortcode() {
                     </div>';
         }
         else if($day > 6 && $day <=12 &&  $month == 2){
-            $product->set_sale_price(350);
+            $product->set_sale_price(450);
             $product->save();
 
             return '<div class="container-price">
