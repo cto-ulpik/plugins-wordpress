@@ -199,6 +199,7 @@ function price_product_register_shortcode() {
                             
                         <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
                         <p class="discount-price-marca">$' . $product_sale_price . '</p>
+                        <p class="oferta">*Oferta disponible hasta el 6 de Febrero</p>
                     </div>';
         }
         else if($day > 6 && $day <=12 &&  $month == 2){
@@ -208,6 +209,7 @@ function price_product_register_shortcode() {
             return '<div class="container-price">
                         <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
                         <p class="discount-price-marca">USD$' . $product_price . '</p>
+                        <p class="oferta">*Oferta disponible hasta el 12 de Febrero</p>
                     </div>';
         }
         else{
