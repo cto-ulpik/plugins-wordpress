@@ -173,6 +173,56 @@ function price_product_register_shortcode() {
 
     // Registrar el shortcode
     add_shortcode('price_citas', 'show_price_citas');
+
+
+    // Emprende mmv
+    function show_emprende_mmv($atts) {
+        date_default_timezone_set('America/Guayaquil');
+        // Recibe el ID del producto desde el shortcode
+        $atts = shortcode_atts(array(
+            'product_id' => '',
+        ), $atts);
+
+        $fecha_actual = new DateTime();
+        $day = $fecha_actual->format('d');
+        $month = $fecha_actual->format('m');
+
+        $product = wc_get_product($atts['product_id']);
+        $product_price = $product->get_regular_price();
+
+        if(($day >= 27 && $month == 1) || ($day <=6 && $month == 2)){
+            $product->set_sale_price(287);
+			$product->save();
+            $product_sale_price = $product->get_sale_price();	
+
+            return '<div class="container-price">
+                            
+                        <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
+                        <p class="discount-price-marca">$' . $product_sale_price . '</p>
+                    </div>';
+        }
+        else if($day > 6 && $day <=12 &&  $month == 2){
+            $product->set_sale_price(350);
+            $product->save();
+
+            return '<div class="container-price">
+                        <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
+                        <p class="discount-price-marca">USD$' . $product_price . '</p>
+                    </div>';
+        }
+        else{
+            $product->set_sale_price($product_price);
+            $product->save();
+
+            return '<div class="container-price">
+                        <p class="discount-price-marca">. $product_price .</p>
+                    </div>';
+        }
+        
+    }
+
+    // Registrar el shortcode
+    add_shortcode('price_emmv', 'show_emprende_mmv');
     
 
 }
