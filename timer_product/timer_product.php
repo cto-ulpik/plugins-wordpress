@@ -190,7 +190,7 @@ function price_product_register_shortcode() {
         $product = wc_get_product($atts['product_id']);
         $product_price = $product->get_regular_price();
 
-        if(($day >= 27 && $month == 1) || ($day <=6 && $month == 2)){
+        if(($day >= 27 && $month == 1) || ($day <=10 && $month == 2)){
             $product->set_sale_price(387);
 			$product->save();
             $product_sale_price = $product->get_sale_price();	
@@ -202,8 +202,18 @@ function price_product_register_shortcode() {
                         <p class="oferta">*Oferta disponible hasta el 6 de Febrero</p>
                     </div>';
         }
-        else if($day > 6 && $day <=12 &&  $month == 2){
+        else if($day > 10 && $day <=13 &&  $month == 2){
             $product->set_sale_price(450);
+            $product->save();
+
+            return '<div class="container-price">
+                        <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
+                        <p class="discount-price-marca">USD$' . $product_price . '</p>
+                        <p class="oferta">*Oferta disponible hasta el 12 de Febrero</p>
+                    </div>';
+        }
+        else if($day > 13 && $day <=17 &&  $month == 2){
+            $product->set_sale_price($product_price);
             $product->save();
 
             return '<div class="container-price">
@@ -217,7 +227,7 @@ function price_product_register_shortcode() {
             $product->save();
 
             return '<div class="container-price">
-                        <p class="discount-price-marca">. $product_price .</p>
+                        <p class="discount-price-marca"> SOLD OUT </p>
                     </div>';
         }
         
