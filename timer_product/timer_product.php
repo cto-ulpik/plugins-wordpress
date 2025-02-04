@@ -102,6 +102,133 @@ function price_product_register_shortcode() {
     add_shortcode('price_product', 'show_price');
 
 
+    ///////////////////////////// MOSTRAR UNICAMENTE EL PRECIO /////////////////////////////
+   
+    function show_only_price($atts) {
+        date_default_timezone_set('America/Guayaquil');
+        // Recibe el ID del producto desde el shortcode
+        $atts = shortcode_atts(array(
+            'product_id' => '',
+        ), $atts);
+
+        // Encolar estilos y scripts
+        wp_enqueue_style('price-product-styles');
+        wp_enqueue_script('price-product-script');
+
+        // Obtiene el precio del producto
+        $product = wc_get_product($atts['product_id']);
+        
+        if ($product) {
+            $product_price = $product->get_regular_price();
+			
+			if($product->get_id() == 3632){
+				$product->set_sale_price(297);
+				$product->save();
+			}
+			elseif($product->get_id() == 3633){
+				$product->set_sale_price(400);
+				$product->save();
+			}
+			
+            $product_sale_price = $product->get_sale_price();	
+            
+            $fecha_actual = new DateTime();
+            $dia = $fecha_actual->format('w');
+            
+            if ($dia > 0) {
+                // Establecer la hora a las 11:00 PM
+                $fecha_5pm = clone $fecha_actual;
+                $fecha_5pm->setTime(23, 0, 0);
+
+                $diferencia = $fecha_actual->diff($fecha_5pm);
+                $tiempo_restante = abs(intval($diferencia->format('%h')) * 3600 + intval($diferencia->format('%i')) * 60 + intval($diferencia->format('%s')));
+                if (intval($fecha_actual->format('H')) < 23) {
+                    
+                    if ($product_sale_price) {
+                        return '
+                        <div class="container-price">
+                            <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
+                            <p class="discount-price-marca">$' . $product_sale_price . '</p>
+                        </div>';
+                    } else {
+                        return '<div class="container-price">
+                                <p class="discount-price-marca">USD$' . $product_price . '</p>
+                            </div>';
+                    }
+                } else {
+                    return '<div class="container-price">
+                                <p class="discount-price-marca">USD$' . $product_price . '</p>
+                            </div>';
+                }
+            } else {
+                $product->set_sale_price($product_price);
+                $product->save();
+                return '<div class="container-price">
+                            <p class="discount-price-marca">USD$' . $product_price . '</p>
+                        </div>';
+            }
+        } else {
+            return '<div class="container-price">
+                    <p class="discount-price">Precio no disponible</p>
+                </div>';
+        }
+    }
+    add_shortcode('only_price_product', 'show_only_price');
+
+    /////////////////////////////
+
+    ///////////////////////////// MOSTRAR TEMPORIZADOR /////////////////////////////
+   
+    function show_temporizer_price($atts) {
+        date_default_timezone_set('America/Guayaquil');
+        // Recibe el ID del producto desde el shortcode
+        $atts = shortcode_atts(array(
+            'product_id' => '',
+        ), $atts);
+
+        // Encolar estilos y scripts
+        wp_enqueue_style('price-product-styles');
+        wp_enqueue_script('price-product-script');
+
+        // Obtiene el precio del producto
+        $product = wc_get_product($atts['product_id']);
+        
+        if ($product) {
+            $product_price = $product->get_regular_price();
+
+            $fecha_actual = new DateTime();
+            $dia = $fecha_actual->format('w');
+            
+            if ($dia > 0) {
+                // Establecer la hora a las 11:00 PM
+                $fecha_5pm = clone $fecha_actual;
+                $fecha_5pm->setTime(23, 0, 0);
+
+                $diferencia = $fecha_actual->diff($fecha_5pm);
+                $tiempo_restante = abs(intval($diferencia->format('%h')) * 3600 + intval($diferencia->format('%i')) * 60 + intval($diferencia->format('%s')));
+                if (intval($fecha_actual->format('H')) < 23) {
+                    
+                    if ($product_sale_price) {
+                        return '
+                            <div class="temporizador-descuento" data-tiempo-restante="' . esc_attr($tiempo_restante) . '"></div>
+                        ';
+                    } else {
+                        return '';
+                    }
+                } else {
+                    return '';
+                }
+            } else {
+                return '';
+            }
+        } else {
+            return '';
+        }
+    }
+    add_shortcode('temporizer_price_product', 'show_temporizer_price');
+
+    /////////////////////////////
+
     function show_price_dsac($atts) {
         date_default_timezone_set('America/Guayaquil');
         // Recibe el ID del producto desde el shortcode
