@@ -214,16 +214,18 @@ function price_product_register_shortcode() {
                             </div>
                             ';
                     } else {
-                        return 'a';
+                        return '<div class="container-price">
+                                <div class="temporizador-descuento" data-tiempo-restante="' . esc_attr($tiempo_restante) . '"></div>
+                            </div>';
                     }
                 } else {
-                    return 'b';
+                    return '';
                 }
             } else {
-                return 'c';
+                return '';
             }
         } else {
-            return 'd';
+            return '';
         }
     }
     add_shortcode('temporizer_price_product', 'show_temporizer_price');
