@@ -210,9 +210,9 @@ function price_product_register_shortcode() {
                     
                     if ($product_sale_price) {
                         return '
-                        <div class="container-price">
-                            <div class="temporizador-descuento" data-tiempo-restante="' . esc_attr($tiempo_restante) . '"></div>
-                        </div>
+                            <div class="container-price">
+                                <div class="temporizador-descuento" data-tiempo-restante="' . esc_attr($tiempo_restante) . '"></div>
+                            </div>
                             ';
                     } else {
                         return '';
