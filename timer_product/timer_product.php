@@ -214,16 +214,16 @@ function price_product_register_shortcode() {
                             </div>
                             ';
                     } else {
-                        return '';
+                        return 'a';
                     }
                 } else {
-                    return '';
+                    return 'b';
                 }
             } else {
-                return '';
+                return 'c';
             }
         } else {
-            return '';
+            return 'd';
         }
     }
     add_shortcode('temporizer_price_product', 'show_temporizer_price');
