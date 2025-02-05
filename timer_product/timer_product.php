@@ -113,7 +113,6 @@ function price_product_register_shortcode() {
 
         // Encolar estilos y scripts
         wp_enqueue_style('price-product-styles');
-        wp_enqueue_script('price-product-script');
 
         // Obtiene el precio del producto
         $product = wc_get_product($atts['product_id']);
