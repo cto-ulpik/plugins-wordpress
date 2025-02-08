@@ -57,12 +57,13 @@
             echo "<h2>Checkout ID generado:</h2>";
             echo "<p id='checkoutIdDisplay'>" . htmlspecialchars($checkoutId, ENT_QUOTES, 'UTF-8') . "</p>";
             echo "
-                // Escuchar el evento de finalización del formulario
+                <script>
                 document.addEventListener('submit', function (event) {
                     event.preventDefault();
                     const form = event.target;
                     console.log(form);
                 });
+                </script>
             ";
         } else {
             echo "<h2>Error en la transacción:</h2>";
