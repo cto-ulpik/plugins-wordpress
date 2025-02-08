@@ -56,7 +56,8 @@ add_action('init', 'pagos_deae_pay_register_page');
 
 // Añadir query var para la nueva página
 function pagos_deae_pay_add_query_var($vars) {
-    $vars[] = 'pagos_deae_pay_page';
+    $vars[] = 'pagos_deae_pay_page'; // La página personalizada
+    $vars[] = 'checkoutId'; // El parámetro que se enviará
     return $vars;
 }
 add_filter('query_vars', 'pagos_deae_pay_add_query_var');
