@@ -44,3 +44,28 @@ function pagos_deae_deactivate() {
     flush_rewrite_rules();
 }
 register_deactivation_hook(__FILE__, 'pagos_deae_deactivate');
+
+///
+
+
+// Registrar la página para pagos-deae-pay
+function pagos_deae_pay_register_page() {
+    add_rewrite_rule('^pagos-deae-pay/?$', 'index.php?pagos_deae_pay_page=1', 'top');
+}
+add_action('init', 'pagos_deae_pay_register_page');
+
+// Añadir query var para la nueva página
+function pagos_deae_pay_add_query_var($vars) {
+    $vars[] = 'pagos_deae_pay_page';
+    return $vars;
+}
+add_filter('query_vars', 'pagos_deae_pay_add_query_var');
+
+// Interceptar la carga de pagos-deae-pay
+function pagos_deae_pay_template_redirect() {
+    if (get_query_var('pagos_deae_pay_page') == 1) {
+        include plugin_dir_path(__FILE__) . 'pagos-deae-pay.php';
+        exit;
+    }
+}
+add_action('template_redirect', 'pagos_deae_pay_template_redirect');
