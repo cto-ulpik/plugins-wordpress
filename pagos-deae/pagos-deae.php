@@ -38,7 +38,7 @@ add_action('template_redirect', 'pagos_deae_template_redirect');
 // Interceptar y renderizar /card-deae
 function card_deae_template_redirect() {
     if (get_query_var('card_deae_page') == 1) {
-        include plugin_dir_path(__FILE__) . 'card-deae.php';
+        include plugin_dir_path(__FILE__) . 'card-deae-template.php';
         exit;
     }
 }
