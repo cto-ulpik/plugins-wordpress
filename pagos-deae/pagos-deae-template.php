@@ -51,20 +51,10 @@
         $checkoutId = $responseArray['id'] ?? null;
 
         if ($checkoutId) {
-            echo "<script src='https://eu-eutest.oppwa.com/v1/paymentWidgets.js?checkoutId=". htmlspecialchars($checkoutId, ENT_QUOTES, 'UTF-8') ."'></script>";
-            echo "<form action='/' class='paymentWidgets' data-brands='VISA MASTER DINERS DISCOVER AMEX'>
-</form>";
+           
             echo "<h2>Checkout ID generado:</h2>";
             echo "<p id='checkoutIdDisplay'>" . htmlspecialchars($checkoutId, ENT_QUOTES, 'UTF-8') . "</p>";
-            echo "
-                <script>
-                document.addEventListener('submit', function (event) {
-                    event.preventDefault();
-                    const form = event.target;
-                    console.log(form);
-                });
-                </script>
-            ";
+            
         } else {
             echo "<h2>Error en la transacción:</h2>";
             echo "<pre>" . htmlentities($response) . "</pre>";
