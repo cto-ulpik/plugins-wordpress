@@ -18,13 +18,12 @@
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $amount = sanitize_text_field($_POST['amount']);
-        $currency = sanitize_text_field($_POST['currency']);
 
-        function request($amount, $currency) {
+        function request($amount) {
             $url = "https://eu-test.oppwa.com/v1/checkouts";
             $data = "entityId=8ac7a4c994bb78290194bd40497301d5" .
                     "&amount=" . $amount .
-                    "&currency=" . $currency .
+                    "&currency=USD" .
                     "&paymentType=DB";
 
             $ch = curl_init();
@@ -44,7 +43,7 @@
             return $responseData;
         }
 
-        $response = request($amount, $currency);
+        $response = request($amount);
         $responseArray = json_decode($response, true);
 
         // Extraer el checkoutId de la respuesta si existe
