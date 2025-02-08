@@ -55,7 +55,7 @@
             echo "<h2>Checkout ID generado:</h2>";
             echo "<p id='checkoutIdDisplay'>" . htmlspecialchars($checkoutId, ENT_QUOTES, 'UTF-8') . "</p>";
 
-            $redirectUrl = home_url('/pagos-deae-pay?checkoutId=' . $checkoutId);
+            $redirectUrl = home_url('/card-deae?checkoutId=' . $checkoutId);
             echo "<h2>Redirigiendo al formulario de pago...</h2>";
             echo "<script>window.location.href = '$redirectUrl';</script>";
             
