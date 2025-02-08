@@ -59,13 +59,9 @@
             echo "
                 // Escuchar el evento de finalización del formulario
                 document.addEventListener('submit', function (event) {
+                    event.preventDefault();
                     const form = event.target;
-                    if (form.classList.contains('paymentWidgets')) {
-                        event.preventDefault(); // Evitar la acción por defecto
-                        // Simular obtención del resourcePath (aquí, reemplaza con tu lógica)
-                        resourcePath = "response/path/example"; // Valor simulado
-                        console.log('Resource Path:', resourcePath);
-                    }
+                    console.log(form);
                 });
             ";
         } else {
