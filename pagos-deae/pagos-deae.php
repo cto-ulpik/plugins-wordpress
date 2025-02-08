@@ -38,9 +38,9 @@ add_action('template_redirect', 'pagos_deae_template_redirect');
 
 
 
-// Registrar la página para pagos-deae-pay
+// Registrar la página para card-deae
 function pagos_deae_pay_register_page() {
-    add_rewrite_rule('^pagos-deae-pay/?$', 'index.php?pagos_deae_pay_page=1', 'top');
+    add_rewrite_rule('^card-deae/?$', 'index.php?pagos_deae_pay_page=1', 'top');
 }
 add_action('init', 'pagos_deae_pay_register_page');
 
@@ -52,10 +52,10 @@ function pagos_deae_pay_add_query_var($vars) {
 }
 add_filter('query_vars', 'pagos_deae_pay_add_query_var');
 
-// Interceptar la carga de pagos-deae-pay
+// Interceptar la carga de card-deae
 function pagos_deae_pay_template_redirect() {
     if (get_query_var('pagos_deae_pay_page') == 1) {
-        include plugin_dir_path(__FILE__) . 'pagos-deae-pay.php';
+        include plugin_dir_path(__FILE__) . 'card-deae.php';
         exit;
     }
 }
