@@ -32,20 +32,10 @@ function pagos_deae_template_redirect() {
 }
 add_action('template_redirect', 'pagos_deae_template_redirect');
 
-// Activar permalinks al activar el plugin
-function pagos_deae_flush_rewrite_rules() {
-    pagos_deae_register_page();
-    flush_rewrite_rules();
-}
-register_activation_hook(__FILE__, 'pagos_deae_flush_rewrite_rules');
 
-// Limpiar las reglas al desactivar
-function pagos_deae_deactivate() {
-    flush_rewrite_rules();
-}
-register_deactivation_hook(__FILE__, 'pagos_deae_deactivate');
 
-///
+
+
 
 
 // Registrar la página para pagos-deae-pay
@@ -70,3 +60,23 @@ function pagos_deae_pay_template_redirect() {
     }
 }
 add_action('template_redirect', 'pagos_deae_pay_template_redirect');
+
+
+
+
+
+// Activar permalinks al activar el plugin
+function pagos_deae_flush_rewrite_rules() {
+    pagos_deae_register_page();
+    flush_rewrite_rules();
+}
+register_activation_hook(__FILE__, 'pagos_deae_flush_rewrite_rules');
+
+// Limpiar las reglas al desactivar
+function pagos_deae_deactivate() {
+    flush_rewrite_rules();
+}
+register_deactivation_hook(__FILE__, 'pagos_deae_deactivate');
+
+///
+
