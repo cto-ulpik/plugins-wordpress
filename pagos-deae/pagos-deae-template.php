@@ -13,7 +13,7 @@
         <br>
         <button type="submit">Pagar</button>
     </form>
-    <script type="text/javascript" src="https://www.datafast.com. ec/js/dfAdditionalValidations1.js"> 
+    
 
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -49,4 +49,5 @@
     }
     ?>
 </body>
+<script type="text/javascript" src="https://www.datafast.com.ec/js/dfAdditionalValidations1.js"> 
 </html> 
