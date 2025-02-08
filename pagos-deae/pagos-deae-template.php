@@ -56,6 +56,18 @@
 </form>";
             echo "<h2>Checkout ID generado:</h2>";
             echo "<p id='checkoutIdDisplay'>" . htmlspecialchars($checkoutId, ENT_QUOTES, 'UTF-8') . "</p>";
+            echo "
+                // Escuchar el evento de finalización del formulario
+                document.addEventListener('submit', function (event) {
+                    const form = event.target;
+                    if (form.classList.contains('paymentWidgets')) {
+                        event.preventDefault(); // Evitar la acción por defecto
+                        // Simular obtención del resourcePath (aquí, reemplaza con tu lógica)
+                        resourcePath = "response/path/example"; // Valor simulado
+                        console.log('Resource Path:', resourcePath);
+                    }
+                });
+            ";
         } else {
             echo "<h2>Error en la transacción:</h2>";
             echo "<pre>" . htmlentities($response) . "</pre>";
@@ -63,18 +75,6 @@
     }
     ?>
 
-<script>
-        // Escuchar el evento de finalización del formulario
-        document.addEventListener('submit', function (event) {
-            const form = event.target;
-            if (form.classList.contains('paymentWidgets')) {
-                event.preventDefault(); // Evitar la acción por defecto
-                // Simular obtención del resourcePath (aquí, reemplaza con tu lógica)
-                resourcePath = "response/path/example"; // Valor simulado
-                console.log('Resource Path:', resourcePath);
-            }
-        });
-    </script>
 </body>
 <script type="text/javascript" src="https://www.datafast.com.ec/js/dfAdditionalValidations1.js"> 
 </html> 
