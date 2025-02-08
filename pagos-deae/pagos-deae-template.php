@@ -11,30 +11,25 @@
         <label for="amount">Monto:</label>
         <input type="text" id="amount" name="amount" required>
         <br>
-        <label for="currency">Moneda:</label>
-        <select id="currency" name="currency">
-            <option value="USD">USD</option>
-        </select>
-        <br>
         <button type="submit">Pagar</button>
     </form>
+    <script type="text/javascript" src="https://www.datafast.com. ec/js/dfAdditionalValidations1.js"> 
 
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $amount = sanitize_text_field($_POST['amount']);
-        $currency = sanitize_text_field($_POST['currency']);
 
-        function request($amount, $currency) {
+        function request($amount) {
             $url = "https://eu-test.oppwa.com/v1/checkouts";
-            $data = "entityId=8a8294174b7ecb28014b9699220015ca" .
-                    "&amount=" . $amount .
-                    "&currency=" . $currency .
+            $data = "entityId=8ac7a4c994bb78290194bd40497301d5" .
+                    "&amount=2" .
+                    "&currency=USD" .
                     "&paymentType=DB";
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Authorization:Bearer OGE4Mjk4MjV...'
+                'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA=='
             ));
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -48,7 +43,7 @@
             return $responseData;
         }
 
-        $response = request($amount, $currency);
+        $response = request($amount);
         echo "<h2>Respuesta de la API:</h2>";
         echo "<pre>" . htmlentities($response) . "</pre>";
     }
