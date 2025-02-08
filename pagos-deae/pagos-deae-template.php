@@ -18,12 +18,13 @@
     <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $amount = sanitize_text_field($_POST['amount']);
+        $currency = sanitize_text_field($_POST['currency']);
 
-        function request($amount) {
+        function request($amount, $currency) {
             $url = "https://eu-test.oppwa.com/v1/checkouts";
             $data = "entityId=8ac7a4c994bb78290194bd40497301d5" .
-                    "&amount=2" .
-                    "&currency=USD" .
+                    "&amount=" . $amount .
+                    "&currency=" . $currency .
                     "&paymentType=DB";
 
             $ch = curl_init();
@@ -43,11 +44,37 @@
             return $responseData;
         }
 
-        $response = request($amount);
-        echo "<h2>Respuesta de la API:</h2>";
-        echo "<pre>" . htmlentities($response) . "</pre>";
+        $response = request($amount, $currency);
+        $responseArray = json_decode($response, true);
+
+        // Extraer el checkoutId de la respuesta si existe
+        $checkoutId = $responseArray['id'] ?? null;
+
+        if ($checkoutId) {
+            echo "<script src='https://eu-eutest.oppwa.com/v1/paymentWidgets.js?checkoutId=". htmlspecialchars($checkoutId, ENT_QUOTES, 'UTF-8') ."'></script>";
+            echo "<form action='/' class='paymentWidgets' data-brands='VISA MASTER DINERS DISCOVER AMEX'>
+</form>";
+            echo "<h2>Checkout ID generado:</h2>";
+            echo "<p id='checkoutIdDisplay'>" . htmlspecialchars($checkoutId, ENT_QUOTES, 'UTF-8') . "</p>";
+        } else {
+            echo "<h2>Error en la transacción:</h2>";
+            echo "<pre>" . htmlentities($response) . "</pre>";
+        }
     }
     ?>
+
+<script>
+        // Escuchar el evento de finalización del formulario
+        document.addEventListener('submit', function (event) {
+            const form = event.target;
+            if (form.classList.contains('paymentWidgets')) {
+                event.preventDefault(); // Evitar la acción por defecto
+                // Simular obtención del resourcePath (aquí, reemplaza con tu lógica)
+                resourcePath = "response/path/example"; // Valor simulado
+                console.log('Resource Path:', resourcePath);
+            }
+        });
+    </script>
 </body>
 <script type="text/javascript" src="https://www.datafast.com.ec/js/dfAdditionalValidations1.js"> 
 </html> 
