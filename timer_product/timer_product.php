@@ -332,7 +332,7 @@ function price_product_register_shortcode() {
                         <p class="oferta">*Oferta disponible hasta el 10 de Febrero</p>
                     </div>';
         }
-        else if($day > 10 && $day <=13 &&  $month == 2){
+        else if($day > 10 && $day <=13){
             $product->set_sale_price(450);
             $product->save();
 
