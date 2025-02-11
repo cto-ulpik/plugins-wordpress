@@ -354,7 +354,7 @@ function price_product_register_shortcode() {
                     </div>';
         }
         else{
-            $product->set_sale_price($product_price);
+            $product->set_sale_price(450);
             $product->save();
 
             return '<div class="container-price">
