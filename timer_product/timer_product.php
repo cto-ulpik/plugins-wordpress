@@ -332,19 +332,19 @@ function price_product_register_shortcode() {
                         <p class="oferta">*Oferta disponible hasta el 10 de Febrero</p>
                     </div>';
         }
-        else if($day > 10 && $day <=13){
+        else if($day > 10 && $day <=13 &&  $month == 2){
             $product->set_sale_price(450);
             $product->save();
+            $product_sale_price = $product->get_sale_price();	
 
             return '<div class="container-price">
                         <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
-                        <p class="discount-price-marca">USD$' . $product_price . '</p>
+                        <p class="discount-price-marca">USD$' . $product_sale_price . '</p>
                         <p class="oferta">*Oferta disponible hasta el 13 de Febrero</p>
                     </div>';
         }
         else if($day > 13 && $day <=17 &&  $month == 2){
-            // $product->set_sale_price($product_price);
-            $product->set_sale_price(450);
+            $product->set_sale_price($product_price);
             $product->save();
 
             return '<div class="container-price">
@@ -354,7 +354,7 @@ function price_product_register_shortcode() {
                     </div>';
         }
         else{
-            $product->set_sale_price(450);
+            $product->set_sale_price($product_price);
             $product->save();
 
             return '<div class="container-price">
