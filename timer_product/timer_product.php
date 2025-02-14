@@ -344,12 +344,14 @@ function price_product_register_shortcode() {
                     </div>';
         }
         else if($day > 13 && $day <=17 &&  $month == 2){
-            $product->set_sale_price($product_price);
+            $product->set_sale_price(750);
             $product->save();
+            $product_sale_price = $product->get_sale_price();	
+
 
             return '<div class="container-price">
                         <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
-                        <p class="discount-price-marca">USD$' . $product_price . '</p>
+                        <p class="discount-price-marca">USD$' . $product_sale_price . '</p>
                         <p class="oferta">*Cierre de cupos el 17 de Febrero</p>
                     </div>';
         }

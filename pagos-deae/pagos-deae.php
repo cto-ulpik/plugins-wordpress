@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 function pagos_deae_register_pages() {
     add_rewrite_rule('^pagos-deae/?$', 'index.php?pagos_deae_page=1', 'top');
     add_rewrite_rule('^card-deae/?$', 'index.php?card_deae_page=1', 'top');
+    add_rewrite_rule('^finalizar-deae/?$', 'index.php?finalizar_deae_page=1', 'top');
 }
 add_action('init', 'pagos_deae_register_pages');
 
@@ -21,6 +22,7 @@ add_action('init', 'pagos_deae_register_pages');
 function pagos_deae_add_query_vars($vars) {
     $vars[] = 'pagos_deae_page'; // Página /pagos-deae
     $vars[] = 'card_deae_page'; // Página /card-deae
+    $vars[] = 'finalizar_deae_page'; // Página /finalizar_deae
     $vars[] = 'checkoutId'; // Parámetro adicional para /card-deae
     return $vars;
 }
@@ -43,6 +45,18 @@ function card_deae_template_redirect() {
     }
 }
 add_action('template_redirect', 'card_deae_template_redirect');
+
+// Interceptar y renderizar /finalizar_deae
+function finalizar_deae_template_redirect() {
+    if (get_query_var('finalizar_deae_page') == 1) {
+        include plugin_dir_path(__FILE__) . 'finalizar-deae-template.php';
+        exit;
+    }
+}
+add_action('template_redirect', 'finalizar_deae_template_redirect');
+
+
+
 
 // Activar permalinks al activar el plugin
 function pagos_deae_flush_rewrite_rules() {

@@ -9,7 +9,7 @@ if (!isset($_GET['checkoutId'])) {
 $checkoutId = sanitize_text_field($_GET['checkoutId']);
 
 // Configuración del entorno
-$baseUrl = home_url('/'); // URL base del sitio
+$baseUrl = home_url('/finalizar-deae'); // URL base del sitio
 $url = "https://eu-test.oppwa.com/v1/"; // URL del entorno de pruebas
 
 ?>
