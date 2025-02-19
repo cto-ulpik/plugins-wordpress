@@ -20,6 +20,18 @@
         $amount = sanitize_text_field($_POST['amount']);
 
         function request($amount) {
+
+            // Calcular los impuestos correctamente
+            $baseImponible = round($amount / 1.15, 2); // Base sin IVA (asumiendo 12% de IVA)
+            $iva = round($amount - $baseImponible, 2); // IVA calculado
+
+            // Si el producto no tiene IVA, entonces todo el monto es base 0%
+            $base0 = ($iva == 0) ? $amount : 0.00;
+
+            /////
+            $baseimp = number_format($baseImponible, 2, '.', '');
+            $baseiva = number_format($iva, 2, '.', '') ;
+
             $url = "https://eu-test.oppwa.com/v1/checkouts";
             $data = "entityId=8ac7a4c994bb78290194bd40497301d5" .
                     "&amount=" . $amount .
@@ -28,6 +40,11 @@
                     "&customer.givenName=Nestor" .
                     "&customer.middleName=David" .
                     "&customer.surname=Castillo" .
+                    "&customParameters[SHOPPER_VAL_BASE0]=0"
+                    "&customParameters[SHOPPER_VAL_BASEIMP]=" . $baseimp .
+                    "&customParameters[SHOPPER_VAL_IVA]=" . $baseiva .
+                    "&customParameters[SHOPPER_MID]=1000000406" .
+                    "&customParameters[SHOPPER_TID]=PD100406" .
                     "&testMode=EXTERNAL";
 
             $ch = curl_init();
