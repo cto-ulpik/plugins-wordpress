@@ -49,8 +49,8 @@
                     "&customParameters[SHOPPER_TID]=PD100406" .
 
                     "&risk.parameters[USER_DATA2]=DATAFAST" .
-                    "&customParameters[SHOPPER_VERSIONDF]=2" .
-                    "&testMode=EXTERNAL";
+                    "&customParameters[SHOPPER_VERSIONDF]=2";
+                    // "&testMode=EXTERNAL";
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
