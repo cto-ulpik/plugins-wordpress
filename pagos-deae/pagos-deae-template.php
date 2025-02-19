@@ -25,8 +25,11 @@
                     "&amount=" . $amount .
                     "&currency=USD" .
                     "&paymentType=DB" .
+                    "&customer.givenName=Nestor" .
+                    "&customer.middleName=David" .
+                    "&customer.surname=Castillo" .
                     "&customerParameters[SHOPPER_VAL_BASEIMP]=15" .
-                    "testMode=EXTERNAL";
+                    "&testMode=EXTERNAL";
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
