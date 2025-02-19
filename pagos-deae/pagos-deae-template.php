@@ -24,7 +24,9 @@
             $data = "entityId=8ac7a4c994bb78290194bd40497301d5" .
                     "&amount=" . $amount .
                     "&currency=USD" .
-                    "&paymentType=DB";
+                    "&paymentType=DB" .
+                    "&customerParameters[SHOPPER_VAL_BASEIMP]=15"
+                    "testMode=EXTERNAL";
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
