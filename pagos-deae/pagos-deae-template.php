@@ -28,23 +28,28 @@
             // Si el producto no tiene IVA, entonces todo el monto es base 0%
             $base0 = ($iva == 0) ? $amount : 0.00;
 
-            /////
-            $baseimp = number_format($baseImponible, 2, '.', '');
-            $baseiva = number_format($iva, 2, '.', '') ;
 
             $url = "https://eu-test.oppwa.com/v1/checkouts";
             $data = "entityId=8ac7a4c994bb78290194bd40497301d5" .
                     "&amount=" . $amount .
                     "&currency=USD" .
                     "&paymentType=DB" .
+
                     "&customer.givenName=Nestor" .
                     "&customer.middleName=David" .
                     "&customer.surname=Castillo" .
-                    "&customParameters[SHOPPER_VAL_BASE0]=0" .
-                    "&customParameters[SHOPPER_VAL_BASEIMP]=" . $baseImponible .
-                    "&customParameters[SHOPPER_VAL_IVA]=" . $baseiva .
+
+                    "&customParameters[SHOPPER_ECI]=0103910" .
+                    "&customParameters[SHOPPER_PSERV]=17913101" .
+
+                    "&customParameters[SHOPPER_VAL_BASE0]=0.00" .
+                    "&customParameters[SHOPPER_VAL_BASEIMP]=" . number_format($baseImponible, 2, '.', '') .
+                    "&customParameters[SHOPPER_VAL_IVA]=" . number_format($iva, 2, '.', '') .
                     "&customParameters[SHOPPER_MID]=1000000406" .
                     "&customParameters[SHOPPER_TID]=PD100406" .
+
+                    "&risk.parameters[USER_DATA2]=DATAFAST" .
+                    "&customParameters[SHOPPER_VERSIONDF]=2" .
                     "&testMode=EXTERNAL";
 
             $ch = curl_init();
