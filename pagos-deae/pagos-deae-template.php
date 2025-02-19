@@ -45,12 +45,12 @@
                     "&customParameters[SHOPPER_VAL_BASE0]=0.00" .
                     "&customParameters[SHOPPER_VAL_BASEIMP]=" . number_format($baseImponible, 2, '.', '') .
                     "&customParameters[SHOPPER_VAL_IVA]=" . number_format($iva, 2, '.', '') .
-                    "&customParameters[SHOPPER_MID]=1000000406" .
+                    "&customParameters[SHOPPER_MID]=1000000505" .
                     "&customParameters[SHOPPER_TID]=PD100406" .
 
                     "&risk.parameters[USER_DATA2]=DATAFAST" .
-                    "&customParameters[SHOPPER_VERSIONDF]=2";
-                    // "&testMode=EXTERNAL";
+                    "&customParameters[SHOPPER_VERSIONDF]=2" .
+                    "&testMode=EXTERNAL";
 
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
