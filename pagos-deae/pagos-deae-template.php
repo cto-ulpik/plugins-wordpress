@@ -41,8 +41,8 @@
                     "&customer.middleName=David" .
                     "&customer.surname=Castillo" .
                     "&customParameters[SHOPPER_VAL_BASE0]=0"
-                    "&customParameters[SHOPPER_VAL_BASEIMP]=" . $baseimp .
-                    "&customParameters[SHOPPER_VAL_IVA]=" . $baseiva .
+                    "&customParameters[SHOPPER_VAL_BASEIMP]=" . $baseImponible .
+                    "&customParameters[SHOPPER_VAL_IVA]=" . $iva .
                     "&customParameters[SHOPPER_MID]=1000000406" .
                     "&customParameters[SHOPPER_TID]=PD100406" .
                     "&testMode=EXTERNAL";
