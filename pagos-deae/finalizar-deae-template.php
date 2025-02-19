@@ -11,7 +11,7 @@ $transactionId = sanitize_text_field($_GET['id']);
 // Función para consultar el estado de la transacción en Datafast
 function obtener_estado_transaccion($transactionId) {
     $url = "https://eu-test.oppwa.com/v1/checkouts/{$transactionId}/payment";
-    $data = "?entityId=8a8294174b7ecb28014b9699220015ca";
+    $data = "?entityId=8ac7a4c994bb78290194bd40497301d5";
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url . $data);
