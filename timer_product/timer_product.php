@@ -58,7 +58,7 @@ function price_product_register_shortcode() {
             $fecha_actual = new DateTime();
             $dia = $fecha_actual->format('w');
             
-            if ($dia > 0) {
+            if ($dia >= 0) {
                 // Establecer la hora a las 11:00 PM
                 $fecha_5pm = clone $fecha_actual;
                 $fecha_5pm->setTime(23, 0, 0);
