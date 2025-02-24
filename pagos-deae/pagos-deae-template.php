@@ -39,6 +39,9 @@
                     "&customer.middleName=David" .
                     "&customer.surname=Castillo" .
 
+                    "&customer.ip=" . $_SERVER['REMOTE_ADDR'] .
+                    "&customer.email=" .
+
                     "&customParameters[SHOPPER_ECI]=0103910" .
                     "&customParameters[SHOPPER_PSERV]=17913101" .
 
