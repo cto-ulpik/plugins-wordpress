@@ -29,11 +29,11 @@ $url = "https://eu-test.oppwa.com/v1/"; // URL del entorno de pruebas
                 '<div class="customInput"><input type="checkbox" name="createRegistration" /></div>';
             $('form.wpwl-form-card').find('.wpwl-button').before(createRegistrationHtml);
         },
-
-        style: "plain",
+        
+        style: "card",
         locale: "es",
 
-        labels: {cvv: "CVV", cardHolder: "Nombre (Igual que en la tarjeta)" }
+        labels: {cvv: "CVV", cardHolder: "Nombre (Igual que en la tarjeta)"},
         
         registrations: {
             requireCvv: true,
