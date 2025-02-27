@@ -10,13 +10,13 @@
     <form method="POST">
 
         <label for="firstName">Primer Nombre</label>
-        <input type="text" id="firsName" name="firstName" required>">
+        <input type="text" id="firsName" name="firstName" required>
         
         <label for="secondName">Segundo Nombre</label>
-        <input type="text" id="secondName" name="secondName" required>">
+        <input type="text" id="secondName" name="secondName" required>
 
         <label for="lastName">Apellido</label>
-        <input type="text" id="lastName" name="lastName" required>">
+        <input type="text" id="lastName" name="lastName" required>
 
         
         --
@@ -26,13 +26,13 @@
         --
         
         <label for="cedula">Cédula:</label>
-        <input type="text" id="cedula" name="cedula" required>">
+        <input type="text" id="cedula" name="cedula" required>
 
         <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono" required>">
+        <input type="text" id="telefono" name="telefono" required>
 
         <label for="direccion_cliente">Dirección:</label>
-        <input type="text" id="direccion_cliente" name="direccion_cliente" required>">
+        <input type="text" id="direccion_cliente" name="direccion_cliente" required>
 
 
         <br>
