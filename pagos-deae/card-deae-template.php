@@ -21,6 +21,16 @@ $url = "https://eu-test.oppwa.com/v1/"; // URL del entorno de pruebas
     <title>Pagar con Tarjeta</title>
     <!-- Incluir el script de pago con el checkoutId -->
     <script src="<?php echo $url; ?>paymentWidgets.js?checkoutId=<?php echo $checkoutId; ?>"></script>
+    
+</head>
+<body>
+    <h1>Formulario de Pago</h1>
+    <p>Completa la información de tu tarjeta para proceder con el pago.</p>
+    
+    <!-- Formulario de pago -->
+    <form action="<?php echo $baseUrl; ?>" class="paymentWidgets" data-brands="VISA MASTER DINERS DISCOVER AMEX">
+    </form>
+
     <script type="text/javascript">
     var wpwlOptions = {
         onReady: function(onReady) {
@@ -39,15 +49,6 @@ $url = "https://eu-test.oppwa.com/v1/"; // URL del entorno de pruebas
         }
     }
     </script>
-</head>
-<body>
-    <h1>Formulario de Pago</h1>
-    <p>Completa la información de tu tarjeta para proceder con el pago.</p>
-    
-    <!-- Formulario de pago -->
-    <form action="<?php echo $baseUrl; ?>" class="paymentWidgets" data-brands="VISA MASTER DINERS DISCOVER AMEX">
-    </form>
-
     
     <script>
         window.addEventListener("message", function(event) {
