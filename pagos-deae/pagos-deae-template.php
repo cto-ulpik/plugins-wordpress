@@ -43,20 +43,6 @@
     <?php
 
     
-    function generarIdentificador($longitud = 16) {
-        $longitud = rand(1, 16); // Define una longitud aleatoria entre 1 y 16
-        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $identificador = '';
-        
-        for ($i = 0; $i < $longitud; $i++) {
-            $identificador .= $caracteres[rand(0, strlen($caracteres) - 1)];
-        }
-        
-        return $identificador;
-    }
-    
-    // Ejemplo de uso
-    echo generarIdentificador();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $firstName = sanitize_text_field($_POST['firstName']);
