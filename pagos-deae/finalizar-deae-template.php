@@ -34,6 +34,10 @@ function obtener_estado_transaccion($transactionId) {
 // Obtener la respuesta de la API
 $response = obtener_estado_transaccion($transactionId);
 
+// Mostrar toda la respuesta en pantalla
+echo "<h2>Respuesta Completa de Datafast:</h2>";
+echo "<pre>" . print_r($response, true) . "</pre>";
+
 
 // Verificar si la respuesta es válida
 if (!$response || !isset($response['result']['code'])) {
@@ -45,12 +49,6 @@ if (!$response || !isset($response['result']['code'])) {
 // Mostrar el estado de la transacción en la página
 $resultadoPago = $response['result']['code'];
 $mensajePago = $response['result']['description'];
-
-// Decodifica la respuesta JSON
-$responseData = json_decode($response, true);
-
-// Muestra la respuesta formateada en HTML
-echo "<pre>" . json_encode($responseData, JSON_PRETTY_PRINT) . "</pre>";
 ?>
 <!DOCTYPE html>
 <html lang="es">
