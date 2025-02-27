@@ -33,6 +33,8 @@ function obtener_estado_transaccion($transactionId) {
 
 // Obtener la respuesta de la API
 $response = obtener_estado_transaccion($transactionId);
+$responseData = json_decode($response, true);
+
 
 // Verificar si la respuesta es válida
 if (!$response || !isset($response['result']['code'])) {
@@ -58,14 +60,16 @@ $mensajePago = $response['result']['description'];
     <p><strong>Resultado:</strong> <?php echo htmlspecialchars($resultadoPago); ?></p>
     <p><strong>Mensaje:</strong> <?php echo htmlspecialchars($mensajePago); ?></p>
 
-    <?php if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.110") { ?>
+    <?php if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") { ?>
         <h2 style="color: green;">✅ Pago Exitoso</h2>
     <?php } else { ?>
         <h2 style="color: red;">❌ Pago Fallido</h2>
     <?php } ?>
 
     
+    --
 
+    <?php echo "<pre>" . json_encode($responseData, JSON_PRETTY_PRINT) . "</pre>"; ?>
 
     
     <a href="<?php echo home_url('/'); ?>">Volver a la página principal</a>
