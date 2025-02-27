@@ -34,6 +34,22 @@
     </form>
 
     <?php
+    function generarIdentificador($longitud = 16) {
+        $longitud = rand(1, 16); // Define una longitud aleatoria entre 1 y 16
+        $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $identificador = '';
+        
+        for ($i = 0; $i < $longitud; $i++) {
+            $identificador .= $caracteres[rand(0, strlen($caracteres) - 1)];
+        }
+        
+        return $identificador;
+    }
+    
+    // Ejemplo de uso
+    echo generarIdentificador();
+
+    
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Reemplazar sanitize_text_field() con htmlspecialchars() porque WordPress no está cargado aquí
         function limpiar_input($data) {
@@ -65,6 +81,7 @@
                     "&customer.givenName=" . $firstName .
                     "&customer.middleName=" . $secondName .
                     "&customer.surname=" . $lastName .
+
                     "&customer.ip=" . $_SERVER['REMOTE_ADDR'] .
 
                     "&customer.email=" . $email .
