@@ -19,6 +19,7 @@ $url = "https://eu-test.oppwa.com/v1/"; // URL del entorno de pruebas
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagar con Tarjeta</title>
+    
     <!-- Incluir el script de pago con el checkoutId -->
     <script src="<?php echo $url; ?>paymentWidgets.js?checkoutId=<?php echo $checkoutId; ?>"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -54,6 +55,7 @@ $url = "https://eu-test.oppwa.com/v1/"; // URL del entorno de pruebas
     
     <script>
         window.addEventListener("message", function(event) {
+            event.preventDefault();
             console.log("Evento recibido:", event);
 
             if (event.origin.includes("oppwa.com")) {

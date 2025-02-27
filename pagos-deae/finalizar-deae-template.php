@@ -8,6 +8,9 @@ if (!isset($_GET['id'])) {
 // Obtener el ID de la transacción desde la URL
 $transactionId = sanitize_text_field($_GET['id']);
 
+$inputJSON = file_get_contents('php://input');
+$decodedData = json_decode($inputJSON, true);
+
 // Función para consultar el estado de la transacción en Datafast
 function obtener_estado_transaccion($transactionId) {
     $url = "https://eu-test.oppwa.com/v1/checkouts/{$transactionId}/payment";
@@ -60,12 +63,24 @@ $mensajePago = $response['result']['description'];
 
     <?php if ($resultadoPago === "000.100.110") { ?>
         <h2 style="color: green;">✅ Pago Exitoso</h2>
-    <?php elseif ($resultadoPago === "000.100.112") { ?>
-        <h2 style="color: orange;">✅ Pago Exitoso para ambiente de pruebas</h2>
     <?php } else { ?>
         <h2 style="color: red;">❌ Pago Fallido</h2>
     <?php } ?>
 
+    ---
+
+    <!-- Mostrar los datos enviados en el cuerpo de la solicitud -->
+    <h2>Datos Recibidos:</h2>
+    <?php if (!empty($decodedData)): ?>
+        <pre><?php echo htmlspecialchars(json_encode($decodedData, JSON_PRETTY_PRINT), ENT_QUOTES, 'UTF-8'); ?></pre>
+    <?php else: ?>
+        <p>No se recibieron datos en el cuerpo de la solicitud.</p>
+    <?php endif; ?>
+
+
+    
     <a href="<?php echo home_url('/'); ?>">Volver a la página principal</a>
+
+
 </body>
 </html>
