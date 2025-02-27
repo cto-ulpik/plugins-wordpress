@@ -31,6 +31,7 @@ $url = "https://eu-test.oppwa.com/v1/"; // URL del entorno de pruebas
     <form action="<?php echo $baseUrl; ?>" class="paymentWidgets" data-brands="VISA MASTER DINERS DISCOVER AMEX">
     </form>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script type="text/javascript">
     var wpwlOptions = {
         onReady: function(onReady) {
