@@ -12,6 +12,9 @@ $checkoutId = sanitize_text_field($_GET['checkoutId']);
 $baseUrl = home_url('/finalizar-deae'); // URL base del sitio
 $url = "https://eu-test.oppwa.com/v1/"; // URL del entorno de pruebas
 
+$inputJSON = file_get_contents('php://input');
+$decodedData = json_decode($inputJSON, true);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -51,6 +54,16 @@ $url = "https://eu-test.oppwa.com/v1/"; // URL del entorno de pruebas
     <form action="<?php echo $baseUrl; ?>" class="paymentWidgets" data-brands="VISA MASTER DINERS DISCOVER AMEX">
     </form>
 
+
+    ---
+
+    <!-- Mostrar los datos enviados en el cuerpo de la solicitud -->
+    <h2>Datos Recibidos:</h2>
+    <?php if (!empty($decodedData)): ?>
+        <pre><?php echo htmlspecialchars(json_encode($decodedData, JSON_PRETTY_PRINT), ENT_QUOTES, 'UTF-8'); ?></pre>
+    <?php else: ?>
+        <p>No se recibieron datos en el cuerpo de la solicitud.</p>
+    <?php endif; ?>
     
     
     <script>
