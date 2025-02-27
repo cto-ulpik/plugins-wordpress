@@ -60,6 +60,8 @@ $mensajePago = $response['result']['description'];
 
     <?php if ($resultadoPago === "000.100.110") { ?>
         <h2 style="color: green;">✅ Pago Exitoso</h2>
+    <?php elseif ($resultadoPago === "000.100.112") { ?>
+        <h2 style="color: orange;">✅ Pago Exitoso para ambiente de pruebas</h2>
     <?php } else { ?>
         <h2 style="color: red;">❌ Pago Fallido</h2>
     <?php } ?>
