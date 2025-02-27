@@ -83,6 +83,8 @@
                     "&customer.surname=" . $lastName .
 
                     "&customer.ip=" . $_SERVER['REMOTE_ADDR'] .
+                    "&customer.merchantCustomerId=" . generarIdentificador() .
+                    "&merchantTransactionId=transaction" . generarIdentificador() .
 
                     "&customer.email=" . $email .
                     "&customer.identificationDocType=IDCARD" .
@@ -90,10 +92,10 @@
 
                     "&customer.phone=" . $telefono .
                     
-                    "&billing.street=" . $direccion_cliente .
+                    "&billing.street1=" . $direccion_cliente .
                     "&billing.country=EC" .
 
-                    "&shipping.street=" . $direccion_cliente .
+                    "&shipping.street1=" . $direccion_cliente .
                     "&shipping.country=EC" .
 
                     "&customParameters[SHOPPER_ECI]=0103910" .
