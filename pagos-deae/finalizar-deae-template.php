@@ -69,17 +69,16 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
     $cart = $response['cart']['items'][0] ?? [];
 
     // Datos del cliente
-    $customerId = $customer['merchantCustomerId'] ?? null;
-    $customerName = $customer['givenName'] . ' ' . ($customer['middleName'] ?? '') . ' ' . $customer['surname'];
+    $customerName = trim($customer['givenName'] . ' ' . ($customer['middleName'] ?? '') . ' ' . $customer['surname']);
     $customerEmail = $customer['email'] ?? null;
     $customerPhone = $customer['phone'] ?? null;
     $customerDocType = $customer['identificationDocType'] ?? null;
     $customerDocId = $customer['identificationDocId'] ?? null;
 
-    // Comprobar si el cliente ya existe en la base de datos
+    // Comprobar si el cliente ya existe en la base de datos usando `customerDocId`
     $existing_customer = $wpdb->get_var($wpdb->prepare(
-        "SELECT id FROM $table_customers WHERE customer_id = %s OR email = %s OR document_id = %s",
-        $customerId, $customerEmail, $customerDocId
+        "SELECT id FROM $table_customers WHERE document_id = %s",
+        $customerDocId
     ));
 
     // Si el cliente no existe, insertarlo
@@ -87,7 +86,6 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
         $wpdb->insert(
             $table_customers,
             [
-                'customer_id' => $customerId,
                 'name' => $customerName,
                 'email' => $customerEmail,
                 'phone' => $customerPhone,
@@ -95,7 +93,7 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
                 'document_id' => $customerDocId,
                 'created_at' => current_time('mysql')
             ],
-            ['%s', '%s', '%s', '%s', '%s', '%s', '%s']
+            ['%s', '%s', '%s', '%s', '%s', '%s']
         );
     }
 

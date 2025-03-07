@@ -3,7 +3,7 @@
 Plugin Name: Pagos DEAE
 Description: Plugin personalizado para realizar pagos mediante Datafast desde las páginas /pagos-deae y /card-deae.
 Version: 1.0
-Author: Tu Nombre
+Author: David Castillo
 */
 
 if (!defined('ABSPATH')) {
@@ -185,16 +185,36 @@ function deae_dashboard_page() {
     echo '</div>';
 }
 
-
 function deae_customers_page() {
     global $wpdb;
     $table_customers = $wpdb->prefix . "deae_customers";
-    $customers = $wpdb->get_results("SELECT * FROM $table_customers");
+
+    // Obtener filtros
+    $search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
+
+    // Construir consulta con filtro
+    $query = "SELECT * FROM $table_customers WHERE 1=1";
+    if ($search) {
+        $query .= " AND (name LIKE '%$search%' OR email LIKE '%$search%' OR document_id LIKE '%$search%')";
+    }
+
+    $customers = $wpdb->get_results($query);
 
     echo '<div class="wrap">';
     echo '<h1>Clientes Registrados</h1>';
+
+    // Formulario de búsqueda
+    echo '<form method="GET">';
+    echo '<input type="hidden" name="page" value="deae_customers">';
+    echo '<input type="text" name="search" placeholder="Buscar por nombre, email o documento" value="' . esc_attr($search) . '">';
+    echo '<button type="submit" class="button">🔍 Buscar</button>';
+    echo '</form>';
+
+    // Botón de exportación CSV
+    echo '<a href="' . admin_url('admin-post.php?action=export_deae_customers') . '" class="button button-primary">📤 Exportar CSV</a>';
+
     echo '<table class="widefat fixed striped">';
-    echo '<thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Documento</th><th>Fecha Registro</th></tr></thead>';
+    echo '<thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Documento</th><th>Acciones</th></tr></thead>';
     echo '<tbody>';
 
     foreach ($customers as $customer) {
@@ -204,7 +224,10 @@ function deae_customers_page() {
                 <td>{$customer->email}</td>
                 <td>{$customer->phone}</td>
                 <td>{$customer->document_id}</td>
-                <td>{$customer->created_at}</td>
+                <td>
+                    <a href='" . admin_url("admin.php?page=deae_customers_edit&id={$customer->id}") . "' class='button'>✏️ Editar</a>
+                    <a href='" . admin_url("admin-post.php?action=delete_deae_customer&id={$customer->id}") . "' class='button button-danger' onclick='return confirm(\"¿Eliminar este cliente?\");'>🗑️ Eliminar</a>
+                </td>
               </tr>";
     }
 
@@ -219,12 +242,33 @@ function deae_customers_page() {
 function deae_transactions_page() {
     global $wpdb;
     $table_transactions = $wpdb->prefix . "deae_transactions";
-    $transactions = $wpdb->get_results("SELECT * FROM $table_transactions");
+
+    // Obtener filtros
+    $search = isset($_GET['search']) ? sanitize_text_field($_GET['search']) : '';
+
+    // Construir consulta con filtro
+    $query = "SELECT * FROM $table_transactions WHERE 1=1";
+    if ($search) {
+        $query .= " AND (customer_name LIKE '%$search%' OR customer_email LIKE '%$search%')";
+    }
+
+    $transactions = $wpdb->get_results($query);
 
     echo '<div class="wrap">';
     echo '<h1>Transacciones Registradas</h1>';
+
+    // Formulario de búsqueda
+    echo '<form method="GET">';
+    echo '<input type="hidden" name="page" value="deae_transactions">';
+    echo '<input type="text" name="search" placeholder="Buscar por cliente o email" value="' . esc_attr($search) . '">';
+    echo '<button type="submit" class="button">🔍 Buscar</button>';
+    echo '</form>';
+
+    // Botón de exportación CSV
+    echo '<a href="' . admin_url('admin-post.php?action=export_deae_transactions') . '" class="button button-primary">📤 Exportar CSV</a>';
+
     echo '<table class="widefat fixed striped">';
-    echo '<thead><tr><th>ID</th><th>Transacción</th><th>Monto</th><th>Cliente</th><th>Email</th><th>Tarjeta</th><th>Estado</th><th>Fecha</th></tr></thead>';
+    echo '<thead><tr><th>ID</th><th>Transacción</th><th>Monto</th><th>Cliente</th><th>Email</th><th>Tarjeta</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr></thead>';
     echo '<tbody>';
 
     foreach ($transactions as $transaction) {
@@ -237,9 +281,88 @@ function deae_transactions_page() {
                 <td>{$transaction->card_last4}</td>
                 <td>✅ Pago Exitoso</td>
                 <td>{$transaction->created_at}</td>
+                <td>
+                    <a href='" . admin_url("admin-post.php?action=delete_deae_transaction&id={$transaction->id}") . "' class='button button-danger' onclick='return confirm(\"¿Eliminar esta transacción?\");'>🗑️ Eliminar</a>
+                </td>
               </tr>";
     }
 
     echo '</tbody></table>';
     echo '</div>';
 }
+
+
+function export_deae_customers() {
+    global $wpdb;
+    $table_customers = $wpdb->prefix . "deae_customers";
+    $customers = $wpdb->get_results("SELECT * FROM $table_customers", ARRAY_A);
+
+    header("Content-Type: text/csv");
+    header("Content-Disposition: attachment; filename=clientes_deae.csv");
+
+    $output = fopen("php://output", "w");
+    fputcsv($output, ["ID", "Nombre", "Email", "Teléfono", "Documento", "Fecha Registro"]);
+
+    foreach ($customers as $customer) {
+        fputcsv($output, $customer);
+    }
+
+    fclose($output);
+    exit;
+}
+add_action('admin_post_export_deae_customers', 'export_deae_customers');
+
+
+
+
+function export_deae_transactions() {
+    global $wpdb;
+    $table_transactions = $wpdb->prefix . "deae_transactions";
+    $transactions = $wpdb->get_results("SELECT * FROM $table_transactions", ARRAY_A);
+
+    header("Content-Type: text/csv");
+    header("Content-Disposition: attachment; filename=transacciones_deae.csv");
+
+    $output = fopen("php://output", "w");
+    fputcsv($output, ["ID", "Transacción", "Monto", "Cliente", "Email", "Tarjeta", "Fecha"]);
+
+    foreach ($transactions as $transaction) {
+        fputcsv($output, $transaction);
+    }
+
+    fclose($output);
+    exit;
+}
+add_action('admin_post_export_deae_transactions', 'export_deae_transactions');
+
+
+
+
+
+
+
+function delete_deae_customer() {
+    global $wpdb;
+    $table_customers = $wpdb->prefix . "deae_customers";
+
+    if (isset($_GET['id'])) {
+        $wpdb->delete($table_customers, ['id' => $_GET['id']], ['%d']);
+    }
+
+    wp_redirect(admin_url('admin.php?page=deae_customers'));
+    exit;
+}
+add_action('admin_post_delete_deae_customer', 'delete_deae_customer');
+
+function delete_deae_transaction() {
+    global $wpdb;
+    $table_transactions = $wpdb->prefix . "deae_transactions";
+
+    if (isset($_GET['id'])) {
+        $wpdb->delete($table_transactions, ['id' => $_GET['id']], ['%d']);
+    }
+
+    wp_redirect(admin_url('admin.php?page=deae_transactions'));
+    exit;
+}
+add_action('admin_post_delete_deae_transaction', 'delete_deae_transaction');
