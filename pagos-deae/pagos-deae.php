@@ -214,7 +214,7 @@ function deae_customers_page() {
     echo '<a href="' . admin_url('admin-post.php?action=export_deae_customers') . '" class="button button-primary">📤 Exportar CSV</a>';
 
     echo '<table class="widefat fixed striped">';
-    echo '<thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Documento</th><th>Acciones</th></tr></thead>';
+    echo '<thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Documento</th><th>Fecha Creación</th><th>Acciones</th></tr></thead>';
     echo '<tbody>';
 
     foreach ($customers as $customer) {
@@ -224,6 +224,7 @@ function deae_customers_page() {
                 <td>{$customer->email}</td>
                 <td>{$customer->phone}</td>
                 <td>{$customer->document_id}</td>
+                <td>{$customer->created_at}</td> <!-- Se agrega la fecha de creación -->
                 <td>
                     <a href='" . admin_url("admin.php?page=deae_customers_edit&id={$customer->id}") . "' class='button'>✏️ Editar</a>
                     <a href='" . admin_url("admin-post.php?action=delete_deae_customer&id={$customer->id}") . "' class='button button-danger' onclick='return confirm(\"¿Eliminar este cliente?\");'>🗑️ Eliminar</a>
@@ -301,17 +302,23 @@ function export_deae_customers() {
     header("Content-Disposition: attachment; filename=clientes_deae.csv");
 
     $output = fopen("php://output", "w");
-    fputcsv($output, ["ID", "Nombre", "Email", "Teléfono", "Documento", "Fecha Registro"]);
+    fputcsv($output, ["ID", "Nombre", "Email", "Teléfono", "Documento", "Fecha Creación"]);
 
     foreach ($customers as $customer) {
-        fputcsv($output, $customer);
+        fputcsv($output, [
+            $customer['id'],
+            $customer['name'],
+            $customer['email'],
+            $customer['phone'],
+            $customer['document_id'],
+            $customer['created_at']
+        ]);
     }
 
     fclose($output);
     exit;
 }
 add_action('admin_post_export_deae_customers', 'export_deae_customers');
-
 
 
 
