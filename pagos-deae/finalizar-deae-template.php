@@ -49,6 +49,104 @@ if (!$response || !isset($response['result']['code'])) {
 // Mostrar el estado de la transacción en la página
 $resultadoPago = $response['result']['code'];
 $mensajePago = $response['result']['description'];
+
+
+//// CODIGO DE VERIFICACION DE EXITO O FALLA DE LA TRANSACCION
+// Verificar si la transacción fue exitosa
+if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
+    
+    global $wpdb;
+    $table_transactions = $wpdb->prefix . "deae_transactions";
+    $table_customers = $wpdb->prefix . "deae_customers";
+
+    // Extraer datos del response
+    $registrationId = $response['registrationId'] ?? null;
+    $paymentBrand = $response['paymentBrand'] ?? null;
+    $amount = $response['amount'] ?? null;
+    
+    $customer = $response['customer'] ?? [];
+    $card = $response['card'] ?? [];
+    $cart = $response['cart']['items'][0] ?? [];
+
+    // Datos del cliente
+    $customerId = $customer['merchantCustomerId'] ?? null;
+    $customerName = $customer['givenName'] . ' ' . ($customer['middleName'] ?? '') . ' ' . $customer['surname'];
+    $customerEmail = $customer['email'] ?? null;
+    $customerPhone = $customer['phone'] ?? null;
+    $customerDocType = $customer['identificationDocType'] ?? null;
+    $customerDocId = $customer['identificationDocId'] ?? null;
+
+    // Comprobar si el cliente ya existe en la base de datos
+    $existing_customer = $wpdb->get_var($wpdb->prepare(
+        "SELECT id FROM $table_customers WHERE customer_id = %s OR email = %s OR document_id = %s",
+        $customerId, $customerEmail, $customerDocId
+    ));
+
+    // Si el cliente no existe, insertarlo
+    if (!$existing_customer) {
+        $wpdb->insert(
+            $table_customers,
+            [
+                'customer_id' => $customerId,
+                'name' => $customerName,
+                'email' => $customerEmail,
+                'phone' => $customerPhone,
+                'document_type' => $customerDocType,
+                'document_id' => $customerDocId,
+                'created_at' => current_time('mysql')
+            ],
+            ['%s', '%s', '%s', '%s', '%s', '%s', '%s']
+        );
+    }
+
+    // Datos de la tarjeta
+    $cardBin = $card['bin'] ?? null;
+    $cardLast4 = $card['last4Digits'] ?? null;
+    $cardExpiry = ($card['expiryMonth'] ?? '') . '/' . ($card['expiryYear'] ?? '');
+
+    // Datos del carrito
+    $cartName = $cart['name'] ?? null;
+    $cartDescription = $cart['description'] ?? null;
+    $cartPrice = $cart['price'] ?? null;
+    $cartQuantity = $cart['quantity'] ?? null;
+
+    // Insertar datos en la tabla de transacciones
+    $wpdb->insert(
+        $table_transactions,
+        [
+            'transaction_id' => $transactionId,
+            'registration_id' => $registrationId,
+            'payment_brand' => $paymentBrand,
+            'amount' => $amount,
+            'customer_name' => $customerName,
+            'customer_email' => $customerEmail,
+            'customer_phone' => $customerPhone,
+            'customer_doc_type' => $customerDocType,
+            'customer_doc_id' => $customerDocId,
+            'card_bin' => $cardBin,
+            'card_last4' => $cardLast4,
+            'card_expiry' => $cardExpiry,
+            'cart_name' => $cartName,
+            'cart_description' => $cartDescription,
+            'cart_price' => $cartPrice,
+            'cart_quantity' => $cartQuantity,
+            'created_at' => current_time('mysql')
+        ],
+        [
+            '%s', '%s', '%s', '%f', 
+            '%s', '%s', '%s', '%s', '%s',
+            '%s', '%s', '%s', 
+            '%s', '%s', '%f', '%d', '%s'
+        ]
+    );
+
+    echo "<h3 style='color:green;'>✅ Cliente y pago registrados en la base de datos</h3>";
+}
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

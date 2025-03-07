@@ -4,6 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagos DEAE</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        background-color: #0073aa;
+        color: white;
+        padding: 10px;
+        margin: 0;
+    }
+
+    form {
+        margin: 20px;
+    }
+
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+
+    input {
+        width: 100%;
+        padding: 5px;
+        margin-top: 5px;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #0073aa;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #005f86;
+    }
+</style>
 </head>
 <body>
     <h1>Realizar Pago</h1>
@@ -152,5 +193,6 @@
     ?>
 
 </body>
+
 <script type="text/javascript" src="https://www.datafast.com.ec/js/dfAdditionalValidations1.js"></script>
 </html>
