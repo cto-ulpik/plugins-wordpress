@@ -437,6 +437,11 @@ function process_subscription_payment() {
         wp_redirect(admin_url('admin.php?page=deae_customers'));
         exit;
     }
+    //
+    // Definir valores base para la transacción
+    $base0 = 0.00;
+    $baseImponible = $customer->monto_suscripcion;
+    $iva = $baseImponible * 0.12;
 
     // Generar ID de transacción único
     $trx = uniqid("trx_");
