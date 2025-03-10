@@ -132,6 +132,32 @@ function deae_create_customers_table() {
 register_activation_hook(__FILE__, 'deae_create_customers_table');
 
 
+//// ACTUALIZACION DE TABLA CLIENTES
+function deae_update_customers_table() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . "deae_customers";
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE $table_name (
+        id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(100) NOT NULL UNIQUE,
+        phone VARCHAR(50) NOT NULL,
+        document_type VARCHAR(50) NOT NULL,
+        document_id VARCHAR(50) NOT NULL UNIQUE,
+        registration_id VARCHAR(100) NOT NULL,
+        tipo_suscripcion VARCHAR(100) NOT NULL,
+        monto_suscripcion DECIMAL(10,2) NOT NULL,
+        estado_suscripcion BOOLEAN NOT NULL DEFAULT 1,
+        ultimo_pago_suscripcion DATETIME NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    ) $charset_collate;";
+
+    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+    dbDelta($sql);
+}
+
+register_activation_hook(__FILE__, 'deae_update_customers_table');
 
 
 
@@ -214,20 +240,24 @@ function deae_customers_page() {
     echo '<a href="' . admin_url('admin-post.php?action=export_deae_customers') . '" class="button button-primary">📤 Exportar CSV</a>';
 
     echo '<table class="widefat fixed striped">';
-    echo '<thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Documento</th><th>Fecha Creación</th><th>Acciones</th></tr></thead>';
+    echo '<thead><tr><th>registrationId</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Documento</th><th>Tipo de Suscripción</th><th>Monto</th><th>Estado</th><th>Último Pago</th><th>Acciones</th></tr></thead>';
     echo '<tbody>';
 
     foreach ($customers as $customer) {
         echo "<tr>
-                <td>{$customer->id}</td>
+                <td>{$customer->registration_id}</td>
                 <td>{$customer->name}</td>
                 <td>{$customer->email}</td>
                 <td>{$customer->phone}</td>
                 <td>{$customer->document_id}</td>
-                <td>{$customer->created_at}</td> <!-- Se agrega la fecha de creación -->
+                <td>{$customer->subscription_type}</td>
+                <td>\${$customer->subscription_amount}</td>
+                <td>{$customer->subscription_status}</td>
+                <td>{$customer->last_subscription_payment}</td>
                 <td>
                     <a href='" . admin_url("admin.php?page=deae_customers_edit&id={$customer->id}") . "' class='button'>✏️ Editar</a>
                     <a href='" . admin_url("admin-post.php?action=delete_deae_customer&id={$customer->id}") . "' class='button button-danger' onclick='return confirm(\"¿Eliminar este cliente?\");'>🗑️ Eliminar</a>
+                    <a href='" . admin_url("admin-post.php?action=process_payment&id={$customer->id}") . "' class='button button-primary'>💳 Pagar</a>
                 </td>
               </tr>";
     }
@@ -235,9 +265,6 @@ function deae_customers_page() {
     echo '</tbody></table>';
     echo '</div>';
 }
-
-
-
 
 
 function deae_transactions_page() {
@@ -373,3 +400,68 @@ function delete_deae_transaction() {
     exit;
 }
 add_action('admin_post_delete_deae_transaction', 'delete_deae_transaction');
+
+
+
+/// FUNCION PARA REALIZAR EL PAGO
+function process_subscription_payment() {
+    global $wpdb;
+    $table_customers = $wpdb->prefix . "deae_customers";
+
+    if (!isset($_GET['id'])) {
+        wp_redirect(admin_url('admin.php?page=deae_customers'));
+        exit;
+    }
+
+    $customer_id = intval($_GET['id']);
+    $customer = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_customers WHERE id = %d", $customer_id));
+
+    if (!$customer) {
+        wp_redirect(admin_url('admin.php?page=deae_customers'));
+        exit;
+    }
+
+    // Generar ID de transacción único
+    $trx = uniqid("trx_");
+
+    // Datos de la solicitud de pago
+    $url = "https://test.oppwa.com/v1/registrations/" . $customer->registration_id . "/payments";
+    $data = "entityId=8a8294185a65bf5e015a6c8b89a10d8d" .
+        "&amount=" . $customer->monto_suscripcion .
+        "&currency=USD" .
+        "&paymentType=DB" .
+        "&recurringType=REPEATED" .
+        "&merchantTransactionId=" . $trx .
+        "&customParameters[SHOPPER_MID]=1000000505" .
+        "&customParameters[SHOPPER_TID]=PD100406" .
+        "&customParameters[SHOPPER_ECI]=0103910" .
+        "&customParameters[SHOPPER_PSERV]=17913101" .
+        "&customParameters[SHOPPER_VAL_BASEIMP]=0" .
+        "&customParameters[SHOPPER_VAL_IVA]=0" .
+        "&customParameters[SHOPPER_VERSIONDF]=2" .
+        "&testMode=EXTERNAL";
+
+    // Realizar la solicitud con CURL
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Authorization:Bearer OGE4Mjk0MTg1MzNjZjMxZDAxNTMzZDA2ZmQwNDA3NDh8WHQ3RjIyUUVOWA=='
+    ));
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $responseData = curl_exec($ch);
+    curl_close($ch);
+
+    $response = json_decode($responseData, true);
+
+    // Si el pago fue exitoso, actualizar la última fecha de pago
+    if ($response['result']['code'] === "000.100.110" || $response['result']['code'] === "000.100.112") {
+        $wpdb->update($table_customers, ['ultimo_pago_suscripcion' => current_time('mysql')], ['id' => $customer_id]);
+    }
+
+    wp_redirect(admin_url('admin.php?page=deae_customers'));
+    exit;
+}
+add_action('admin_post_process_subscription_payment', 'process_subscription_payment');
