@@ -250,10 +250,10 @@ function deae_customers_page() {
                 <td>{$customer->email}</td>
                 <td>{$customer->phone}</td>
                 <td>{$customer->document_id}</td>
-                <td>{$customer->subscription_type}</td>
-                <td>{$customer->subscription_amount}</td>
-                <td>{$customer->subscription_status}</td>
-                <td>{$customer->last_subscription_payment}</td>
+                <td>{$customer->subscripcion_type}</td>
+                <td>{$customer->subscripcion_amount}</td>
+                <td>{$customer->subscripcion_status}</td>
+                <td>{$customer->last_subscripcion_payment}</td>
                 <td>
                     <a href='" . admin_url("admin.php?page=deae_customers_edit&id={$customer->id}") . "' class='button'>✏️ Editar</a>
                     <a href='" . admin_url("admin-post.php?action=delete_deae_customer&id={$customer->id}") . "' class='button button-danger' onclick='return confirm(\"¿Eliminar este cliente?\");'>🗑️ Eliminar</a>
