@@ -426,18 +426,21 @@ function process_subscription_payment() {
 
     // Datos de la solicitud de pago
     $url = "https://test.oppwa.com/v1/registrations/" . $customer->registration_id . "/payments";
-    $data = "entityId=8a8294185a65bf5e015a6c8b89a10d8d" .
+    $data = "entityId=8ac7a4c994bb78290194bd40497301d5" .
         "&amount=" . $customer->monto_suscripcion .
         "&currency=USD" .
         "&paymentType=DB" .
+        "&risk.parameters[USER_DATA2]=PagoRapidoDF" .
         "&recurringType=REPEATED" .
+        "&risk.parameters[USER_DATA1]=REPEATED" .
         "&merchantTransactionId=" . $trx .
         "&customParameters[SHOPPER_MID]=1000000505" .
         "&customParameters[SHOPPER_TID]=PD100406" .
         "&customParameters[SHOPPER_ECI]=0103910" .
-        "&customParameters[SHOPPER_PSERV]=17913101" .
-        "&customParameters[SHOPPER_VAL_BASEIMP]=0" .
-        "&customParameters[SHOPPER_VAL_IVA]=0" .
+        "&customParameters[SHOPPER_PSERV]=17913101 " .
+        "&customParameters[SHOPPER_VAL_BASE0]=" . number_format($base0, 2, '.', '') .
+        "&customParameters[SHOPPER_VAL_BASEIMP]=" . number_format($baseImponible, 2, '.', '') .
+        "&customParameters[SHOPPER_VAL_IVA]=" . number_format($iva, 2, '.', '') .
         "&customParameters[SHOPPER_VERSIONDF]=2" .
         "&testMode=EXTERNAL";
 
@@ -445,7 +448,7 @@ function process_subscription_payment() {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Authorization:Bearer OGE4Mjk0MTg1MzNjZjMxZDAxNTMzZDA2ZmQwNDA3NDh8WHQ3RjIyUUVOWA=='
+        'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA=='
     ));
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
