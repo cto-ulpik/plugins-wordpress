@@ -16,7 +16,7 @@ function obtener_estado_transaccion($transactionId) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url . $data);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA==' // Sustituir con tu token real
+        'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA=='
     ));
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Cambiar a true en producción
@@ -38,7 +38,6 @@ $response = obtener_estado_transaccion($transactionId);
 echo "<h2>Respuesta Completa de Datafast:</h2>";
 echo "<pre>" . print_r($response, true) . "</pre>";
 
-
 // Verificar si la respuesta es válida
 if (!$response || !isset($response['result']['code'])) {
     echo "<h2>Error al obtener el estado de la transacción.</h2>";
@@ -50,8 +49,6 @@ if (!$response || !isset($response['result']['code'])) {
 $resultadoPago = $response['result']['code'];
 $mensajePago = $response['result']['description'];
 
-
-//// CODIGO DE VERIFICACION DE EXITO O FALLA DE LA TRANSACCION
 // Verificar si la transacción fue exitosa
 if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
     
@@ -74,15 +71,34 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
     $customerPhone = $customer['phone'] ?? null;
     $customerDocType = $customer['identificationDocType'] ?? null;
     $customerDocId = $customer['identificationDocId'] ?? null;
+    
+    // Datos de suscripción
+    $tipoSuscripcion = $cart['name'] ?? "Desconocido"; // Nombre de la suscripción
+    $montoSuscripcion = $cart['price'] ?? $amount;
+    $estadoSuscripcion = 1; // Activo por defecto
+    $ultimoPago = current_time('mysql'); // Fecha del último pago exitoso
 
     // Comprobar si el cliente ya existe en la base de datos usando `customerDocId`
-    $existing_customer = $wpdb->get_var($wpdb->prepare(
+    $existing_customer = $wpdb->get_row($wpdb->prepare(
         "SELECT id FROM $table_customers WHERE document_id = %s",
         $customerDocId
     ));
 
-    // Si el cliente no existe, insertarlo
-    if (!$existing_customer) {
+    if ($existing_customer) {
+        // Actualizar los datos de suscripción y último pago
+        $wpdb->update(
+            $table_customers,
+            [
+                'registration_id' => $registrationId,
+                'tipo_suscripcion' => $tipoSuscripcion,
+                'monto_suscripcion' => $montoSuscripcion,
+                'estado_suscripcion' => $estadoSuscripcion,
+                'ultimo_pago_suscripcion' => $ultimoPago
+            ],
+            ['id' => $existing_customer->id]
+        );
+    } else {
+        // Insertar nuevo cliente
         $wpdb->insert(
             $table_customers,
             [
@@ -91,9 +107,14 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
                 'phone' => $customerPhone,
                 'document_type' => $customerDocType,
                 'document_id' => $customerDocId,
+                'registration_id' => $registrationId,
+                'tipo_suscripcion' => $tipoSuscripcion,
+                'monto_suscripcion' => $montoSuscripcion,
+                'estado_suscripcion' => $estadoSuscripcion,
+                'ultimo_pago_suscripcion' => $ultimoPago,
                 'created_at' => current_time('mysql')
             ],
-            ['%s', '%s', '%s', '%s', '%s', '%s']
+            ['%s', '%s', '%s', '%s', '%s', '%s', '%s', '%f', '%d', '%s', '%s']
         );
     }
 
@@ -101,12 +122,6 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
     $cardBin = $card['bin'] ?? null;
     $cardLast4 = $card['last4Digits'] ?? null;
     $cardExpiry = ($card['expiryMonth'] ?? '') . '/' . ($card['expiryYear'] ?? '');
-
-    // Datos del carrito
-    $cartName = $cart['name'] ?? null;
-    $cartDescription = $cart['description'] ?? null;
-    $cartPrice = $cart['price'] ?? null;
-    $cartQuantity = $cart['quantity'] ?? null;
 
     // Insertar datos en la tabla de transacciones
     $wpdb->insert(
@@ -124,28 +139,17 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
             'card_bin' => $cardBin,
             'card_last4' => $cardLast4,
             'card_expiry' => $cardExpiry,
-            'cart_name' => $cartName,
-            'cart_description' => $cartDescription,
-            'cart_price' => $cartPrice,
-            'cart_quantity' => $cartQuantity,
+            'cart_name' => $tipoSuscripcion,
+            'cart_price' => $montoSuscripcion,
             'created_at' => current_time('mysql')
         ],
-        [
-            '%s', '%s', '%s', '%f', 
-            '%s', '%s', '%s', '%s', '%s',
-            '%s', '%s', '%s', 
-            '%s', '%s', '%f', '%d', '%s'
-        ]
+        ['%s', '%s', '%s', '%f', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%f', '%s']
     );
 
     echo "<h3 style='color:green;'>✅ Cliente y pago registrados en la base de datos</h3>";
 }
-
-
-
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -164,12 +168,5 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
     <?php } else { ?>
         <h2 style="color: red;">❌ Pago Fallido</h2>
     <?php } ?>
-
-    
-    --
-    
-    <a href="<?php echo home_url('/'); ?>">Volver a la página principal</a>
-
-
 </body>
 </html>
