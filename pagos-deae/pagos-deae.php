@@ -240,24 +240,40 @@ function deae_customers_page() {
     echo '<a href="' . admin_url('admin-post.php?action=export_deae_customers') . '" class="button button-primary">📤 Exportar CSV</a>';
 
     echo '<table class="widefat fixed striped">';
-    echo '<thead><tr><th>registrationId</th><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Documento</th><th>Tipo de Suscripción</th><th>Monto</th><th>Estado</th><th>Último Pago</th><th>Acciones</th></tr></thead>';
+    echo '<thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Documento</th>
+                <th>Registro</th>
+                <th>Suscripción</th>
+                <th>Monto</th>
+                <th>Estado</th>
+                <th>Última Suscripción</th>
+                <th>Acciones</th>
+            </tr>
+          </thead>';
     echo '<tbody>';
 
     foreach ($customers as $customer) {
+        $estado = $customer->estado_suscripcion ? "✅ Activa" : "❌ Inactiva";
         echo "<tr>
-                <td>{$customer->registration_id}</td>
+                <td>{$customer->id}</td>
                 <td>{$customer->name}</td>
                 <td>{$customer->email}</td>
                 <td>{$customer->phone}</td>
                 <td>{$customer->document_id}</td>
+                <td>{$customer->registration_id}</td>
                 <td>{$customer->tipo_suscripcion}</td>
                 <td>\${$customer->monto_suscripcion}</td>
-                <td>{$customer->estado_suscripcion}</td>
+                <td>{$estado}</td>
                 <td>{$customer->ultimo_pago_suscripcion}</td>
                 <td>
+                    <a href='" . admin_url("admin-post.php?action=process_subscription_payment&id={$customer->id}") . "' class='button button-primary'>💳 Pagar</a>
                     <a href='" . admin_url("admin.php?page=deae_customers_edit&id={$customer->id}") . "' class='button'>✏️ Editar</a>
                     <a href='" . admin_url("admin-post.php?action=delete_deae_customer&id={$customer->id}") . "' class='button button-danger' onclick='return confirm(\"¿Eliminar este cliente?\");'>🗑️ Eliminar</a>
-                    <a href='" . admin_url("admin-post.php?action=process_payment&id={$customer->id}") . "' class='button button-primary'>💳 Pagar</a>
                 </td>
               </tr>";
     }
@@ -265,6 +281,7 @@ function deae_customers_page() {
     echo '</tbody></table>';
     echo '</div>';
 }
+
 
 
 function deae_transactions_page() {
