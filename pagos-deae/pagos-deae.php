@@ -74,41 +74,45 @@ register_deactivation_hook(__FILE__, 'pagos_deae_deactivate');
 
 
 // CREACION DE LA TABLA DE TRANSACCIONES
-// function deae_create_transactions_table() {
-//     global $wpdb;
-//     $table_name = $wpdb->prefix . "deae_transactions";
-//     $charset_collate = $wpdb->get_charset_collate();
+function deae_create_transactions_table() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . "deae_transactions";
+    $charset_collate = $wpdb->get_charset_collate();
 
-//     $sql = "CREATE TABLE $table_name (
-//         id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-//         transaction_id VARCHAR(100) NOT NULL,
-//         registration_id VARCHAR(100) NOT NULL,
-//         payment_brand VARCHAR(50) NOT NULL,
-//         amount DECIMAL(10,2) NOT NULL,
-//         customer_name VARCHAR(255) NOT NULL,
-//         customer_email VARCHAR(100) NOT NULL,
-//         customer_phone VARCHAR(50) NOT NULL,
-//         customer_doc_type VARCHAR(50) NOT NULL,
-//         customer_doc_id VARCHAR(50) NOT NULL,
-//         card_bin VARCHAR(10) NOT NULL,
-//         card_last4 VARCHAR(10) NOT NULL,
-//         card_expiry VARCHAR(10) NOT NULL,
-//         cart_name VARCHAR(100) NOT NULL,
-//         cart_description TEXT NOT NULL,
-//         cart_price DECIMAL(10,2) NOT NULL,
-//         cart_quantity INT NOT NULL,
-//         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-//     ) $charset_collate;";
+    $sql = "CREATE TABLE $table_name (
+        id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        transaction_id VARCHAR(100) NOT NULL,
+        registration_id VARCHAR(100) NOT NULL,
+        payment_brand VARCHAR(50) NOT NULL,
+        amount DECIMAL(10,2) NOT NULL,
+        customer_name VARCHAR(255) NOT NULL,
+        customer_email VARCHAR(100) NOT NULL,
+        customer_phone VARCHAR(50) NOT NULL,
+        customer_doc_type VARCHAR(50) NOT NULL,
+        customer_doc_id VARCHAR(50) NOT NULL,
+        card_bin VARCHAR(10) NOT NULL,
+        card_last4 VARCHAR(10) NOT NULL,
+        card_expiry VARCHAR(10) NOT NULL,
+        cart_name VARCHAR(100) NOT NULL,
+        cart_description TEXT NOT NULL,
+        cart_price DECIMAL(10,2) NOT NULL,
+        cart_quantity INT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    ) $charset_collate;";
 
-//     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-//     dbDelta($sql);
-// }
+    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+    dbDelta($sql);
+}
 
-// register_activation_hook(__FILE__, 'deae_create_transactions_table');
+register_activation_hook(__FILE__, 'deae_create_transactions_table');
 
 
 
 // creacion de tabla de clientes
+
+
+
+//// ACTUALIZACION DE TABLA CLIENTES
 function deae_update_customers_table() {
     global $wpdb;
     $table_name = $wpdb->prefix . "deae_customers";
@@ -138,34 +142,6 @@ function deae_update_customers_table() {
 
 register_activation_hook(__FILE__, 'deae_update_customers_table');
 
-
-
-//// ACTUALIZACION DE TABLA CLIENTES
-function deae_update_customers_table() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . "deae_customers";
-    $charset_collate = $wpdb->get_charset_collate();
-
-    $sql = "CREATE TABLE $table_name (
-        id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        email VARCHAR(100) NOT NULL UNIQUE,
-        phone VARCHAR(50) NOT NULL,
-        document_type VARCHAR(50) NOT NULL,
-        document_id VARCHAR(50) NOT NULL UNIQUE,
-        registration_id VARCHAR(100) NOT NULL,
-        tipo_suscripcion VARCHAR(100) NOT NULL,
-        monto_suscripcion DECIMAL(10,2) NOT NULL,
-        estado_suscripcion BOOLEAN NOT NULL DEFAULT 1,
-        ultimo_pago_suscripcion DATETIME NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    ) $charset_collate;";
-
-    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-    dbDelta($sql);
-}
-
-register_activation_hook(__FILE__, 'deae_update_customers_table');
 
 
 
@@ -281,7 +257,6 @@ function deae_customers_page() {
                 <td>
                     <a href='" . admin_url("admin-post.php?action=process_subscription_payment&id={$customer->id}") . "' class='button button-primary'>💳 Pagar</a>
                     <a href='" . admin_url("admin.php?page=deae_customers_edit&id={$customer->id}") . "' class='button'>✏️ Editar</a>
-                    
                     <a href='" . admin_url("admin-post.php?action=delete_deae_customer&id={$customer->id}") . "' class='button button-danger' onclick='return confirm(\"¿Eliminar este cliente?\");'>🗑️ Eliminar</a>
                 </td>
               </tr>";
@@ -526,5 +501,4 @@ function process_subscription_payment() {
     exit;
 }
 add_action('admin_post_process_subscription_payment', 'process_subscription_payment');
-
 
