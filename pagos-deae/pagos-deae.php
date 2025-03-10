@@ -74,62 +74,70 @@ register_deactivation_hook(__FILE__, 'pagos_deae_deactivate');
 
 
 // CREACION DE LA TABLA DE TRANSACCIONES
-function deae_create_transactions_table() {
-    global $wpdb;
-    $table_name = $wpdb->prefix . "deae_transactions";
-    $charset_collate = $wpdb->get_charset_collate();
+// function deae_create_transactions_table() {
+//     global $wpdb;
+//     $table_name = $wpdb->prefix . "deae_transactions";
+//     $charset_collate = $wpdb->get_charset_collate();
 
-    $sql = "CREATE TABLE $table_name (
-        id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        transaction_id VARCHAR(100) NOT NULL,
-        registration_id VARCHAR(100) NOT NULL,
-        payment_brand VARCHAR(50) NOT NULL,
-        amount DECIMAL(10,2) NOT NULL,
-        customer_name VARCHAR(255) NOT NULL,
-        customer_email VARCHAR(100) NOT NULL,
-        customer_phone VARCHAR(50) NOT NULL,
-        customer_doc_type VARCHAR(50) NOT NULL,
-        customer_doc_id VARCHAR(50) NOT NULL,
-        card_bin VARCHAR(10) NOT NULL,
-        card_last4 VARCHAR(10) NOT NULL,
-        card_expiry VARCHAR(10) NOT NULL,
-        cart_name VARCHAR(100) NOT NULL,
-        cart_description TEXT NOT NULL,
-        cart_price DECIMAL(10,2) NOT NULL,
-        cart_quantity INT NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    ) $charset_collate;";
+//     $sql = "CREATE TABLE $table_name (
+//         id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+//         transaction_id VARCHAR(100) NOT NULL,
+//         registration_id VARCHAR(100) NOT NULL,
+//         payment_brand VARCHAR(50) NOT NULL,
+//         amount DECIMAL(10,2) NOT NULL,
+//         customer_name VARCHAR(255) NOT NULL,
+//         customer_email VARCHAR(100) NOT NULL,
+//         customer_phone VARCHAR(50) NOT NULL,
+//         customer_doc_type VARCHAR(50) NOT NULL,
+//         customer_doc_id VARCHAR(50) NOT NULL,
+//         card_bin VARCHAR(10) NOT NULL,
+//         card_last4 VARCHAR(10) NOT NULL,
+//         card_expiry VARCHAR(10) NOT NULL,
+//         cart_name VARCHAR(100) NOT NULL,
+//         cart_description TEXT NOT NULL,
+//         cart_price DECIMAL(10,2) NOT NULL,
+//         cart_quantity INT NOT NULL,
+//         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+//     ) $charset_collate;";
 
-    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-    dbDelta($sql);
-}
+//     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+//     dbDelta($sql);
+// }
 
-register_activation_hook(__FILE__, 'deae_create_transactions_table');
+// register_activation_hook(__FILE__, 'deae_create_transactions_table');
 
 
 
 // creacion de tabla de clientes
-function deae_create_customers_table() {
+function deae_update_customers_table() {
     global $wpdb;
     $table_name = $wpdb->prefix . "deae_customers";
     $charset_collate = $wpdb->get_charset_collate();
 
-    $sql = "CREATE TABLE $table_name (
-        id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        customer_id VARCHAR(100) NOT NULL UNIQUE,
-        name VARCHAR(255) NOT NULL,
-        email VARCHAR(100) NOT NULL UNIQUE,
-        phone VARCHAR(50) NOT NULL,
-        document_type VARCHAR(50) NOT NULL,
-        document_id VARCHAR(50) NOT NULL UNIQUE,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    ) $charset_collate;";
+    // Verificar si la tabla ya existe antes de crearla
+    if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+        $sql = "CREATE TABLE $table_name (
+            id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(100) NOT NULL UNIQUE,
+            phone VARCHAR(50) NOT NULL,
+            document_type VARCHAR(50) NOT NULL,
+            document_id VARCHAR(50) NOT NULL UNIQUE,
+            registration_id VARCHAR(100) NOT NULL,
+            tipo_suscripcion VARCHAR(100) NOT NULL,
+            monto_suscripcion DECIMAL(10,2) NOT NULL,
+            estado_suscripcion BOOLEAN NOT NULL DEFAULT 1,
+            ultimo_pago_suscripcion DATETIME NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        ) $charset_collate;";
 
-    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-    dbDelta($sql);
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        dbDelta($sql);
+    }
 }
 
-register_activation_hook(__FILE__, 'deae_create_customers_table');
+register_activation_hook(__FILE__, 'deae_update_customers_table');
+
 
 
 //// ACTUALIZACION DE TABLA CLIENTES
@@ -273,6 +281,7 @@ function deae_customers_page() {
                 <td>
                     <a href='" . admin_url("admin-post.php?action=process_subscription_payment&id={$customer->id}") . "' class='button button-primary'>💳 Pagar</a>
                     <a href='" . admin_url("admin.php?page=deae_customers_edit&id={$customer->id}") . "' class='button'>✏️ Editar</a>
+                    
                     <a href='" . admin_url("admin-post.php?action=delete_deae_customer&id={$customer->id}") . "' class='button button-danger' onclick='return confirm(\"¿Eliminar este cliente?\");'>🗑️ Eliminar</a>
                 </td>
               </tr>";
@@ -422,9 +431,9 @@ add_action('admin_post_delete_deae_transaction', 'delete_deae_transaction');
 
 /// FUNCION PARA REALIZAR EL PAGO
 function process_subscription_payment() {
-    echo "INGRESOOOO";
     global $wpdb;
     $table_customers = $wpdb->prefix . "deae_customers";
+    $table_transactions = $wpdb->prefix . "deae_transactions";
 
     if (!isset($_GET['id'])) {
         wp_redirect(admin_url('admin.php?page=deae_customers'));
@@ -434,28 +443,26 @@ function process_subscription_payment() {
     $customer_id = intval($_GET['id']);
     $customer = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_customers WHERE id = %d", $customer_id));
 
-    if (!$customer) {
-        wp_redirect(admin_url('admin.php?page=deae_customers'));
+    if (!$customer || empty($customer->registration_id)) {
+        echo "Error: Cliente no encontrado o no tiene un Registration ID.";
         exit;
     }
-    //
+
+    // Generar ID de transacción único
+    $trx = uniqid("trx_");
+
     // Definir valores base para la transacción
     $base0 = 0.00;
     $baseImponible = $customer->monto_suscripcion;
     $iva = $baseImponible * 0.12;
 
-    // Generar ID de transacción único
-    $trx = uniqid("trx_");
-
     // Datos de la solicitud de pago
     $url = "https://test.oppwa.com/v1/registrations/" . $customer->registration_id . "/payments";
     $data = "entityId=8ac7a4c994bb78290194bd40497301d5" .
-        "&amount=" . $customer->monto_suscripcion .
+        "&amount=" . number_format($customer->monto_suscripcion, 2, '.', '') .
         "&currency=USD" .
         "&paymentType=DB" .
-        "&risk.parameters[USER_DATA2]=PagoRapidoDF" .
         "&recurringType=REPEATED" .
-        "&risk.parameters[USER_DATA1]=REPEATED" .
         "&merchantTransactionId=" . $trx .
         "&customParameters[SHOPPER_MID]=1000000505" .
         "&customParameters[SHOPPER_TID]=PD100406" .
@@ -482,15 +489,42 @@ function process_subscription_payment() {
 
     $response = json_decode($responseData, true);
 
-    // Si el pago fue exitoso, actualizar la última fecha de pago
+    // Si el pago fue exitoso, actualizar la última fecha de pago y guardar la transacción
     if ($response['result']['code'] === "000.100.110" || $response['result']['code'] === "000.100.112") {
-        $wpdb->update($table_customers, ['ultimo_pago_suscripcion' => current_time('mysql')], ['id' => $customer_id]);
-        echo "Pago exitoso";
-    }else{
-        echo "Error en el pago";
+        $wpdb->update(
+            $table_customers,
+            ['ultimo_pago_suscripcion' => current_time('mysql')],
+            ['id' => $customer_id]
+        );
+
+        // Insertar en la tabla de transacciones
+        $wpdb->insert(
+            $table_transactions,
+            [
+                'transaction_id' => $trx,
+                'registration_id' => $customer->registration_id,
+                'payment_brand' => 'RECURRING',
+                'amount' => $customer->monto_suscripcion,
+                'customer_name' => $customer->name,
+                'customer_email' => $customer->email,
+                'customer_phone' => $customer->phone,
+                'customer_doc_type' => $customer->document_type,
+                'customer_doc_id' => $customer->document_id,
+                'cart_name' => $customer->tipo_suscripcion,
+                'cart_price' => $customer->monto_suscripcion,
+                'created_at' => current_time('mysql')
+            ],
+            ['%s', '%s', '%s', '%f', '%s', '%s', '%s', '%s', '%s', '%s', '%f', '%s']
+        );
+
+        echo "✅ Pago recurrente exitoso.";
+    } else {
+        echo "❌ Error en el pago: " . $response['result']['description'];
     }
 
     wp_redirect(admin_url('admin.php?page=deae_customers'));
     exit;
 }
 add_action('admin_post_process_subscription_payment', 'process_subscription_payment');
+
+
