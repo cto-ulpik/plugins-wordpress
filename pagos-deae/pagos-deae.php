@@ -479,6 +479,9 @@ function process_subscription_payment() {
     // Si el pago fue exitoso, actualizar la última fecha de pago
     if ($response['result']['code'] === "000.100.110" || $response['result']['code'] === "000.100.112") {
         $wpdb->update($table_customers, ['ultimo_pago_suscripcion' => current_time('mysql')], ['id' => $customer_id]);
+        echo "Pago exitoso";
+    }else{
+        echo "Error en el pago";
     }
 
     wp_redirect(admin_url('admin.php?page=deae_customers'));
