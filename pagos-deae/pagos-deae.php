@@ -251,7 +251,7 @@ function deae_customers_page() {
                 <td>{$customer->phone}</td>
                 <td>{$customer->document_id}</td>
                 <td>{$customer->subscription_type}</td>
-                <td>\${$customer->subscription_amount}</td>
+                <td>{$customer->subscription_amount}</td>
                 <td>{$customer->subscription_status}</td>
                 <td>{$customer->last_subscription_payment}</td>
                 <td>
