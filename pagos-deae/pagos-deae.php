@@ -422,7 +422,7 @@ add_action('admin_post_delete_deae_transaction', 'delete_deae_transaction');
 
 /// FUNCION PARA REALIZAR EL PAGO
 function process_subscription_payment() {
-    echo "INGRESOOOO"
+    echo "INGRESOOOO";
     global $wpdb;
     $table_customers = $wpdb->prefix . "deae_customers";
 
