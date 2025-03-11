@@ -416,7 +416,6 @@ function process_subscription_payment() {
     }
 
     $customer_id = intval($_GET['id']);
-    echo "Cliente recibido con ID" . $customer_id;
     $customer = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_customers WHERE id = %d", $customer_id));
 
     if (!$customer || empty($customer->registration_id)) {
@@ -428,9 +427,10 @@ function process_subscription_payment() {
     $trx = uniqid("trx_");
 
     // Definir valores base para la transacción
-    $base0 = 0.00;
-    $baseImponible = $customer->monto_suscripcion;
-    $iva = $baseImponible * 0.12;
+    $baseImponible = round($customer->monto_suscripcion / 1.12, 2);
+    $iva = round($customer->monto_suscripcion - $baseImponible, 2);
+    $base0 = ($iva == 0) ? $customer->monto_suscripcion : 0.00;
+    
 
     // Datos de la solicitud de pago
     $url = "https://test.oppwa.com/v1/registrations/" . $customer->registration_id . "/payments";
