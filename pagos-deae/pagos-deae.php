@@ -416,6 +416,7 @@ function process_subscription_payment() {
     }
 
     $customer_id = intval($_GET['id']);
+    echo "Cliente recibido con ID" . $customer_id;
     $customer = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_customers WHERE id = %d", $customer_id));
 
     if (!$customer || empty($customer->registration_id)) {
@@ -460,6 +461,7 @@ function process_subscription_payment() {
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $responseData = curl_exec($ch);
+    
     curl_close($ch);
 
     $response = json_decode($responseData, true);
