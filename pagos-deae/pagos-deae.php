@@ -304,6 +304,7 @@ function deae_transactions_page() {
         echo "<tr>
                 <td>{$transaction->id}</td>
                 <td>{$transaction->transaction_id}</td>
+                <td>{$transaction->registration_id}</td>
                 <td>\${$transaction->amount}</td>
                 <td>{$transaction->customer_name}</td>
                 <td>{$transaction->customer_email}</td>
