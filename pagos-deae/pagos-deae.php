@@ -499,7 +499,7 @@ function process_subscription_payment() {
         echo "❌ Error en el pago: " . $response['result']['description'];
     }
 
-    // wp_redirect(admin_url('admin.php?page=deae_customers'));
+    wp_redirect(admin_url('admin.php?page=deae_customers'));
     exit;
 }
 add_action('admin_post_process_subscription_payment', 'process_subscription_payment');
