@@ -297,7 +297,7 @@ function deae_transactions_page() {
     echo '<a href="' . admin_url('admin-post.php?action=export_deae_transactions') . '" class="button button-primary">📤 Exportar CSV</a>';
 
     echo '<table class="widefat fixed striped">';
-    echo '<thead><tr><th>ID</th><th>Transacción</th><th>Monto</th><th>Cliente</th><th>Email</th><th>Tarjeta</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr></thead>';
+    echo '<thead><tr><th>ID</th><th>Transacción</th><th>RegistrationId</th><th>Monto</th><th>Cliente</th><th>Email</th><th>Tarjeta</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr></thead>';
     echo '<tbody>';
 
     foreach ($transactions as $transaction) {
