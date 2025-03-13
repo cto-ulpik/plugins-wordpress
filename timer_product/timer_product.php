@@ -387,7 +387,7 @@ function price_product_register_shortcode() {
         $product = wc_get_product($atts['product_id']);
         $product_price = $product->get_regular_price();
 
-        if(($day >= 11 && $month == 3) || ($day <=17 && $month == 3)){
+        if(($day >= 11 && $month == 3) || ($day <=19 && $month == 3)){
             $product->set_sale_price(170);
 			$product->save();
             $product_sale_price = $product->get_sale_price();	
@@ -396,7 +396,7 @@ function price_product_register_shortcode() {
                             
                         <h3 class="real-price-marca">De <span style="text-decoration: line-through;">$' . $product_price . '</span> a</h3>
                         <p class="discount-price-marca">$' . $product_sale_price . '</p>
-                        <p class="oferta">*Oferta disponible hasta el 17 de marzo</p>
+                        <p class="oferta">*Oferta disponible hasta el 19 de marzo</p>
                     </div>';
         }
         else if($day > 17 && $day <=24 &&  $month == 3){
