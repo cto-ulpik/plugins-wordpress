@@ -75,6 +75,18 @@
     </form>
 
     <?php
+
+    // Verificar si el parámetro ID está presente
+if (!isset($_GET['precio'])) {
+    echo "Error: No se proporcionó un ID de transacción.";
+    exit;
+}
+
+// Obtener el ID de la transacción desde la URL
+$precio = sanitize_text_field($_GET['precio']);
+
+echo $precio;
+
     function generarIdentificador($longitud = 16) {
         $longitud = rand(1, 16); // Define una longitud aleatoria entre 1 y 16
         $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
