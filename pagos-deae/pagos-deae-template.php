@@ -77,15 +77,23 @@
     <?php
 
     // Verificar si el parámetro ID está presente
-if (!isset($_GET['precio'])) {
-    echo "Error: No se proporcionó un ID de transacción.";
-    exit;
-}
+    if (!isset($_GET['months_subscription'])) {
+        echo "Error: No se proporcionó el plan de suscripción.";
+        exit;
+    }
 
-// Obtener el ID de la transacción desde la URL
-$precio = sanitize_text_field($_GET['precio']);
+    // Obtener el ID de la transacción desde la URL
+    $months_subscription = sanitize_text_field($_GET['months_subscription']);
+    $precio = 0;
+    if($months_subscription==1){
+        $precio = 29;
+    }elseif($months_subscription==3){
+        $precio = 67;
+    }elseif($months_subscription==6){
+        $precio = 126;
+    }
 
-echo $precio;
+    echo $precio;
 
     function generarIdentificador($longitud = 16) {
         $longitud = rand(1, 16); // Define una longitud aleatoria entre 1 y 16
