@@ -1,3 +1,9 @@
+<style>
+    .activo {
+        background-color: #d4edda; /* Verde claro */
+        font-weight: bold;
+    }
+</style>
 <?php 
 
 function deae_customers_page() {
@@ -35,20 +41,24 @@ function deae_customers_page() {
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Teléfono</th>
-                <th>Documento</th>
-                <th>Registro</th>
-                <th>Suscripción</th>
+                <th>Cédula</th>
+                <th>Id de Registro</th>
+                <th>Tipo de Suscripción</th>
                 <th>Monto</th>
                 <th>Estado</th>
-                <th>Última Suscripción</th>
+                <th>Fecha de Suscripción</th>
+                <th>Última Pago</th>
                 <th>Acciones</th>
             </tr>
           </thead>';
     echo '<tbody>';
 
     foreach ($customers as $customer) {
-        $estado = $customer->estado_suscripcion ? "✅ Activa" : "❌ Inactiva";
-        echo "<tr>
+        $esActivo = $customer->estado_suscripcion ? true : false;
+        $estado = $esActivo ? "✅ Activa" : "❌ Inactiva";
+        $claseFila = $esActivo ? "class='activo'" : "";
+
+        echo "<tr $claseFila>
                 <td>{$customer->id}</td>
                 <td>{$customer->name}</td>
                 <td>{$customer->email}</td>
@@ -58,6 +68,7 @@ function deae_customers_page() {
                 <td>{$customer->tipo_suscripcion}</td>
                 <td>\${$customer->monto_suscripcion}</td>
                 <td>{$estado}</td>
+                <td>{$customer->created_at}</td>
                 <td>{$customer->ultimo_pago_suscripcion}</td>
                 <td>
                     <a href='" . admin_url("admin-post.php?action=process_subscription_payment&id={$customer->id}") . "' class='button button-primary'>💳 Pagar</a>
