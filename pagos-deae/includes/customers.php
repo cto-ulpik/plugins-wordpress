@@ -79,6 +79,7 @@ function deae_customers_page() {
                     <a href='" . admin_url("admin-post.php?action=process_subscription_payment&id={$customer->id}") . "' class='button button-primary'>💳 Pagar</a>
                     <a href='" . admin_url("admin.php?page=deae_customers_edit&id={$customer->id}") . "' class='button'>✏️ Editar</a>
                     <a href='" . admin_url("admin-post.php?action=delete_deae_customer&id={$customer->id}") . "' class='button button-danger' onclick='return confirm(\"¿Eliminar este cliente?\");'>🗑️ Eliminar</a>
+                    <a href='" . admin_url("admin-post.php?action=stop_subscription&id={$customer->id}") . "' class='button button-secondary'>Desuscribir</a>
                 </td>
               </tr>";
     }
