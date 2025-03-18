@@ -1,6 +1,11 @@
 <style>
     .activo {
-        background-color: #d4edda; /* Verde claro */
+        background-color: #d4edda !important; /* Verde claro */
+        font-weight: bold;
+    }
+
+    .no-activo{
+        background-color: #f8d7da !important; /* Rojo claro */
         font-weight: bold;
     }
 </style>
@@ -56,7 +61,7 @@ function deae_customers_page() {
     foreach ($customers as $customer) {
         $esActivo = $customer->estado_suscripcion ? true : false;
         $estado = $esActivo ? "✅ Activa" : "❌ Inactiva";
-        $claseFila = $esActivo ? "class='activo'" : "";
+        $claseFila = $esActivo ? "class='activo'" : "class='no-activo'";
 
         echo "<tr $claseFila>
                 <td>{$customer->id}</td>
