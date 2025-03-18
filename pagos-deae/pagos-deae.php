@@ -112,12 +112,6 @@ function deae_create_transactions_table() {
 
 register_activation_hook(__FILE__, 'deae_create_transactions_table');
 
-
-
-// creacion de tabla de clientes
-
-
-
 //// ACTUALIZACION DE TABLA CLIENTES
 function deae_update_customers_table() {
     global $wpdb;

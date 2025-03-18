@@ -85,17 +85,21 @@
     // Obtener el ID de la suscripción y asegurarse de que es un número entero
     $months_subscription = intval($_GET['months_subscription']);
     $precio = 0;
+    $name_product = "";
 
     // Determinar el precio basado en el número de meses de suscripción
     switch ($months_subscription) {
         case 1:
             $precio = 29;
+            $name_product = "Suscripción DEAE 1 Mes";
             break;
         case 3:
             $precio = 67;
+            $name_product = "Suscripción DEAE 3 Mes";
             break;
         case 6:
             $precio = 126;
+            $name_product = "Suscripción DEAE 6 Mes";
             break;
         default:
             echo "Error: Plan de suscripción no válido.";
@@ -121,7 +125,7 @@
     echo generarIdentificador();
 
     
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $precio > 0) {
         // Reemplazar sanitize_text_field() con htmlspecialchars() porque WordPress no está cargado aquí
         function limpiar_input($data) {
             return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
@@ -136,7 +140,7 @@
         $direccion_cliente = limpiar_input($_POST['direccion_cliente']);
 
         function request($firstName, $secondName, $lastName, $email, $cedula, $telefono, $direccion_cliente) {
-            $amount = 29;
+            $amount = $precio;
 
             // Calcular impuestos correctamente (IVA 12%)
             $baseImponible = round($amount / 1.12, 2);
@@ -182,9 +186,9 @@
                     "&customParameters[SHOPPER_VERSIONDF]=2" .
                     "&testMode=EXTERNAL" .
 
-                    "&cart.items[0].name=DEAESUSCRIPCION" .
-                    "&cart.items[0].description=suscripcion" .
-                    "&cart.items[0].price=29" .
+                    "&cart.items[0].name=" . $name_product .
+                    "&cart.items[0].description=" . $name_product .
+                    "&cart.items[0].price=" . $amount .
                     "&cart.items[0].quantity=1";
 
             $ch = curl_init();
@@ -219,6 +223,10 @@
             echo "<h2>Error en la transacción:</h2>";
             echo "<pre>" . htmlentities($response) . "</pre>";
         }
+    }
+
+    else{
+        echo "<h2>Error en la transacción:</h2>";
     }
     ?>
 
