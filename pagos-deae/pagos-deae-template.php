@@ -76,24 +76,34 @@
 
     <?php
 
-    // Verificar si el parámetro ID está presente
+    // Verificar si el parámetro 'months_subscription' está presente en la URL
     if (!isset($_GET['months_subscription'])) {
         echo "Error: No se proporcionó el plan de suscripción.";
         exit;
     }
 
-    // Obtener el ID de la transacción desde la URL
-    $months_subscription = sanitize_text_field($_GET['months_subscription']);
+    // Obtener el ID de la suscripción y asegurarse de que es un número entero
+    $months_subscription = intval($_GET['months_subscription']);
     $precio = 0;
-    if($months_subscription==1){
-        $precio = 29;
-    }elseif($months_subscription==3){
-        $precio = 67;
-    }elseif($months_subscription==6){
-        $precio = 126;
+
+    // Determinar el precio basado en el número de meses de suscripción
+    switch ($months_subscription) {
+        case 1:
+            $precio = 29;
+            break;
+        case 3:
+            $precio = 67;
+            break;
+        case 6:
+            $precio = 126;
+            break;
+        default:
+            echo "Error: Plan de suscripción no válido.";
+            exit;
     }
 
-    echo $precio;
+    // Mostrar el precio final
+    echo "El precio es: $" . $precio;
 
     function generarIdentificador($longitud = 16) {
         $longitud = rand(1, 16); // Define una longitud aleatoria entre 1 y 16
