@@ -107,7 +107,7 @@
     }
 
     // Mostrar el precio final
-    echo "El precio es: $" . $precio;
+    // echo "El precio es: $" . $precio;
 
     function generarIdentificador($longitud = 16) {
         $longitud = rand(1, 16); // Define una longitud aleatoria entre 1 y 16
@@ -122,7 +122,7 @@
     }
     
     // Ejemplo de uso
-    echo generarIdentificador();
+    // echo generarIdentificador();
 
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $precio > 0) {
@@ -225,9 +225,6 @@
         }
     }
 
-    else{
-        echo "<h2>Error en la transacción:</h2>";
-    }
     ?>
 
 </body>
