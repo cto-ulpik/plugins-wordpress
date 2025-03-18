@@ -95,11 +95,11 @@
             break;
         case 3:
             $precio = 67;
-            $name_product = "Suscripción DEAE 3 Mes";
+            $name_product = "Suscripción DEAE 3 Meses";
             break;
         case 6:
             $precio = 126;
-            $name_product = "Suscripción DEAE 6 Mes";
+            $name_product = "Suscripción DEAE 6 Meses";
             break;
         default:
             echo "Error: Plan de suscripción no válido.";
@@ -142,8 +142,8 @@
         function request($firstName, $secondName, $lastName, $email, $cedula, $telefono, $direccion_cliente) {
             $amount = $precio;
 
-            // Calcular impuestos correctamente (IVA 12%)
-            $baseImponible = round($amount / 1.12, 2);
+            // Calcular impuestos correctamente (IVA 15%)
+            $baseImponible = round($amount / 1.15, 2);
             $iva = round($amount - $baseImponible, 2);
             $base0 = ($iva == 0) ? $amount : 0.00;
 
