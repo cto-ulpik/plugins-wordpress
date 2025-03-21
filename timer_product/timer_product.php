@@ -406,7 +406,7 @@ function price_product_register_shortcode() {
 
             return '<div class="container-price">
                         <p class="discount-price-marca">$' . $product_price . '</p>
-                        <p class="oferta">*Cierre de cupos el 24 de Marzo</p>
+                        <p class="oferta">*ÚLTIMOS 2 CUPOS</p>
                     </div>';
         }
         else{
