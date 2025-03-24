@@ -59,6 +59,7 @@ $decodedData = json_decode($inputJSON, true);
             height: 100vh;
             margin: 0;
             background-color: #470078;
+            color: white;
         }
         .container {
             display: grid;
@@ -221,6 +222,7 @@ $decodedData = json_decode($inputJSON, true);
     </style>
 </head>
 <body>
+    
     <h1>Formulario de Pago</h1>
     <p>Completa la información de tu tarjeta para proceder con el pago.</p>
     
@@ -229,15 +231,7 @@ $decodedData = json_decode($inputJSON, true);
     </form>
 
 
-    ---
-
-    <!-- Mostrar los datos enviados en el cuerpo de la solicitud -->
-    <h2>Datos Recibidos:</h2>
-    <?php if (!empty($decodedData)): ?>
-        <pre><?php echo htmlspecialchars(json_encode($decodedData, JSON_PRETTY_PRINT), ENT_QUOTES, 'UTF-8'); ?></pre>
-    <?php else: ?>
-        <p>No se recibieron datos en el cuerpo de la solicitud.</p>
-    <?php endif; ?>
+   
     
     
     <script>
