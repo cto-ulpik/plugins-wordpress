@@ -322,7 +322,16 @@
             
 
             <div class="modal">
-                <h2>PLAN <?php echo $months_subscription ?> MESES</h2>
+                
+                <?php 
+                    if($months_subscription==1){
+                        echo "<h2>PLAN <?php echo $months_subscription ?> MES</h2>";
+                    }
+                    elseif($months_subscription==3 || $months_subscription==6){
+                        echo "<h2>PLAN <?php echo $months_subscription ?> MESES</h2>";
+                    }
+                ?>
+
                 <div class="precio">$<?php echo $precio; ?></div>
                 
                 <?php 
