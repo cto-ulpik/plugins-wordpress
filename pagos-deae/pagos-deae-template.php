@@ -28,6 +28,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .logo {
+            max-width:300px;
             grid-column: span 2;
             text-align: center;
         }
@@ -40,8 +41,6 @@
             flex-direction: column;
           justify-content:center;
           text-align:center;
-/*           align-items:center; */
-          
         }
         .formulario label {
             display:block;
@@ -137,6 +136,7 @@
     $precio = 0;
     $name_product = "";
     $days_product = 0;
+    $ahorro = 0;
 
     // Determinar el precio basado en el número de meses de suscripción
     switch ($months_subscription) {
@@ -149,11 +149,13 @@
             $precio = 67;
             $name_product = "Suscripción DEAE 3 Meses";
             $days_product = 90;
+            $ahorro = 20;
             break;
         case 6:
             $precio = 126;
             $name_product = "Suscripción DEAE 6 Meses";
             $days_product = 180;
+            $ahorro = 48;
             break;
         default:
             echo "Error: Plan de suscripción no válido.";
@@ -317,10 +319,27 @@
             </form>
         </div>
         <div class="beneficios">
-            <div class="descuento">
-                <p>$<?php echo $precio; ?></p>
-                <p>Pago recurrente cada <?php echo $days_product; ?> días</p>
+            
+
+            <div class="modal">
+                <h2>PLAN <?php echo $months_subscription ?> MESES</h2>
+                <div class="precio">$<?php echo $precio; ?></div>
+                
+                <?php 
+                    if ($ahorro > 0) {
+                        echo "<div class='ahorro'>(Ahorra $$ahorro)</div>";
+                    }
+                ?>
+
+                <div class="seguridad">
+                    <span>&#10004;</span>
+                    <span>COMPRA 100% SEGURA</span>
+                </div>
+                <div class="pago-recurrente">Pago recurrente cada <?php echo $days_product; ?> días</div>
             </div>
+
+
+
             <h2>Beneficios de la Suscripción</h2>
             <ul>
                 <li>Acceso ilimitado a contenido exclusivo.</li>
