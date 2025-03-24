@@ -121,6 +121,7 @@
             text-align: center;
             width: 300px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
         }
         .modal h2 {
             font-size: 18px;
@@ -163,7 +164,7 @@
             color: #555;
         }
 
-        
+
 
 
 @media only screen and (max-width: 600px) {
