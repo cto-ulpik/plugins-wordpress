@@ -5,74 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagos DEAE</title>
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
+       body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #470078;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr;
+    
+            gap: 20px;
+            width: 80%;
+            max-width: 900px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            grid-column: span 2;
+            text-align: center;
+        }
+        .logo img {
+            max-width: 100%;
+            height: auto;
+        }
+        .formulario {
+            display: flex;
+            flex-direction: column;
+          justify-content:center;
+          text-align:center;
+/*           align-items:center; */
+          
+        }
+        .formulario label {
+            display:block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .formulario input {
+          width:80%;
+            padding: 8px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .formulario button {
+          display:block;
+          width:100%;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .formulario button:hover {
+            background-color: #218838;
+        }
+        .beneficios {
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+        
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+        .beneficios h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+        .beneficios ul {
+            padding-left: 20px;
+        }
 
-    h1 {
-        background-color: #0073aa;
-        color: white;
-        padding: 10px;
-        margin: 0;
-    }
+.descuento {
+            grid-column: 2;
+            grid-row: 2;
+            text-align: center;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            padding: 20px;
+            border-radius: 10px;
+  margin: 20px auto;
+            box-shadow: 0 0 15px rgba(255, 75, 43, 0.5);
+/*             animation: pulse 1.5s infinite; */
+        }
 
-    form {
-        margin: 20px;
-    }
+.cards{
+  margin: 10px auto;
+  width:50%
+}
 
-    label {
-        display: block;
-        margin-top: 10px;
-    }
+.logo{
+  margin: 10px auto;
+  width:50%
+}
+        
 
-    input {
-        width: 100%;
-        padding: 5px;
-        margin-top: 5px;
-    }
-
-    button {
-        padding: 10px;
-        background-color: #0073aa;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #005f86;
-    }
-</style>
+@media only screen and (max-width: 600px) {
+  .container{
+    display:flex;
+    flex-direction:column;
+  }
+}
+    </style>
 </head>
 <body>
-    <h1>Realizar Pago</h1>
-    <form method="POST">
-        <label for="firstName">Primer Nombre</label>
-        <input type="text" id="firstName" name="firstName" required>
 
-        <label for="secondName">Segundo Nombre</label>
-        <input type="text" id="secondName" name="secondName" required>
-
-        <label for="lastName">Apellido</label>
-        <input type="text" id="lastName" name="lastName" required>
-
-        <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="cedula">Cédula:</label>
-        <input type="text" id="cedula" name="cedula" required>
-
-        <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono" required>
-
-        <label for="direccion_cliente">Dirección:</label>
-        <input type="text" id="direccion_cliente" name="direccion_cliente" required>
-
-        <br>
-        <button type="submit">Pagar</button>
-    </form>
 
     <?php
 
@@ -86,20 +136,24 @@
     $months_subscription = intval($_GET['months_subscription']);
     $precio = 0;
     $name_product = "";
+    $days_product = 0;
 
     // Determinar el precio basado en el número de meses de suscripción
     switch ($months_subscription) {
         case 1:
             $precio = 29;
             $name_product = "Suscripción DEAE 1 Mes";
+            $days_product = 30;
             break;
         case 3:
             $precio = 67;
             $name_product = "Suscripción DEAE 3 Meses";
+            $days_product = 90;
             break;
         case 6:
             $precio = 126;
             $name_product = "Suscripción DEAE 6 Meses";
+            $days_product = 180;
             break;
         default:
             echo "Error: Plan de suscripción no válido.";
@@ -226,6 +280,57 @@
     }
 
     ?>
+
+
+<div class="container">
+        <div class="logo">
+        <div class="logo">
+            <img src="https://ulpik.com/wp-content/uploads/2024/04/miembros_eE_portada_web.png" alt="De Emprendedor a Empresario">
+        </div>
+        </div>
+        <div class="formulario">
+            <h1>Realizar Pago</h1>
+            <form method="POST">
+                <label for="firstName">Primer Nombre</label>
+                <input type="text" id="firstName" name="firstName" required>
+                
+                <label for="secondName">Segundo Nombre</label>
+                <input type="text" id="secondName" name="secondName" required>
+                
+                <label for="lastName">Apellido</label>
+                <input type="text" id="lastName" name="lastName" required>
+                
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="cedula">Cédula:</label>
+                <input type="text" id="cedula" name="cedula" required>
+                
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" required>
+                
+                <label for="direccion_cliente">Dirección:</label>
+                <input type="text" id="direccion_cliente" name="direccion_cliente" required>
+                
+                <button type="submit">Pagar</button>
+                <img class="cards" src="https://ulpik.com/wp-content/uploads/2024/08/meetodos_de_pago_ulpik.png" alt="Pagos por Visa y Mastercard">
+            </form>
+        </div>
+        <div class="beneficios">
+            <div class="descuento">
+                <p>$<?php echo $precio; ?></p>
+                <p>Pago recurrente cada <?php echo $days_product; ?> días</p>
+            </div>
+            <h2>Beneficios de la Suscripción</h2>
+            <ul>
+                <li>Acceso ilimitado a contenido exclusivo.</li>
+                <li>Soporte prioritario y asistencia personalizada.</li>
+                <li>Actualizaciones y mejoras sin costo adicional.</li>
+                <li>Descuentos en futuros servicios y productos.</li>
+            </ul>
+        </div>
+    </div>
+
 
 </body>
 
