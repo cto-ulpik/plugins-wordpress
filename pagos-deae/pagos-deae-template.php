@@ -284,12 +284,12 @@
     ?>
 
 
+<div class="logo">
+    <img src="https://ulpik.com/wp-content/uploads/2024/04/miembros_eE_portada_web.png" alt="De Emprendedor a Empresario">
+</div>
+
 <div class="container">
-        <div class="logo">
-        <div class="logo">
-            <img src="https://ulpik.com/wp-content/uploads/2024/04/miembros_eE_portada_web.png" alt="De Emprendedor a Empresario">
-        </div>
-        </div>
+        
         <div class="formulario">
             <h1>Realizar Pago</h1>
             <form method="POST">
