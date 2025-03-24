@@ -335,13 +335,9 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
 <style>
     
 <body>
-    <h1>Estado de la Transacción</h1>
-    <p><strong>ID de Transacción:</strong> <?php echo htmlspecialchars($transactionId); ?></p>
-    <p><strong>Resultado:</strong> <?php echo htmlspecialchars($resultadoPago); ?></p>
-    <p><strong>Mensaje:</strong> <?php echo htmlspecialchars($mensajePago); ?></p>
 
     <?php if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") { ?>
-        <h2 style="color: green;">✅ Pago Exitoso</h2>
+        <h2 style="color: green;">✅ Pago Exitoso, Revisa tu correo electrónico, en las próximas 24 horas laborales te daremos acceso a todos los beneficios de la suscripción.</h2>
     <?php } else { ?>
         <h2 style="color: red;">❌ Pago Fallido</h2>
     <?php } ?>
