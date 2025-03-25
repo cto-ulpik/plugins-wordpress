@@ -399,7 +399,7 @@ function price_product_register_shortcode() {
                         <p class="oferta">*Oferta disponible hasta el 19 de marzo</p>
                     </div>';
         }
-        else if($day > 17 && $day <=24 &&  $month == 3){
+        else if($day > 17 && $day <24 &&  $month == 3){
             $product->set_sale_price(340);
             $product->save();
             $product_sale_price = $product->get_sale_price();	
