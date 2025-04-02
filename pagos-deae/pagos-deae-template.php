@@ -364,7 +364,7 @@
                 <input type="text" id="direccion_cliente" name="direccion_cliente" required>
                 
                 <button type="submit">Pagar</button>
-                <img class="cards" src="https://ulpik.com/wp-content/uploads/2025/03/Diseño-sin-título-4.png" alt="Pagos por Visa y Mastercard">
+                <img class="cards" src="https://ulpik.com/wp-content/uploads/2024/08/meetodos_de_pago_ulpik.png" alt="Pagos por Visa y Mastercard">
             </form>
         </div>
         <div class="beneficios">
