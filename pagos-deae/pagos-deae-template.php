@@ -20,11 +20,9 @@
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr;
     
-            gap: 20px;
             width: 80%;
             max-width: 900px;
             background: white;
-            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -42,6 +40,7 @@
             flex-direction: column;
           justify-content:center;
           text-align:center;
+          padding:20px;
         }
         .formulario label {
             display:block;
@@ -74,10 +73,12 @@
           display:flex;
           flex-direction:column;
           justify-content:center;
+          align-items:center;
         
             padding: 10px;
-            background-color: #f1f1f1;
-            border-radius: 5px;
+            background-color: #470078;
+            border-radius: 0px 10px 10px 0;
+          color:white;
         }
         .beneficios h2 {
             margin-top: 0;
@@ -115,27 +116,23 @@
 
 
 .modal {
-            background: #EAEAEA;
+  color:white;
+            background: 470078;
             padding: 20px;
-            border-radius: 12px;
             text-align: center;
-            width: 300px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             margin: 10px auto;
         }
         .modal h2 {
-            font-size: 18px;
-            color: #000;
+            font-size: 22px;
         }
         .modal .precio {
-            font-size: 36px;
+            font-size: 64px;
             font-weight: bold;
             color: #7D2AE8;
             margin: 10px 0;
         }
         .modal .ahorro {
             font-size: 14px;
-            color: #555;
         }
         .modal button {
             background: #7D2AE8;
@@ -156,14 +153,11 @@
             justify-content: center;
             gap: 5px;
             font-size: 12px;
-            color: #555;
             margin: 10px 0;
         }
         .pago-recurrente {
             font-size: 12px;
-            color: #555;
         }
-
 
 
 
@@ -243,7 +237,7 @@
         }
 
         $firstName = limpiar_input($_POST['firstName']);
-        $secondName = limpiar_input($_POST['secondName']);
+        $secondName = "";
         $lastName = limpiar_input($_POST['lastName']);
         $email = limpiar_input($_POST['email']);
         $cedula = limpiar_input($_POST['cedula']);
@@ -346,13 +340,13 @@
 <div class="container">
         
         <div class="formulario">
-            <h1>Realizar Pago</h1>
+            <h2>Datos para tu suscripción</h2>
             <form method="POST">
                 <label for="firstName">Primer Nombre</label>
                 <input type="text" id="firstName" name="firstName" required>
                 
-                <label for="secondName">Segundo Nombre</label>
-                <input type="text" id="secondName" name="secondName" required>
+                <!-- <label for="secondName">Segundo Nombre</label>
+                <input type="text" id="secondName" name="secondName" required> -->
                 
                 <label for="lastName">Apellido</label>
                 <input type="text" id="lastName" name="lastName" required>
@@ -360,7 +354,7 @@
                 <label for="email">Correo Electrónico:</label>
                 <input type="email" id="email" name="email" required>
                 
-                <label for="cedula">Cédula:</label>
+                <label for="cedula">Cédula / RUC:</label>
                 <input type="text" id="cedula" name="cedula" required>
                 
                 <label for="telefono">Teléfono:</label>
@@ -370,7 +364,7 @@
                 <input type="text" id="direccion_cliente" name="direccion_cliente" required>
                 
                 <button type="submit">Pagar</button>
-                <img class="cards" src="https://ulpik.com/wp-content/uploads/2024/08/meetodos_de_pago_ulpik.png" alt="Pagos por Visa y Mastercard">
+                <img class="cards" src="https://ulpik.com/wp-content/uploads/2025/03/Diseño-sin-título-4.png" alt="Pagos por Visa y Mastercard">
             </form>
         </div>
         <div class="beneficios">
