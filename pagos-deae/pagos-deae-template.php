@@ -334,7 +334,7 @@
 
 
 <div class="logo">
-    <img src="https://ulpik.com/wp-content/uploads/2024/04/miembros_eE_portada_web.png" alt="De Emprendedor a Empresario">
+    <img src="https://ulpik.com/wp-content/uploads/2025/03/Diseño-sin-título-4.png" alt="De Emprendedor a Empresario">
 </div>
 
 <div class="container">
