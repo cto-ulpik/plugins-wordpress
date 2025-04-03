@@ -237,7 +237,7 @@
         }
 
         $firstName = limpiar_input($_POST['firstName']);
-        $secondName = ".";
+        $secondName = limpiar_input($_POST['secondName']);
         $lastName = limpiar_input($_POST['lastName']);
         $email = limpiar_input($_POST['email']);
         $cedula = limpiar_input($_POST['cedula']);
@@ -345,8 +345,8 @@
                 <label for="firstName">Primer Nombre</label>
                 <input type="text" id="firstName" name="firstName" required>
                 
-                <!-- <label for="secondName">Segundo Nombre</label>
-                <input type="text" id="secondName" name="secondName" required> -->
+                <label for="secondName">Segundo Nombre</label>
+                <input type="text" id="secondName" name="secondName" required>
                 
                 <label for="lastName">Apellido</label>
                 <input type="text" id="lastName" name="lastName" required>
