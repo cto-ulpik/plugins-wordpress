@@ -297,24 +297,26 @@
                     "&cart.items[0].price=" . $amount .
                     "&cart.items[0].quantity=1";
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA=='
-            ));
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $responseData = curl_exec($ch);
-            if (curl_errno($ch)) {
-                return curl_error($ch);
-            }
-            curl_close($ch);
+            // $ch = curl_init();
+            // curl_setopt($ch, CURLOPT_URL, $url);
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            //     'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA=='
+            // ));
+            // curl_setopt($ch, CURLOPT_POST, 1);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // $responseData = curl_exec($ch);
+            // if (curl_errno($ch)) {
+            //     return curl_error($ch);
+            // }
+            // curl_close($ch);
             return $responseData;
         }
 
         $response = request($firstName, $secondName, $lastName, $email, $cedula, $telefono, $direccion_cliente);
+
+        echo $response;
         $responseArray = json_decode($response, true);
 
         $checkoutId = $responseArray['id'] ?? null;
