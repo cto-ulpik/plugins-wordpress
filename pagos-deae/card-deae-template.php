@@ -59,7 +59,7 @@ $decodedData = json_decode($inputJSON, true);
             height: 100vh;
             margin: 0;
             background-color: #470078;
-            color: white;
+            /* color: white; */
         }
         .container {
             display: grid;

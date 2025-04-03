@@ -190,7 +190,7 @@
     // Determinar el precio basado en el número de meses de suscripción
     switch ($months_subscription) {
         case 1:
-            $precio = 29;
+            $precio = 6;
             $name_product = "Suscripción DEAE 1 Mes";
             $days_product = 30;
             break;
