@@ -182,7 +182,7 @@
 
     // Obtener el ID de la suscripción y asegurarse de que es un número entero
     $months_subscription = intval($_GET['months_subscription']);
-    $precio = 0;
+    $precio = 29;
     $name_product = "";
     $days_product = 0;
     $ahorro = 0;
@@ -193,7 +193,6 @@
             $precio = 29;
             $name_product = "Suscripción DEAE 1 Mes";
             $days_product = 30;
-            echo $precio;
             break;
         case 3:
             $precio = 67;
@@ -245,7 +244,7 @@
         $telefono = limpiar_input($_POST['telefono']);
         $direccion_cliente = limpiar_input($_POST['direccion_cliente']);
 
-        function request($firstName, $secondName, $lastName, $email, $cedula, $telefono, $direccion_cliente) {
+        function request($firstName, $secondName, $lastName, $email, $cedula, $telefono, $direccion_cliente, $precio) {
             $amount = $precio;
 
             // Calcular impuestos correctamente (IVA 15%)
@@ -297,26 +296,24 @@
                     "&cart.items[0].price=" . $amount .
                     "&cart.items[0].quantity=1";
 
-            // $ch = curl_init();
-            // curl_setopt($ch, CURLOPT_URL, $url);
-            // curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            //     'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA=='
-            // ));
-            // curl_setopt($ch, CURLOPT_POST, 1);
-            // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            // $responseData = curl_exec($ch);
-            // if (curl_errno($ch)) {
-            //     return curl_error($ch);
-            // }
-            // curl_close($ch);
-            return "<p>" . $data . "</p>";
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA=='
+            ));
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $responseData = curl_exec($ch);
+            if (curl_errno($ch)) {
+                return curl_error($ch);
+            }
+            curl_close($ch);
+            return $responseData;
         }
 
-        $response = request($firstName, $secondName, $lastName, $email, $cedula, $telefono, $direccion_cliente);
-
-        echo $response;
+        $response = request($firstName, $secondName, $lastName, $email, $cedula, $telefono, $direccion_cliente, $precio);
         $responseArray = json_decode($response, true);
 
         $checkoutId = $responseArray['id'] ?? null;
