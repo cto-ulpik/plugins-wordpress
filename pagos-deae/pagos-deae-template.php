@@ -311,7 +311,7 @@
             //     return curl_error($ch);
             // }
             // curl_close($ch);
-            return $data;
+            return "<p>" . $data . "</p>";
         }
 
         $response = request($firstName, $secondName, $lastName, $email, $cedula, $telefono, $direccion_cliente);
