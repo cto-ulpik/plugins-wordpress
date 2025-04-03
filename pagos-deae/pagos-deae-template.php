@@ -237,7 +237,7 @@
         }
 
         $firstName = limpiar_input($_POST['firstName']);
-        $secondName = "";
+        $secondName = ".";
         $lastName = limpiar_input($_POST['lastName']);
         $email = limpiar_input($_POST['email']);
         $cedula = limpiar_input($_POST['cedula']);
@@ -289,7 +289,7 @@
 
                     "&risk.parameters[USER_DATA2]=DATAFAST" .
                     "&customParameters[SHOPPER_VERSIONDF]=2" .
-                    // "&testMode=EXTERNAL" .
+                    "&testMode=EXTERNAL" .
 
                     "&cart.items[0].name=" . $name_product .
                     "&cart.items[0].description=" . $name_product .
