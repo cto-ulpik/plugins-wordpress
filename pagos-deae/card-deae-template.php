@@ -61,6 +61,7 @@ $decodedData = json_decode($inputJSON, true);
             background-color: #470078;
             /* color: white; */
         }
+
         .container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -223,9 +224,10 @@ $decodedData = json_decode($inputJSON, true);
 </head>
 <body>
     
+<div style="color:white;">
     <h1>Formulario de Pago</h1>
     <p>Completa la información de tu tarjeta para proceder con el pago.</p>
-    
+</div>
     <!-- Formulario de pago -->
     <form action="<?php echo $baseUrl; ?>" class="paymentWidgets" data-brands="VISA MASTER DINERS DISCOVER AMEX">
     </form>

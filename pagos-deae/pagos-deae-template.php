@@ -289,7 +289,7 @@
 
                     "&risk.parameters[USER_DATA2]=DATAFAST" .
                     "&customParameters[SHOPPER_VERSIONDF]=2" .
-                    "&testMode=EXTERNAL" .
+                    // "&testMode=EXTERNAL" .
 
                     "&cart.items[0].name=" . $name_product .
                     "&cart.items[0].description=" . $name_product .
