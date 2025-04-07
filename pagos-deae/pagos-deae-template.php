@@ -253,7 +253,7 @@
             $base0 = ($iva == 0) ? $amount : 0.00;
 
             $url = "https://eu-test.oppwa.com/v1/checkouts";
-            $data = "entityId=8ac7a4c994bb78290194bd40497301d5" .
+            $data = "entityId=8acda4cc95f5c7b70196112c671c0531" .
                     "&amount=" . number_format($amount, 2, '.', '') .
                     "&currency=USD" .
                     "&paymentType=DB" .
@@ -284,12 +284,12 @@
                     "&customParameters[SHOPPER_VAL_BASE0]=" . number_format($base0, 2, '.', '') .
                     "&customParameters[SHOPPER_VAL_BASEIMP]=" . number_format($baseImponible, 2, '.', '') .
                     "&customParameters[SHOPPER_VAL_IVA]=" . number_format($iva, 2, '.', '') .
-                    "&customParameters[SHOPPER_MID]=1000000505" .
-                    "&customParameters[SHOPPER_TID]=PD100406" .
+                    "&customParameters[SHOPPER_MID]=4300000804" .
+                    "&customParameters[SHOPPER_TID]=BP456083" .
 
                     "&risk.parameters[USER_DATA2]=DATAFAST" .
                     "&customParameters[SHOPPER_VERSIONDF]=2" .
-                    "&testMode=EXTERNAL" .
+                    // "&testMode=EXTERNAL" .
 
                     "&cart.items[0].name=" . $name_product .
                     "&cart.items[0].description=" . $name_product .
@@ -299,7 +299,7 @@
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA=='
+                'Authorization:Bearer OGFjOWE0Y2E4YWIxZjZlMzAxOGFjY2E2MTgzYzcwOTZ8NzlUTkpkd0ZqZA=='
             ));
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
