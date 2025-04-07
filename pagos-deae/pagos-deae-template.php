@@ -182,7 +182,7 @@
 
     // Obtener el ID de la suscripción y asegurarse de que es un número entero
     $months_subscription = intval($_GET['months_subscription']);
-    $precio = 6;
+    $precio = 3;
     $name_product = "";
     $days_product = 0;
     $ahorro = 0;
@@ -190,7 +190,7 @@
     // Determinar el precio basado en el número de meses de suscripción
     switch ($months_subscription) {
         case 1:
-            $precio = 6;
+            $precio = 3;
             $name_product = "Suscripción DEAE 1 Mes";
             $days_product = 30;
             break;
