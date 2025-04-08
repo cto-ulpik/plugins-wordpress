@@ -252,7 +252,7 @@
             $iva = round($amount - $baseImponible, 2);
             $base0 = ($iva == 0) ? $amount : 0.00;
 
-            $url = "https://eu-prod.oppwa.com   /v1/checkouts";
+            $url = "https://eu-prod.oppwa.com/v1/checkouts";
             $data = "entityId=8acda4cc95f5c7b70196112c671c0531" .
                     "&amount=" . number_format($amount, 2, '.', '') .
                     "&currency=USD" .
