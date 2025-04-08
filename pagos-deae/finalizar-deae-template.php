@@ -35,8 +35,8 @@ function obtener_estado_transaccion($transactionId) {
 $response = obtener_estado_transaccion($transactionId);
 
 // Mostrar toda la respuesta en pantalla
-echo "<h2>Respuesta Completa de Datafast:</h2>";
-echo "<p>" . print_r($response, true) . "</p>";
+// echo "<h2>Respuesta Completa de Datafast:</h2>";
+// echo "<p>" . print_r($response, true) . "</p>";
 
 // Verificar si la respuesta es válida
 if (!$response || !isset($response['result']['code'])) {
@@ -50,7 +50,7 @@ $resultadoPago = $response['result']['code'];
 $mensajePago = $response['result']['description'];
 
 // Verificar si la transacción fue exitosa
-if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") {
+if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112" || $resultadoPago === "000.000.000") {
     
     global $wpdb;
     $table_transactions = $wpdb->prefix . "deae_transactions";
