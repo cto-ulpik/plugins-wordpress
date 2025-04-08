@@ -10,7 +10,7 @@ $transactionId = sanitize_text_field($_GET['id']);
 
 // Función para consultar el estado de la transacción en Datafast
 function obtener_estado_transaccion($transactionId) {
-    $url = "https://eu-test.oppwa.com/v1/checkouts/{$transactionId}/payment";
+    $url = "https://eu-prod.oppwa.com/v1/checkouts/{$transactionId}/payment";
     $data = "?entityId=8ac7a4c994bb78290194bd40497301d5";
 
     $ch = curl_init();
@@ -19,7 +19,7 @@ function obtener_estado_transaccion($transactionId) {
         'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA=='
     ));
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Cambiar a true en producción
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // Cambiar a true en producción
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     
     $responseData = curl_exec($ch);

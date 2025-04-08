@@ -10,7 +10,7 @@ $checkoutId = sanitize_text_field($_GET['checkoutId']);
 
 // Configuración del entorno
 $baseUrl = home_url('/finalizar-deae'); // URL base del sitio
-$url = "https://eu-test.oppwa.com/v1/"; // URL del entorno de pruebas
+$url = "https://eu-prod.oppwa.com/v1/"; // URL del entorno de pruebas
 
 $inputJSON = file_get_contents('php://input');
 $decodedData = json_decode($inputJSON, true);
@@ -26,11 +26,19 @@ $decodedData = json_decode($inputJSON, true);
     <!-- Incluir el script de pago con el checkoutId -->
     <script src="<?php echo $url; ?>paymentWidgets.js?checkoutId=<?php echo $checkoutId; ?>"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    
+    
+    
     <script type="text/javascript">
     var wpwlOptions = {
         onReady: function(onReady) {
-            var createRegistrationHtml = '<div class="customLabel">Desea guardar de manera segura sus datos?</div>'+
-                '<div class="customInput"><input type="checkbox" name="createRegistration" /></div>';
+            var createRegistrationHtml = 
+            
+            '<div class="customLabel">Desea guardar de manera segura sus datos?</div>'+
+            '<div class="customInput"><input type="checkbox" name="createRegistration" /></div><br/><br/><img src='+
+            '"https://www.datafast.com.ec/images/verified.png" style='+
+            '"display:block;margin:0 auto; width:100%;">';
+            
             $('form.wpwl-form-card').find('.wpwl-button').before(createRegistrationHtml);
         },
         
