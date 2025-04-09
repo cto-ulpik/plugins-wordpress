@@ -411,10 +411,12 @@
 
             <h2>Beneficios de la Suscripción</h2>
             <ul>
-                <li>Acceso ilimitado a contenido exclusivo.</li>
-                <li>Soporte prioritario y asistencia personalizada.</li>
-                <li>Actualizaciones y mejoras sin costo adicional.</li>
-                <li>Descuentos en futuros servicios y productos.</li>
+                <li>3 clases en vivo con el equipo de ULPIK</li>
+                <li>Acceso a un grupo privado de WhatsAp</li>
+                <li>2 eBooks cada mes sobre visión de triple impacto</li>
+                <li>1 workbook mensual de marketing digital</li>
+                <li>Replays ilimitados de cada sesión en vivo</li>
+                <li>Descuentos exclusivos en programas ULPIK y acceso preferencial a eventos VIP.</li>
             </ul>
         </div>
     </div>

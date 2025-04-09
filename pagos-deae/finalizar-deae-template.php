@@ -223,6 +223,61 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112" || $res
 
 
 }
+
+else{
+    // Si el pago no fue exitoso, mostrar mensaje de error
+    echo "<h2 style='color:red;'>❌ Pago Fallido</h2>";
+    echo "<p>Estado de la transacción: $resultadoPago</p>";
+    echo "<p>Descripción: $mensajePago</p>";
+    echo "<p>Por favor, verifica los detalles de tu pago y vuelve a intentarlo.</p>";
+
+    // Datos necesarios
+    $admin_email = get_option('admin_email'); // Correo del admin configurado en WordPress
+    $contadora_email = "cpa@ulpik.com";
+    $directora_comunidad_email = "legal2@ulpik.com"
+    $cliente_email = $customerEmail ?? null;
+    $transaccion = $transactionId;
+
+    $asunto_cliente = "❌ Ulpik - Error en tu pago en la suscripción";
+    $mensaje_cliente = "
+        Hola,
+
+        No hemos logrado procesar tu pago.
+
+        Porfavor contactate por Whatsapp al número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com.
+
+        Saludos,
+        El equipo de Ulpik
+    ";
+
+    $asunto_admin = "❌ Ulpik - Error en la transacción: $transaccion";
+    $mensaje_admin = "
+    Hubo un error con el pago del cliente.
+
+    Detalles:
+
+    - Transacción: $transaccion
+    - Monto: $monto $moneda
+    - Estado: $estado
+    - Mensaje: $mensaje
+
+    Datos del cliente:
+    - Nombre: $customerName
+    - Email del cliente: $cliente_email
+    - Número de teléfono: $customerPhone
+
+    Att.
+    Ulpik
+    ";;
+
+    wp_mail($cliente_email, $asunto_cliente, $mensaje_cliente);
+    wp_mail($admin_email, $asunto_admin, $mensaje_admin);
+    wp_mail($contadora_email, $asunto_admin, $mensaje_admin);
+    wp_mail($directora_comunidad_email, $asunto_admin, $mensaje_admin);
+
+
+
+}
 ?>
 
 <!DOCTYPE html>
