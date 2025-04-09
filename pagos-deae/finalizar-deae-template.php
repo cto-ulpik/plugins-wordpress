@@ -146,7 +146,85 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112" || $res
         ['%s', '%s', '%s', '%f', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%f', '%s']
     );
 
-    echo "<h3 style='color:green;'>✅ Cliente y pago registrados en la base de datos</h3>";
+
+    
+    echo "
+            <h3 style='color:green;'>✅ Cliente y pago registrados en la base de datos</h3>
+            <p>En las próximas 24 horas laborales te daremos acceso al material 🤗</p>
+            <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com.
+</p>    
+        ";
+
+
+
+
+
+
+
+
+
+
+
+
+    // Datos necesarios
+    $admin_email = get_option('admin_email'); // Correo del admin configurado en WordPress
+    $contadora_email = "cpa@ulpik.com";
+    $directora_comunidad_email = "legal2@ulpik.com"
+    $cliente_email = $customerEmail ?? null;
+    $monto = $montoSuscripcion ?? '0.00';
+    $moneda = 'USD';
+    $estado = 'Aprobado';
+    $mensaje = "
+        Puedes verificar la transaccion en el sistema de Administración:
+        <a href='https://ulpik.com/wp-admin/admin.php?page=deae_transactions'> 👉 Ver Transacción 👈</a>
+    ";
+    $transaccion = $transactionId;
+
+    // -------- 1. Correo al Cliente --------
+    if ($cliente_email && filter_var($cliente_email, FILTER_VALIDATE_EMAIL)) {
+        $asunto_cliente = "📄 Ulpik - Confirmación de tu pago en la suscripción";
+        $mensaje_cliente = "
+        
+        Hola,
+
+        Gracias por tu pago, te damos la bienvenida a la comunidad de Ulpriv. 
+
+        Si tienes preguntas puedes escribirnos al Whatsapp con el número +593 98 433 8645, o atraves del correo legal2@ulpik.com.
+
+        Saludos,
+        El equipo de Ulpik
+        ";
+
+        wp_mail($cliente_email, $asunto_cliente, $mensaje_cliente);
+    }
+
+    // -------- 2. Correo al Administrador --------
+    
+    $asunto_admin = "💳 Nueva transacción procesada: $transaccion";
+    $mensaje_admin = "
+    Se ha procesado una nueva transacción.
+
+    Detalles:
+
+    - Transacción: $transaccion
+    - Monto: $monto $moneda
+    - Estado: $estado
+    - Mensaje: $mensaje
+
+    Datos del cliente:
+    - Nombre: $customerName
+    - Email del cliente: $cliente_email
+    - Número de teléfono: $customerPhone
+
+    Att.
+    Ulpik
+    ";
+
+    wp_mail($admin_email, $asunto_admin, $mensaje_admin);
+    wp_mail($contadora_email, $asunto_admin, $mensaje_admin);
+    wp_mail($directora_comunidad_email, $asunto_admin, $mensaje_admin);
+
+
 }
 ?>
 

@@ -335,57 +335,8 @@
         }
 
 
+
         
-        // Datos necesarios
-        $admin_email = get_option('admin_email'); // Correo del admin configurado en WordPress
-        $cliente_email = $email ?? null;
-        $monto = '29.00' ?? '0.00';
-        $moneda = 'USD';
-        $estado = 'Aprobado';
-        $mensaje = 'Correo de Notificacion';
-        $transaccion = "x";
-
-        // -------- 1. Correo al Cliente --------
-        if ($cliente_email && filter_var($cliente_email, FILTER_VALIDATE_EMAIL)) {
-            $asunto_cliente = "📄 Confirmación de tu pago - Transacción $transaccion";
-            $mensaje_cliente = "
-            Hola,
-
-            Gracias por tu pago. Aquí tienes los detalles de la transacción:
-
-            - Transacción: $transaccion
-            - Monto: $monto $moneda
-            - Estado: $estado
-            - Mensaje: $mensaje
-
-            Si tienes preguntas, contáctanos respondiendo este correo.
-
-            Saludos,
-            El equipo de Ulpik
-            ";
-
-            wp_mail($cliente_email, $asunto_cliente, $mensaje_cliente);
-        }
-
-        // -------- 2. Correo al Administrador --------
-        $asunto_admin = "💳 Nueva transacción procesada: $transaccion";
-        $mensaje_admin = "
-        Se ha procesado una nueva transacción.
-
-        Detalles:
-
-        - Transacción: $transaccion
-        - Monto: $monto $moneda
-        - Estado: $estado
-        - Mensaje: $mensaje
-        - Email del cliente: $cliente_email
-
-        Ver en el sistema para más información.
-        ";
-
-        wp_mail($admin_email, $asunto_admin, $mensaje_admin);
-
-
 
 
     }
