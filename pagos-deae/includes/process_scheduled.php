@@ -16,8 +16,8 @@ function deae_process_scheduled_payment($customer_id) {
     $trx = uniqid("trx_");
 
     // Datos de la solicitud de pago
-    $url = "https://test.oppwa.com/v1/registrations/" . $customer->registration_id . "/payments";
-    $data = "entityId=8ac7a4c994bb78290194bd40497301d5" .
+    $url = "https://eu-prod.oppwa.com/v1/registrations/" . $customer->registration_id . "/payments";
+    $data = "entityId=8acda4cc95f5c7b70196112c671c0531" .
         "&amount=" . number_format($customer->monto_suscripcion, 2, '.', '') .
         "&currency=USD" .
         "&paymentType=DB" .
@@ -29,7 +29,7 @@ function deae_process_scheduled_payment($customer_id) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA=='
+        'Authorization:Bearer OGFjOWE0Y2E4YWIxZjZlMzAxOGFjY2E2MTgzYzcwOTZ8NzlUTkpkd0ZqZA=='
     ));
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -45,7 +45,7 @@ function deae_process_scheduled_payment($customer_id) {
     curl_close($ch);
     $response = json_decode($responseData, true);
 
-    if ($response['result']['code'] === "000.100.110" || $response['result']['code'] === "000.100.112") {
+    if ($response['result']['code'] === "000.100.110" || $response['result']['code'] === "000.100.112" || $response['result']['code'] === "000.000.000") {
         $wpdb->update($table_customers, ['ultimo_pago_suscripcion' => current_time('mysql')], ['id' => $customer_id]);
 
         // Insertar en la tabla de transacciones

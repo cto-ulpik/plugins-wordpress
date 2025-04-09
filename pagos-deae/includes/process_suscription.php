@@ -29,17 +29,17 @@ function process_subscription_payment() {
     
 
     // Datos de la solicitud de pago
-    $url = "https://test.oppwa.com/v1/registrations/" . $customer->registration_id . "/payments";
-    $data = "entityId=8ac7a4c994bb78290194bd40497301d5" .
+    $url = "https://eu-prod.oppwa.com/v1/registrations/" . $customer->registration_id . "/payments";
+    $data = "entityId=8acda4cc95f5c7b70196112c671c0531" .
         "&amount=" . number_format($customer->monto_suscripcion, 2, '.', '') .
         "&currency=USD" .
         "&paymentType=DB" .
         "&recurringType=REPEATED" .
         "&merchantTransactionId=" . $trx .
-        "&customParameters[SHOPPER_MID]=1000000505" .
-        "&customParameters[SHOPPER_TID]=PD100406" .
+        "&customParameters[SHOPPER_MID]=4300000804" .
+        "&customParameters[SHOPPER_TID]=PBP456083" .
         "&customParameters[SHOPPER_ECI]=0103910" .
-        "&customParameters[SHOPPER_PSERV]=17913101 " .
+        "&customParameters[SHOPPER_PSERV]=17913101" .
         "&customParameters[SHOPPER_VAL_BASE0]=" . number_format($base0, 2, '.', '') .
         "&customParameters[SHOPPER_VAL_BASEIMP]=" . number_format($baseImponible, 2, '.', '') .
         "&customParameters[SHOPPER_VAL_IVA]=" . number_format($iva, 2, '.', '') .
@@ -50,7 +50,7 @@ function process_subscription_payment() {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Authorization:Bearer OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA=='
+        'Authorization:Bearer OGFjOWE0Y2E4YWIxZjZlMzAxOGFjY2E2MTgzYzcwOTZ8NzlUTkpkd0ZqZA=='
     ));
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
