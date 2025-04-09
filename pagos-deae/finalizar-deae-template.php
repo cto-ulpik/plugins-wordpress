@@ -157,15 +157,6 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112" || $res
 
 
 
-
-
-
-
-
-
-
-
-
     // Datos necesarios
     $admin_email = get_option('admin_email'); // Correo del admin configurado en WordPress
     $contadora_email = "cpa@ulpik.com";
@@ -223,6 +214,12 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112" || $res
     wp_mail($admin_email, $asunto_admin, $mensaje_admin);
     wp_mail($contadora_email, $asunto_admin, $mensaje_admin);
     wp_mail($directora_comunidad_email, $asunto_admin, $mensaje_admin);
+
+
+
+
+
+
 
 
 }
