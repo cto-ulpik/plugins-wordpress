@@ -467,12 +467,12 @@ remove_filter('wp_mail_content_type', 'set_html_content_type');
 
     
 </head>
-
-<style>
-    
+   
 <body>
-
-    <?php if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112") { ?>
+        <?php 
+        $resultadoPago = $resultadoPago ?? null; // prevenir error de variable no definida
+        if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112" || $resultadoPago === "000.000.000") { 
+        ?>
         <h2 style="color: green;">✅ Pago Exitoso, Revisa tu correo electrónico, en las próximas 24 horas laborales te daremos acceso a todos los beneficios de la suscripción.</h2>
     <?php } else { ?>
         <h2 style="color: red;">❌ Pago Fallido</h2>
