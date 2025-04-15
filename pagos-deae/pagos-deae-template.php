@@ -231,19 +231,8 @@
 
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $precio > 0) {
-        require_once plugin_dir_path(__FILE__) . 'env/env.php';
+        
 
-        $id_entidad_datafast = $id_entidad_datafast ?? null;
-        $access_token_datafast = $access_token_datafast ?? null;
-        $mid_datafast = $mid_datafast ?? null;
-        $tid_datafast = $tid_datafast ?? null;
-        $serv_datafast = $serv_datafast ?? null;
-        $url_datafast = $url_datafast ?? null;
-        // Verificar que las variables globales estén definidas
-        if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
-            echo "Error: Variables de configuración no definidas.";
-            exit;
-        }
         // Reemplazar sanitize_text_field() con htmlspecialchars() porque WordPress no está cargado aquí
         function limpiar_input($data) {
             return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
@@ -260,6 +249,22 @@
 
 
         function request($firstName, $secondName, $lastName, $email, $cedula, $telefono, $direccion_cliente, $precio) {
+
+            require_once plugin_dir_path(__FILE__) . 'env/env.php';
+
+        $id_entidad_datafast = $id_entidad_datafast ?? null;
+        $access_token_datafast = $access_token_datafast ?? null;
+        $mid_datafast = $mid_datafast ?? null;
+        $tid_datafast = $tid_datafast ?? null;
+        $serv_datafast = $serv_datafast ?? null;
+        $url_datafast = $url_datafast ?? null;
+        // Verificar que las variables globales estén definidas
+        if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
+            echo "Error: Variables de configuración no definidas.";
+            exit;
+        }
+
+        
             $amount = $precio;
 
             // Calcular impuestos correctamente (IVA 15%)
