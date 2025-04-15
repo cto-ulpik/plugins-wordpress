@@ -76,6 +76,7 @@ if (
     ) {
     
     global $wpdb;
+    $wpdb->show_errors(); // Muestra errores de SQL en pantalla
     $table_transactions = $wpdb->prefix . "deae_transactions"; // transacciones
     $table_customers = $wpdb->prefix . "deae_customers"; // clientes
 
@@ -125,7 +126,7 @@ if (
     } else {
         // Insertar nuevo cliente
         echo "<p>Inicio de que NO EXISTE el usuario</p>";
-        $wpdb->insert(
+        $result_insert_customers = $wpdb->insert(
             $table_customers,
             [
                 'name' => $customerName,
@@ -142,6 +143,13 @@ if (
             ],
             ['%s', '%s', '%s', '%s', '%s', '%s', '%s', '%f', '%d', '%s', '%s']
         );
+
+        if ($result_insert_customers === false) {
+            echo "<p>Error al insertar el cliente: " . $wpdb->last_error . "</p>";
+        } else {
+            echo "<p>Cliente insertado correctamente.</p>";
+        }
+
         echo "<p>Fin de que NO EXISTE el usuario</p>";
     }
 
@@ -181,13 +189,13 @@ if (
             <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com</p>  
         ";
 
-    // sendEmailSuccess(
-    //     $customerEmail,
-    //     $customerName,
-    //     $customerPhone,
-    //     $montoSuscripcion,
-    //     $transactionId
-    // );
+    sendEmailSuccess(
+        $customerEmail,
+        $customerName,
+        $customerPhone,
+        $montoSuscripcion,
+        $transactionId
+    );
 
 
 }
@@ -199,13 +207,13 @@ else{
     echo "<p>Descripción: $mensajePago</p>";
     echo "<p>Por favor, verifica los detalles de tu pago y vuelve a intentarlo.</p>";
 
-    // sendEmailFailed(
-    //     $customerEmail,
-    //     $customerName,
-    //     $customerPhone,
-    //     $montoSuscripcion,
-    //     $transactionId
-    // );
+    sendEmailFailed(
+        $customerEmail,
+        $customerName,
+        $customerPhone,
+        $montoSuscripcion,
+        $transactionId
+    );
 
 
 }
