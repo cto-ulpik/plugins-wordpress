@@ -344,7 +344,7 @@
             $redirectUrl = home_url('/card-deae?checkoutId=' . $checkoutId);
             echo "<h2>Redirigiendo al formulario de pago...</h2>";
             echo $redirectUrl;
-            echo print($response);
+            echo print_r($response);
 
             // echo "<script>window.location.href = '$redirectUrl';</script>";
         } else {
