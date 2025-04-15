@@ -50,9 +50,7 @@ $decodedData = json_decode($inputJSON, true);
             var createRegistrationHtml = 
             
             '<div class="customLabel">Desea guardar de manera segura sus datos?</div>'+
-            '<div class="customInput"><input type="checkbox" name="createRegistration" /></div><br/><br/><img src='+
-            '"https://www.datafast.com.ec/images/verified.png" style='+
-            '"display:block;margin:0 auto; width:100%;">';
+            
             
             $('form.wpwl-form-card').find('.wpwl-button').before(createRegistrationHtml);
         },
