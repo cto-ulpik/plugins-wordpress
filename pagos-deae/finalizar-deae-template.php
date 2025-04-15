@@ -2,9 +2,6 @@
 
 require_once plugin_dir_path(__FILE__) . 'emails/sendEmail.php';
 
-
-
-
 // Verificar si el parámetro ID está presente
 if (!isset($_GET['id'])) {
     echo "Error: No se proporcionó un ID de transacción.";
