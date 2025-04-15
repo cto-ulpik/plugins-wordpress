@@ -173,7 +173,7 @@
 
     <?php
     require_once plugin_dir_path(__FILE__) . 'env/env.php';
-    echo $url_datafast
+    echo $url_datafast;
     // Verificar si el parámetro 'months_subscription' está presente en la URL
     if (!isset($_GET['months_subscription'])) {
         echo "Error: No se proporcionó el plan de suscripción.";
