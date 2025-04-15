@@ -255,7 +255,7 @@
             $base0 = ($iva == 0) ? $amount : 0.00;
 
             $url = $url_datafast . "/v1/checkouts";
-            $data = "entityId=" . $access_token_datafast .
+            $data = "entityId=" . $id_entidad_datafast .
                     "&amount=" . number_format($amount, 2, '.', '') .
                     "&currency=USD" .
                     "&paymentType=DB" .
