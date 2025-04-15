@@ -109,7 +109,7 @@ if (
 
     if ($existing_customer) {
         // Actualizar los datos de suscripción y último pago
-        echo "<p>Inicio de que existe el usuario</p>"
+        echo "<p>Inicio de que existe el usuario</p>";
         $wpdb->update(
             $table_customers,
             [
@@ -121,10 +121,10 @@ if (
             ],
             ['id' => $existing_customer->id]
         );
-        echo "<p>Fin de que existe el usuario</p>"
+        echo "<p>Fin de que existe el usuario</p>";
     } else {
         // Insertar nuevo cliente
-        echo "<p>Inicio de que NO EXISTE el usuario</p>"
+        echo "<p>Inicio de que NO EXISTE el usuario</p>";
         $wpdb->insert(
             $table_customers,
             [
@@ -142,7 +142,7 @@ if (
             ],
             ['%s', '%s', '%s', '%s', '%s', '%s', '%s', '%f', '%d', '%s', '%s']
         );
-        echo "<p>Fin de que NO EXISTE el usuario</p>"
+        echo "<p>Fin de que NO EXISTE el usuario</p>";
     }
 
     // Datos de la tarjeta
