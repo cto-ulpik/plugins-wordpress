@@ -1,4 +1,6 @@
 <?php
+require_once plugin_dir_path(__FILE__) . 'env/env.php';
+
 // Verificar que se proporcione el parámetro checkoutId
 if (!isset($_GET['checkoutId'])) {
     echo "Error: No se proporcionó un checkoutId.";
@@ -10,7 +12,7 @@ $checkoutId = sanitize_text_field($_GET['checkoutId']);
 
 // Configuración del entorno
 $baseUrl = home_url('/finalizar-deae'); // URL base del sitio
-$url = "https://eu-prod.oppwa.com/v1/"; // URL del entorno de pruebas
+$url = $url_datafast . "/v1"; // URL del entorno
 
 $inputJSON = file_get_contents('php://input');
 $decodedData = json_decode($inputJSON, true);
@@ -24,7 +26,7 @@ $decodedData = json_decode($inputJSON, true);
     <title>Pagar con Tarjeta</title>
     
     <!-- Incluir el script de pago con el checkoutId -->
-    <script src="<?php echo $url; ?>paymentWidgets.js?checkoutId=<?php echo $checkoutId; ?>"></script>
+    <script src="<?php echo $url; ?>/paymentWidgets.js?checkoutId=<?php echo $checkoutId; ?>"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     
     

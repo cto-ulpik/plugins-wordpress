@@ -1,4 +1,7 @@
 <?php
+
+require_once plugin_dir_path(__FILE__) . 'env/env.php';
+require_once plugin_dir_path(__FILE__) . 'emails/sendEmail.php';
 // Verificar si el parámetro ID está presente
 if (!isset($_GET['id'])) {
     echo "Error: No se proporcionó un ID de transacción.";
@@ -8,15 +11,15 @@ if (!isset($_GET['id'])) {
 // Obtener el ID de la transacción desde la URL
 $transactionId = sanitize_text_field($_GET['id']);
 
-// Función para consultar el estado de la transacción en Datafast
+//************ Función para consultar el estado de la transacción en Datafast
 function obtener_estado_transaccion($transactionId) {
-    $url = "https://eu-prod.oppwa.com/v1/checkouts/{$transactionId}/payment";
-    $data = "?entityId=8acda4cc95f5c7b70196112c671c0531";
+    $url = $url_datafast . "/v1/checkouts/{$transactionId}/payment";
+    $data = "?entityId=" . $id_entidad_datafast;
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url . $data);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Authorization:Bearer OGFjOWE0Y2E4YWIxZjZlMzAxOGFjY2E2MTgzYzcwOTZ8NzlUTkpkd0ZqZA=='
+        'Authorization:Bearer ' . $access_token_datafast,
     ));
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // Cambiar a true en producción
@@ -35,8 +38,8 @@ function obtener_estado_transaccion($transactionId) {
 $response = obtener_estado_transaccion($transactionId);
 
 // Mostrar toda la respuesta en pantalla
-// echo "<h2>Respuesta Completa de Datafast:</h2>";
-// echo "<p>" . print_r($response, true) . "</p>";
+echo "<h2>Respuesta Completa de Datafast:</h2>";
+echo "<p>" . print_r($response, true) . "</p>";
 
 // Verificar si la respuesta es válida
 if (!$response || !isset($response['result']['code'])) {
@@ -50,7 +53,13 @@ $resultadoPago = $response['result']['code'];
 $mensajePago = $response['result']['description'];
 
 // Verificar si la transacción fue exitosa
-if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112" || $resultadoPago === "000.000.000") {
+if (
+    $resultadoPago === "000.100.110" || 
+    $resultadoPago === "000.100.112" || 
+    $resultadoPago === "000.000.000" ||
+    $resultadoPago === "000.200.100" 
+    
+    ) {
     
     global $wpdb;
     $table_transactions = $wpdb->prefix . "deae_transactions";
@@ -151,66 +160,16 @@ if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112" || $res
     echo "
             <h3 style='color:green;'>✅ Cliente y pago registrados en la base de datos</h3>
             <p>En las próximas 24 horas laborales te daremos acceso al material 🤗</p>
-            <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com.
-</p>    
+            <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com</p>  
         ";
 
-
-
-    // Datos necesarios
-    $admin_email = get_option('admin_email'); // Correo del admin configurado en WordPress
-    $contadora_email = "cpa@ulpik.com";
-    $directora_comunidad_email = "legal2@ulpik.com";
-    $cliente_email = $customerEmail ?? null;
-    $monto = $montoSuscripcion ?? '0.00';
-    $moneda = 'USD';
-    $estado = 'Aprobado';
-    $mensaje = "Puedes verificar la transaccion en el sistema de Administración:";
-    $transaccion = $transactionId;
-
-    // -------- 1. Correo al Cliente --------
-    if ($cliente_email && filter_var($cliente_email, FILTER_VALIDATE_EMAIL)) {
-        $asunto_cliente = "📄 Ulpik - Confirmación de tu pago en la suscripción";
-        $mensaje_cliente = "
-        
-        Hola,
-
-        Gracias por tu pago, te damos la bienvenida a la comunidad de Ulpriv. 
-
-        Si tienes preguntas puedes escribirnos al Whatsapp con el número +593 98 433 8645, o atraves del correo legal2@ulpik.com.
-
-        Saludos,
-        El equipo de Ulpik
-        ";
-
-        wp_mail($cliente_email, $asunto_cliente, $mensaje_cliente);
-    }
-
-    // -------- 2. Correo al Administrador --------
-    
-    $asunto_admin = "💳 Nueva transacción procesada: $transaccion";
-    $mensaje_admin = "
-    Se ha procesado una nueva transacción.
-
-    Detalles:
-
-    - Transacción: $transaccion
-    - Monto: $monto $moneda
-    - Estado: $estado
-    - Mensaje: $mensaje
-
-    Datos del cliente:
-    - Nombre: $customerName
-    - Email del cliente: $cliente_email
-    - Número de teléfono: $customerPhone
-
-    Att.
-    Ulpik
-    ";
-
-    wp_mail($admin_email, $asunto_admin, $mensaje_admin);
-    wp_mail($contadora_email, $asunto_admin, $mensaje_admin);
-    wp_mail($directora_comunidad_email, $asunto_admin, $mensaje_admin);
+    sendEmailSuccess(
+        $customerEmail,
+        $customerName,
+        $customerPhone,
+        $montoSuscripcion,
+        $transactionId
+    );
 
 
 }
@@ -221,66 +180,14 @@ else{
     echo "<p>Estado de la transacción: $resultadoPago</p>";
     echo "<p>Descripción: $mensajePago</p>";
     echo "<p>Por favor, verifica los detalles de tu pago y vuelve a intentarlo.</p>";
-// Asegurarse de que estas variables existen
-$monto = $montoSuscripcion ?? '0.00';
-$moneda = 'USD';
-$estado = 'Rechazado';
-$mensaje = 'Error en el procesamiento del pago';
-$customerName = $customerName ?? 'No disponible';
-$customerPhone = $customerPhone ?? 'No disponible';
 
-// Correos
-$admin_email = get_option('admin_email');
-$contadora_email = "cpa@ulpik.com";
-$directora_comunidad_email = "legal2@ulpik.com";
-$cliente_email = $customerEmail ?? null;
-$transaccion = $transactionId;
-
-// Activar contenido HTML
-add_filter('wp_mail_content_type', function() {
-    return 'text/html';
-});
-
-// Correo al cliente
-if ($cliente_email && filter_var($cliente_email, FILTER_VALIDATE_EMAIL)) {
-    $asunto_cliente = "❌ Ulpik - Error en tu pago en la suscripción";
-    $mensaje_cliente = "
-        <p>Hola,</p>
-        <p>No hemos logrado procesar tu pago.</p>
-        <p>Por favor contáctate por WhatsApp al número 
-        <a href='https://wa.me/593984338645'>+593984338645</a>, o al correo 
-        <a href='mailto:legal2@ulpik.com'>legal2@ulpik.com</a>.</p>
-        <p>Saludos,<br>El equipo de Ulpik</p>
-    ";
-    wp_mail($cliente_email, $asunto_cliente, $mensaje_cliente);
-}
-
-// Correo a administración
-$asunto_admin = "❌ Ulpik - Error en la transacción: $transaccion";
-$mensaje_admin = "
-    <p>Hubo un error con el pago del cliente.</p>
-    <p><strong>Detalles:</strong></p>
-    <ul>
-        <li>Transacción: $transaccion</li>
-        <li>Monto: $monto $moneda</li>
-        <li>Estado: $estado</li>
-        <li>Mensaje: $mensaje</li>
-    </ul>
-    <p><strong>Datos del cliente:</strong></p>
-    <ul>
-        <li>Nombre: $customerName</li>
-        <li>Email: $cliente_email</li>
-        <li>Teléfono: $customerPhone</li>
-    </ul>
-    <p>Att.<br>Ulpik</p>
-";
-
-wp_mail($admin_email, $asunto_admin, $mensaje_admin);
-wp_mail($contadora_email, $asunto_admin, $mensaje_admin);
-wp_mail($directora_comunidad_email, $asunto_admin, $mensaje_admin);
-
-// Restablecer formato de correo a texto plano
-remove_filter('wp_mail_content_type', 'set_html_content_type');
+    sendEmailFailed(
+        $customerEmail,
+        $customerName,
+        $customerPhone,
+        $montoSuscripcion,
+        $transactionId
+    );
 
 
 }

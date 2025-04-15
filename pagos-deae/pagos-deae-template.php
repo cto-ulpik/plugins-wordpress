@@ -88,92 +88,91 @@
             padding-left: 20px;
         }
 
-.descuento {
-            grid-column: 2;
-            grid-row: 2;
-            text-align: center;
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            color: white;
-            font-size: 1.5em;
-            font-weight: bold;
-            padding: 20px;
-            border-radius: 10px;
-  margin: 20px auto;
-            box-shadow: 0 0 15px rgba(255, 75, 43, 0.5);
-/*             animation: pulse 1.5s infinite; */
+        .descuento {
+                    grid-column: 2;
+                    grid-row: 2;
+                    text-align: center;
+                    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+                    color: white;
+                    font-size: 1.5em;
+                    font-weight: bold;
+                    padding: 20px;
+                    border-radius: 10px;
+        margin: 20px auto;
+                    box-shadow: 0 0 15px rgba(255, 75, 43, 0.5);
+                }
+
+        .cards{
+        margin: 10px auto;
+        width:50%
         }
 
-.cards{
-  margin: 10px auto;
-  width:50%
-}
-
-.logo{
-  margin: 10px auto;
-  width:50%
-}
+        .logo{
+        margin: 10px auto;
+        width:50%
+        }
         
 
 
-.modal {
-  color:white;
-            background: 470078;
-            padding: 20px;
-            text-align: center;
-            margin: 10px auto;
-        }
-        .modal h2 {
-            font-size: 22px;
-        }
-        .modal .precio {
-            font-size: 64px;
-            font-weight: bold;
-            color: #7D2AE8;
-            margin: 10px 0;
-        }
-        .modal .ahorro {
-            font-size: 14px;
-        }
-        .modal button {
-            background: #7D2AE8;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 15px 0;
-        }
-        .modal button:hover {
-            background: #5A1EA8;
-        }
-        .seguridad {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            font-size: 12px;
-            margin: 10px 0;
-        }
-        .pago-recurrente {
-            font-size: 12px;
-        }
+        .modal {
+        color:white;
+                    background: 470078;
+                    padding: 20px;
+                    text-align: center;
+                    margin: 10px auto;
+                }
+                .modal h2 {
+                    font-size: 22px;
+                }
+                .modal .precio {
+                    font-size: 64px;
+                    font-weight: bold;
+                    color: #7D2AE8;
+                    margin: 10px 0;
+                }
+                .modal .ahorro {
+                    font-size: 14px;
+                }
+                .modal button {
+                    background: #7D2AE8;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    margin: 15px 0;
+                }
+                .modal button:hover {
+                    background: #5A1EA8;
+                }
+                .seguridad {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    font-size: 12px;
+                    margin: 10px 0;
+                }
+                .pago-recurrente {
+                    font-size: 12px;
+                }
 
 
 
-@media only screen and (max-width: 600px) {
-  .container{
-    display:flex;
-    flex-direction:column;
-  }
-}
+        @media only screen and (max-width: 600px) {
+        .container{
+            display:flex;
+            flex-direction:column;
+        }
+        }
     </style>
 </head>
 <body>
 
 
     <?php
-
+    require_once plugin_dir_path(__FILE__) . 'env/env.php';
     // Verificar si el parámetro 'months_subscription' está presente en la URL
     if (!isset($_GET['months_subscription'])) {
         echo "Error: No se proporcionó el plan de suscripción.";
@@ -254,8 +253,8 @@
             $iva = round($amount - $baseImponible, 2);
             $base0 = ($iva == 0) ? $amount : 0.00;
 
-            $url = "https://eu-prod.oppwa.com/v1/checkouts";
-            $data = "entityId=8acda4cc95f5c7b70196112c671c0531" .
+            $url = $url_datafast . "/v1/checkouts";
+            $data = "entityId=" . $access_token_datafast .
                     "&amount=" . number_format($amount, 2, '.', '') .
                     "&currency=USD" .
                     "&paymentType=DB" .
@@ -286,8 +285,8 @@
                     "&customParameters[SHOPPER_VAL_BASE0]=" . number_format($base0, 2, '.', '') .
                     "&customParameters[SHOPPER_VAL_BASEIMP]=" . number_format($baseImponible, 2, '.', '') .
                     "&customParameters[SHOPPER_VAL_IVA]=" . number_format($iva, 2, '.', '') .
-                    "&customParameters[SHOPPER_MID]=4300000804" .
-                    "&customParameters[SHOPPER_TID]=BP456083" .
+                    "&customParameters[SHOPPER_MID]=" . $mid_datafast .
+                    "&customParameters[SHOPPER_TID]=" . $tid_datafast .
 
                     "&risk.parameters[USER_DATA2]=DATAFAST" .
                     "&customParameters[SHOPPER_VERSIONDF]=2" .
@@ -301,7 +300,7 @@
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Authorization:Bearer OGFjOWE0Y2E4YWIxZjZlMzAxOGFjY2E2MTgzYzcwOTZ8NzlUTkpkd0ZqZA=='
+                'Authorization:Bearer ' . $access_token_datafast
             ));
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -320,9 +319,6 @@
 
         $checkoutId = $responseArray['id'] ?? null;
 
-
-
-
         if ($checkoutId) {
             echo "<h2>Checkout ID generado:</h2>";
             echo "<p id='checkoutIdDisplay'>" . htmlspecialchars($checkoutId, ENT_QUOTES, 'UTF-8') . "</p>";
@@ -333,11 +329,6 @@
             echo "<h2>Error en la transacción:</h2>";
             echo "<pre>" . htmlentities($response) . "</pre>";
         }
-
-
-
-        
-
 
     }
 
