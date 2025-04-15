@@ -1,6 +1,6 @@
 <?php
 
-require_once plugin_dir_path(__FILE__) . 'emails/sendEmail.php';
+// require_once plugin_dir_path(__FILE__) . 'emails/sendEmail.php';
 
 // Verificar si el parámetro ID está presente
 if (!isset($_GET['id'])) {
@@ -189,13 +189,13 @@ if (
             <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com</p>  
         ";
 
-    sendEmailSuccess(
-        $customerEmail,
-        $customerName,
-        $customerPhone,
-        $montoSuscripcion,
-        $transactionId
-    );
+    // sendEmailSuccess(
+    //     $customerEmail,
+    //     $customerName,
+    //     $customerPhone,
+    //     $montoSuscripcion,
+    //     $transactionId
+    // );
 
 
 }
@@ -207,13 +207,13 @@ else{
     echo "<p>Descripción: $mensajePago</p>";
     echo "<p>Por favor, verifica los detalles de tu pago y vuelve a intentarlo.</p>";
 
-    sendEmailFailed(
-        $customerEmail,
-        $customerName,
-        $customerPhone,
-        $montoSuscripcion,
-        $transactionId
-    );
+    // sendEmailFailed(
+    //     $customerEmail,
+    //     $customerName,
+    //     $customerPhone,
+    //     $montoSuscripcion,
+    //     $transactionId
+    // );
 
 
 }
