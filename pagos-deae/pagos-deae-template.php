@@ -298,6 +298,7 @@
                     "&cart.items[0].price=" . $amount .
                     "&cart.items[0].quantity=1";
 
+            echo "<p>" . $data . "</p>";
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(

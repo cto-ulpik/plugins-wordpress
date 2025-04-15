@@ -19,7 +19,7 @@ function obtener_estado_transaccion($transactionId) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url . $data);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Authorization:Bearer ' . $access_token_datafast,
+        'Authorization:Bearer ' . $access_token_datafast
     ));
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // Cambiar a true en producción
