@@ -133,5 +133,6 @@ wp_mail($admin_email, $asunto_admin, $mensaje_admin);
 // wp_mail($contadora_email, $asunto_admin, $mensaje_admin);
 // wp_mail($directora_comunidad_email, $asunto_admin, $mensaje_admin);
 
-
+// Restablecer formato de correo a texto plano
+remove_filter('wp_mail_content_type', 'set_html_content_type');
 }
