@@ -1,7 +1,10 @@
 <?php
 
 require_once plugin_dir_path(__FILE__) . 'env/env.php';
+
+
 require_once plugin_dir_path(__FILE__) . 'emails/sendEmail.php';
+global $id_entidad_datafast, $access_token_datafast, $mid_datafast, $tid_datafast, $serv_datafast, $url_datafast;
 // Verificar si el parámetro ID está presente
 if (!isset($_GET['id'])) {
     echo "Error: No se proporcionó un ID de transacción.";
