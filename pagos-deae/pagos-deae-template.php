@@ -345,8 +345,31 @@
             echo "<p id='checkoutIdDisplay'>" . htmlspecialchars($checkoutId, ENT_QUOTES, 'UTF-8') . "</p>";
             $redirectUrl = home_url('/card-deae?checkoutId=' . $checkoutId);
             echo "<h2>Redirigiendo al formulario de pago...</h2>";
-            echo $redirectUrl;
-            echo print_r($response);
+            echo "<script>
+                setTimeout(function() {
+                    window.location.href = '$redirectUrl';
+                }, 2000);
+            </script>";
+            // Aquí puedes enviar el correo al cliente o realizar otras acciones
+            // $asunto = "Detalles de tu suscripción";
+            // $mensaje = "Hola $firstName, tu suscripción de $months_subscription meses ha sido creada. Por favor completa el pago.";
+            // wp_mail($email, $asunto, $mensaje);
+            // Aquí puedes enviar el correo al administrador
+            // $admin_email = get_option('admin_email');
+            // $asunto_admin = "Nuevo checkout ID generado";
+            // $mensaje_admin = "Se ha generado un nuevo checkout ID: $checkoutId";
+            // $mensaje_admin .= "<br>Detalles del cliente:<br>";
+            // $mensaje_admin .= "Nombre: $firstName $lastName<br>";
+            // $mensaje_admin .= "Email: $email<br>";
+            // $mensaje_admin .= "Teléfono: $telefono<br>";
+            // $mensaje_admin .= "Cédula: $cedula<br>";
+            // $mensaje_admin .= "Dirección: $direccion_cliente<br>";
+            // $mensaje_admin .= "Monto: $$precio<br>";
+            // wp_mail($admin_email, $asunto_admin, $mensaje_admin);
+            // Aquí puedes guardar el checkout ID en la base de datos o realizar otras acciones
+            
+            // echo $redirectUrl;
+            // echo print_r($response);
 
             // echo "<script>window.location.href = '$redirectUrl';</script>";
         } else {
