@@ -282,7 +282,7 @@
                     "&customer.middleName=" . $secondName .
                     "&customer.surname=" . $lastName .
 
-                    "&customer.ip=" . $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] .
+                    "&customer.ip=" . $_SERVER['REMOTE_ADDR'] .
                     "&customer.merchantCustomerId=" . generarIdentificador() .
                     "&merchantTransactionId=transaction" . generarIdentificador() .
 
