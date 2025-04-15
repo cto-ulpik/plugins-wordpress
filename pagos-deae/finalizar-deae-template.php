@@ -1,19 +1,8 @@
 <?php
 
-require_once plugin_dir_path(__FILE__) . 'env/env.php';
 require_once plugin_dir_path(__FILE__) . 'emails/sendEmail.php';
 
-$id_entidad_datafast = $id_entidad_datafast ?? null;
-        $access_token_datafast = $access_token_datafast ?? null;
-        $mid_datafast = $mid_datafast ?? null;
-        $tid_datafast = $tid_datafast ?? null;
-        $serv_datafast = $serv_datafast ?? null;
-        $url_datafast = $url_datafast ?? null;
-        // Verificar que las variables globales estén definidas
-        if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
-            echo "Error: Variables de configuración no definidas.";
-            exit;
-        }
+
 
 
 // Verificar si el parámetro ID está presente
@@ -27,6 +16,20 @@ $transactionId = sanitize_text_field($_GET['id']);
 
 //************ Función para consultar el estado de la transacción en Datafast
 function obtener_estado_transaccion($transactionId) {
+    require_once plugin_dir_path(__FILE__) . 'env/env.php';
+    $id_entidad_datafast = $id_entidad_datafast ?? null;
+        $access_token_datafast = $access_token_datafast ?? null;
+        $mid_datafast = $mid_datafast ?? null;
+        $tid_datafast = $tid_datafast ?? null;
+        $serv_datafast = $serv_datafast ?? null;
+        $url_datafast = $url_datafast ?? null;
+        // Verificar que las variables globales estén definidas
+        if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
+            echo "Error: Variables de configuración no definidas.";
+            exit;
+        }
+
+
     $url = $url_datafast . "/v1/checkouts/{$transactionId}/payment";
     $data = "?entityId=" . $id_entidad_datafast;
 
