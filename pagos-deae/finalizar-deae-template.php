@@ -36,7 +36,7 @@ function obtener_estado_transaccion($transactionId) {
         'Authorization:Bearer ' . $access_token_datafast
     ));
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // Cambiar a true en producción
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Cambiar a true en producción
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     
     $responseData = curl_exec($ch);

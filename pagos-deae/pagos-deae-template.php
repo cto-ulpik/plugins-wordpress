@@ -182,7 +182,7 @@
 
     // Obtener el ID de la suscripción y asegurarse de que es un número entero
     $months_subscription = intval($_GET['months_subscription']);
-    $precio = 1;
+    $precio = 6;
     $name_product = "";
     $days_product = 0;
     $ahorro = 0;
@@ -190,7 +190,7 @@
     // Determinar el precio basado en el número de meses de suscripción
     switch ($months_subscription) {
         case 1:
-            $precio = 1;
+            $precio = 6;
             $name_product = "Suscripción DEAE 1 Mes";
             $days_product = 30;
             break;
@@ -309,7 +309,7 @@
 
                     "&risk.parameters[USER_DATA2]=DATAFAST" .
                     "&customParameters[SHOPPER_VERSIONDF]=2" .
-                    // "&testMode=EXTERNAL" .
+                    "&testMode=EXTERNAL" .
 
                     "&cart.items[0].name=" . $name_product .
                     "&cart.items[0].description=" . $name_product .
@@ -324,7 +324,7 @@
             ));
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // true en produccion
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // true en produccion
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $responseData = curl_exec($ch);
             if (curl_errno($ch)) {
