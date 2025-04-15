@@ -239,7 +239,7 @@
         }
 
         $firstName = limpiar_input($_POST['firstName']);
-        $secondName = "";
+        $secondName = "a";
         $lastName = limpiar_input($_POST['lastName']);
         $email = limpiar_input($_POST['email']);
         $cedula = limpiar_input($_POST['cedula']);
@@ -316,7 +316,6 @@
                     "&cart.items[0].price=" . $amount .
                     "&cart.items[0].quantity=1";
 
-            echo "<p>" . $data . "</p>";
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -344,7 +343,10 @@
             echo "<p id='checkoutIdDisplay'>" . htmlspecialchars($checkoutId, ENT_QUOTES, 'UTF-8') . "</p>";
             $redirectUrl = home_url('/card-deae?checkoutId=' . $checkoutId);
             echo "<h2>Redirigiendo al formulario de pago...</h2>";
-            echo "<script>window.location.href = '$redirectUrl';</script>";
+            echo $redirectUrl;
+            echo $responseArray;
+
+            // echo "<script>window.location.href = '$redirectUrl';</script>";
         } else {
             echo "<h2>Error en la transacción:</h2>";
             echo "<pre>" . htmlentities($response) . "</pre>";
