@@ -256,30 +256,5 @@ $decodedData = json_decode($inputJSON, true);
 
 
    
-    
-    
-    <script>
-        window.addEventListener("message", function(event) {
-            event.preventDefault();
-            console.log("Evento recibido:", event);
-
-            if (event.origin.includes("oppwa.com")) {
-                console.log("Contenido del event.data:", event.data);
-
-                try {
-                    let paymentResponse = JSON.parse(event.data);
-                    console.log("Respuesta de Pago:", paymentResponse);
-
-                    if (paymentResponse.result && paymentResponse.result.code === "000.100.110") {
-                        document.getElementById("payment-status").innerHTML = "<h2>Pago Exitoso ✅</h2>";
-                    } else {
-                        document.getElementById("payment-status").innerHTML = "<h2>Error en el Pago ❌</h2>";
-                    }
-                } catch (error) {
-                    console.error("Error al procesar la respuesta del pago:", error);
-                }
-            }
-        }, false);
-    </script>
 </body>
 </html>
