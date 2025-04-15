@@ -172,9 +172,7 @@
 
 
     <?php
-    require_once plugin_dir_path(__FILE__) . 'env/env.php';
-
-    global $id_entidad_datafast, $access_token_datafast, $mid_datafast, $tid_datafast, $serv_datafast, $url_datafast;
+   
 
     // Verificar si el parámetro 'months_subscription' está presente en la URL
     if (!isset($_GET['months_subscription'])) {
@@ -233,7 +231,9 @@
 
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $precio > 0) {
-        
+        require_once plugin_dir_path(__FILE__) . 'env/env.php';
+
+        global $id_entidad_datafast, $access_token_datafast, $mid_datafast, $tid_datafast, $serv_datafast, $url_datafast;
         // Reemplazar sanitize_text_field() con htmlspecialchars() porque WordPress no está cargado aquí
         function limpiar_input($data) {
             return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
