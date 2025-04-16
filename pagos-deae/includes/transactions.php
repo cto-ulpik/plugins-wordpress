@@ -38,14 +38,10 @@ echo '<thead>
             <th>Cliente</th>
             <th>Email</th>
             <th>Teléfono</th>
-            <th>Tipo Doc</th>
             <th>Doc ID</th>
-            <th>Bin</th>
-            <th>Últimos 4</th>
+            <th>Últimos 4 digitos</th>
             <th>Expira</th>
             <th>Producto</th>
-            <th>Descripción</th>
-            <th>Precio</th>
             <th>Cantidad</th>
             <th>Estado</th>
             <th>Respuesta completa</th>
@@ -56,7 +52,12 @@ echo '<thead>
 echo '<tbody>';
 
 foreach ($transactions as $transaction) {
-    echo "<tr>
+
+    $esActivo = $customer->estado_suscripcion ? true : false;
+        $estado = $esActivo ? "✅ Activa" : "❌ Inactiva";
+        $claseFila = $esActivo ? "style=' background-color: #d4edda'" : "style='background-color: #f8d7da'";
+
+    echo "<tr $claseFila>
             <td>{$transaction->id}</td>
             <td>{$transaction->transaction_id}</td>
             <td>{$transaction->registration_id}</td>
@@ -65,14 +66,10 @@ foreach ($transactions as $transaction) {
             <td>{$transaction->customer_name}</td>
             <td>{$transaction->customer_email}</td>
             <td>{$transaction->customer_phone}</td>
-            <td>{$transaction->customer_doc_type}</td>
             <td>{$transaction->customer_doc_id}</td>
-            <td>{$transaction->card_bin}</td>
             <td>{$transaction->card_last4}</td>
             <td>{$transaction->card_expiry}</td>
             <td>{$transaction->cart_name}</td>
-            <td>{$transaction->cart_description}</td>
-            <td>\${$transaction->cart_price}</td>
             <td>{$transaction->cart_quantity}</td>
             <td>{$transaction->transaction_status}</td>
             <td><pre style='max-width:300px; max-height:150px; overflow:auto; white-space:pre-wrap;'>{$transaction->transaction_response}</pre></td>

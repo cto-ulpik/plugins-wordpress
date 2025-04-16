@@ -272,7 +272,7 @@ $customerDocType = $customer['identificationDocType'] ?? null;
 $customerDocId = $customer['identificationDocId'] ?? null;
 
 // Datos de suscripción
-$tipoSuscripcion = $cart['name'] ?? "Desconocido"; // Nombre de la suscripción
+$tipoSuscripcion = $cart['name'] ?? "Suscripción 1 mes"; // Nombre de la suscripción
 $montoSuscripcion = $cart['price'] ?? $amount;
 $estadoSuscripcion = 1; // Activo por defecto
 $ultimoPago = current_time('mysql'); // Fecha del último pago exitoso
