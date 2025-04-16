@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="script-src * 'unsafe-inline' 'unsafe-eval';">
     <title>Estado de la Transacción</title>
 
 
@@ -108,12 +107,12 @@
 
         .cards{
         margin: 10px auto;
-        width:50%
+        width:50%;
         }
 
         .logo{
         margin: 10px auto;
-        width:50%
+        width:50%;
         }
                 
 
@@ -181,7 +180,7 @@
 
     
 </head>
-
+<body>
 <?php
 
 
@@ -204,10 +203,10 @@ function obtener_estado_transaccion($transactionId) {
         $serv_datafast = $serv_datafast ?? null;
         $url_datafast = $url_datafast ?? null;
         // Verificar que las variables globales estén definidas
-    if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
-        echo "Error: Variables de configuración no definidas.";
-        exit;
-    }
+        if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
+            echo "Error: Variables de configuración no definidas.";
+            exit;
+        }
 
 
     $url = $url_datafast . "/v1/checkouts/{$transactionId}/payment";
@@ -413,13 +412,90 @@ else{
     // Si el pago no fue exitoso, mostrar mensaje de error
 
 
-   // Datos de la tarjeta
-   $cardBin = $card['bin'] ?? null;
-   $cardLast4 = $card['last4Digits'] ?? null;
-   $cardExpiry = ($card['expiryMonth'] ?? '') . '/' . ($card['expiryYear'] ?? '');
 
-   // Insertar datos en la tabla de transacciones
-   $resultado = $wpdb->insert(
+    global $wpdb;
+    $wpdb->show_errors(); // Muestra errores de SQL en pantalla
+    $table_transactions = $wpdb->prefix . "deae_transactions"; // transacciones
+    $table_customers = $wpdb->prefix . "deae_customers"; // clientes
+
+    // Extraer datos del response
+    $registrationId = $response['registrationId'] ?? null;
+    $paymentBrand = $response['paymentBrand'] ?? null;
+    $amount = $response['amount'] ?? null;
+
+    $customer = $response['customer'] ?? [];
+    $card = $response['card'] ?? [];
+    $cart = $response['cart']['items'][0] ?? [];
+
+    // Datos del cliente
+    $customerName = trim($customer['givenName'] . ' ' . ($customer['middleName'] ?? '') . ' ' . $customer['surname']);
+    $customerEmail = $customer['email'] ?? null;
+    $customerPhone = $customer['phone'] ?? null;
+    $customerDocType = $customer['identificationDocType'] ?? null;
+    $customerDocId = $customer['identificationDocId'] ?? null;
+
+    // Datos de suscripción
+    $tipoSuscripcion = $cart['name'] ?? "Suscripción 1 mes"; // Nombre de la suscripción
+    $montoSuscripcion = $cart['price'] ?? $amount;
+    $estadoSuscripcion = 1; // Activo por defecto
+    $ultimoPago = current_time('mysql'); // Fecha del último pago exitoso
+
+    // Comprobar si el cliente ya existe en la base de datos usando `customerDocId`
+    $existing_customer = $wpdb->get_row($wpdb->prepare(
+        "SELECT id FROM $table_customers WHERE document_id = %s",
+        $customerDocId
+    ));
+
+    if ($existing_customer) {
+        // Actualizar los datos de suscripción y último pago
+        $wpdb->update(
+            $table_customers,
+            [
+                'registration_id' => $registrationId,
+                'tipo_suscripcion' => $tipoSuscripcion,
+                'monto_suscripcion' => $montoSuscripcion,
+                'estado_suscripcion' => $estadoSuscripcion,
+                'ultimo_pago_suscripcion' => $ultimoPago
+            ],
+            ['id' => $existing_customer->id]
+        );
+    } else {
+        // Insertar nuevo cliente
+        echo "<p>Inicio de que NO EXISTE el usuario</p>";
+        $result_insert_customers = $wpdb->insert(
+            $table_customers,
+            [
+                'name' => $customerName,
+                'email' => $customerEmail,
+                'phone' => $customerPhone,
+                'document_type' => $customerDocType,
+                'document_id' => $customerDocId,
+                'registration_id' => $registrationId,
+                'tipo_suscripcion' => $tipoSuscripcion,
+                'monto_suscripcion' => $montoSuscripcion,
+                'estado_suscripcion' => $estadoSuscripcion,
+                'ultimo_pago_suscripcion' => $ultimoPago,
+                'created_at' => current_time('mysql')
+            ],
+            ['%s', '%s', '%s', '%s', '%s', '%s', '%s', '%f', '%d', '%s', '%s']
+        );
+
+        if ($result_insert_customers === false) {
+            echo "<p>Error al insertar el cliente: " . $wpdb->last_error . "</p>";
+        } else {
+            echo "<p>Cliente insertado correctamente.</p>";
+        }
+
+        echo "<p>Fin de que NO EXISTE el usuario</p>";
+    }
+
+    // Datos de la tarjeta
+    $cardBin = $card['bin'] ?? null;
+    $cardLast4 = $card['last4Digits'] ?? null;
+    $cardExpiry = ($card['expiryMonth'] ?? '') . '/' . ($card['expiryYear'] ?? '');
+
+    // Insertar datos en la tabla de transacciones
+    $resultado = $wpdb->insert(
         $table_transactions,
         [
             'transaction_id' => $transactionId,
@@ -438,7 +514,7 @@ else{
             'cart_price' => $montoSuscripcion,
             'cart_description' => $cart['description'] ?? '',
             'cart_quantity' => $cart['quantity'] ?? 1,
-            'transaction_status' => "Pago RECHAZADO",
+            'transaction_status' => "Pago Exitoso",
             'transaction_response' => json_encode($response),
             'created_at' => current_time('mysql')
         ],
@@ -447,6 +523,9 @@ else{
             '%s', '%s', '%s', '%s', '%f', '%s', '%d', '%s', '%s'
         ]
     );
+
+    
+
 
 
     if ($resultado && $wpdb->insert_id) {
@@ -483,7 +562,7 @@ else{
 ?>
 
    
-<body>
+
         <?php 
         $resultadoPago = $resultadoPago ?? null; // prevenir error de variable no definida
         if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112" || $resultadoPago === "000.000.000") { 
