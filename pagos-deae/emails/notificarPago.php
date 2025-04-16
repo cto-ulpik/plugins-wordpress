@@ -5,6 +5,8 @@ function notificarResultadoPago($data) {
     $estado = $data['estado'];
 
     $admin_email = 'cto@ulpik.com';
+    $director_email = 'legal2@ulpik.com';
+    $accounter_email = 'cpa@ulpik.com';
 
 
     if (empty($cliente['email'])) {
@@ -51,5 +53,13 @@ function notificarResultadoPago($data) {
 
     if (!wp_mail($admin_email, $asuntoAdmin, $mensajeAdmin)) {
         throw new Exception("No se pudo enviar el correo al administrador.");
+    }
+
+    if (!wp_mail($director_email, $asuntoAdmin, $mensajeAdmin)) {
+        throw new Exception("No se pudo enviar el correo al director.");
+    }
+    
+    if (!wp_mail($accounter_email, $asuntoAdmin, $mensajeAdmin)) {
+        throw new Exception("No se pudo enviar el correo al contador.");
     }
 }

@@ -207,7 +207,7 @@ $checkoutId = sanitize_text_field($_GET['checkoutId']);
 // Configuración del entorno
 $baseUrl = home_url('/finalizar-deae'); // URL base del sitio
 $url = $url_datafast . "/v1"; // URL del entorno
-echo $url;
+// echo $url;
 
 $inputJSON = file_get_contents('php://input');
 $decodedData = json_decode($inputJSON, true);
