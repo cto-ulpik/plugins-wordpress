@@ -234,8 +234,8 @@ function obtener_estado_transaccion($transactionId) {
 $response = obtener_estado_transaccion($transactionId);
 
 // Mostrar toda la respuesta en pantalla
-// echo "<h2>Respuesta Completa de Datafast:</h2>";
-// echo "<p>" . print_r($response, true) . "</p>";
+echo "<h2>Respuesta Completa de Datafast:</h2>";
+echo "<p>" . print_r($response, true) . "</p>";
 
 // Verificar si la respuesta es válida
 if (!$response || !isset($response['result']['code'])) {
