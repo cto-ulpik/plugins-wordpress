@@ -346,20 +346,13 @@
             $redirectUrl = home_url('/card-deae?checkoutId=' . $checkoutId);
             echo "<h2>Redirigiendo al formulario de pago...</h2>";
             
-            $result_mail = wp_mail($email, "Suscripción DEAE", "Gracias por tu compra. Tu ID de transacción es: $checkoutId");
-            
-            if ($result_mail) {
-                echo "<p>Correo enviado a: " . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . "</p>";
-            } else {
-                echo "<p>Error al enviar el correo.</p>";
-            }
-
             echo "<script>
-                setTimeout(function() {
-                    window.location.href = '$redirectUrl';
+            setTimeout(function() {
+                window.location.href = '$redirectUrl';
                 }, 2000);
-            </script>";
-
+                </script>";
+                
+            echo "<p>Si no eres redirigido automáticamente, <a href='$redirectUrl'>haz clic aquí</a>.</p>";
             // echo "<script>window.location.href = '$redirectUrl';</script>";
         } else {
             echo "<h2>Error en la transacción:</h2>";

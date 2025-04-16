@@ -389,6 +389,27 @@ if (
             <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com</p>  
         ";
 
+
+    require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
+    // Enviar correo al cliente
+    $data = [
+        'cliente' => [
+            'nombre' => $customerName,
+            'email' => $customerEmail,
+            'telefono' => $customerPhone,
+            'documento_id' => $customerDocId,
+            'direccion' => $customer['address'] ?? null
+        ],
+        'transaccion' => [
+            'id' => $transactionId,
+            'monto' => $amount,
+            'producto' => $tipoSuscripcion,
+            'fecha' => current_time('mysql')
+        ],
+        'estado' => "exitoso"
+    ];
+    notificarResultadoPago($data);
+
 }
 
 else{
@@ -442,6 +463,25 @@ else{
     echo "<p>Descripción: $mensajePago</p>";
     echo "<p>Por favor, verifica los detalles de tu pago y vuelve a intentarlo.</p>";
 
+    require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
+    // Enviar correo al cliente
+    $data = [
+        'cliente' => [
+            'nombre' => $customerName,
+            'email' => $customerEmail,
+            'telefono' => $customerPhone,
+            'documento_id' => $customerDocId,
+            'direccion' => $customer['address'] ?? null
+        ],
+        'transaccion' => [
+            'id' => $transactionId,
+            'monto' => $amount,
+            'producto' => $tipoSuscripcion,
+            'fecha' => current_time('mysql')
+        ],
+        'estado' => "fallido"
+    ];
+    notificarResultadoPago($data);
 }
 ?>
 
