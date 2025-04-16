@@ -44,7 +44,7 @@ Hola Administrador,\n\n"
 
         . "Estado: {$estado}\n"
         . "Gracias por tu atención.\n\n"
-    "
+    ";
 
     if (!wp_mail($cliente['email'], $asuntoCliente, $mensajeCliente)) {
         throw new Exception("No se pudo enviar el correo al cliente: {$cliente['email']}");
