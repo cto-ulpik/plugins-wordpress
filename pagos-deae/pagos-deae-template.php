@@ -371,6 +371,7 @@
 
             // // Enviar notificación
             // notificarResultadoPago($datosParaCorreo);
+            $admin_email = get_option('admin_email'); // Correo del admin configurado en WordPress
 
             wp_mail($email, "✅ Confirmación de tu pago en ULPIK", "Gracias por tu pago de \$$precio. Tu ID de transacción es: $checkoutId");
 
