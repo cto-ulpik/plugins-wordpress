@@ -377,15 +377,14 @@ if (
     $resultado = $wpdb->insert(...); // tu insert completo aquí
 
     if ($resultado && $wpdb->insert_id) {
-        echo "✅ Insert exitoso. ID: " . $wpdb->insert_id;
+        echo "<h3 style='color:green;'>✅ Cliente y pago registrados en la base de datos</h3>" . $wpdb->insert_id;
     } else {
-        echo "❌ Error en el insert: " . $wpdb->last_error;
+        echo "❌ Error: Insert no existe " . $wpdb->last_error;
     }
 
 
     
     echo "
-            <h3 style='color:green;'>✅ Cliente y pago registrados en la base de datos</h3>
             <p>En las próximas 24 horas laborales te daremos acceso al material 🤗</p>
             <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com</p>  
         ";
@@ -434,7 +433,7 @@ else{
     $resultado = $wpdb->insert(...); // tu insert completo aquí
 
     if ($resultado && $wpdb->insert_id) {
-        echo "✅ Insert exitoso. ID: " . $wpdb->insert_id;
+        echo "Contactanos por whatsapp <a href='https://wa.me/593984338645'>+593984338645</a>" . $wpdb->insert_id;
     } else {
         echo "❌ Error en el insert: " . $wpdb->last_error;
     }

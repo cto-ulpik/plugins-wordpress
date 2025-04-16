@@ -367,14 +367,63 @@
             // $mensaje_admin .= "Monto: $$precio<br>";
             // wp_mail($admin_email, $asunto_admin, $mensaje_admin);
             // Aquí puedes guardar el checkout ID en la base de datos o realizar otras acciones
-            
+
             // echo $redirectUrl;
             // echo print_r($response);
+
+            require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
+
+            // Preparar datos
+            $datosParaCorreo = [
+                'cliente' => [
+                    'nombre' => "$firstName $lastName<br>",
+                    'email' => $email,
+                    'telefono' => $telefono,
+                    'cedula' => $cedula,
+                    'direccion' => $direccion_cliente
+                    ],
+                'transaccion' => [
+                    'id' => $checkoutId,
+                    'monto' => $precio,
+                    'producto' => $name_product,
+                    'tipo' => "Suscripción DEAE",
+                    'tipo_suscripcion' => $months_subscription,
+                    'fecha' => date('Y-m-d H:i:s'),
+                ],
+                'estado' => 'exitoso'
+            ];
+
+            // Enviar notificación
+            notificarResultadoPago($datosParaCorreo);
 
             // echo "<script>window.location.href = '$redirectUrl';</script>";
         } else {
             echo "<h2>Error en la transacción:</h2>";
             echo "<pre>" . htmlentities($response) . "</pre>";
+            require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
+
+            // Preparar datos
+            $datosParaCorreo = [
+                'cliente' => [
+                    'nombre' => "$firstName $lastName<br>",
+                    'email' => $email,
+                    'telefono' => $telefono,
+                    'cedula' => $cedula,
+                    'direccion' => $direccion_cliente
+                    ],
+                'transaccion' => [
+                    'id' => $checkoutId,
+                    'monto' => $precio,
+                    'producto' => $name_product,
+                    'tipo' => "Suscripción DEAE",
+                    'tipo_suscripcion' => $months_subscription,
+                    'fecha' => date('Y-m-d H:i:s'),
+                ],
+                'estado' => 'fallido'
+            ];
+
+            // Enviar notificación
+            notificarResultadoPago($datosParaCorreo);
         }
 
     }

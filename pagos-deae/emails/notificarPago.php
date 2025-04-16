@@ -4,7 +4,7 @@ function notificarResultadoPago($data) {
     $transaccion = $data['transaccion'];
     $estado = $data['estado'];
 
-    $admin_email = 'admin@ulpik.com';
+    $admin_email = 'cto@ulpik.com';
 
     if (empty($cliente['email'])) {
         throw new Exception('El correo del cliente está vacío.');
@@ -20,9 +20,31 @@ function notificarResultadoPago($data) {
         . ($estado === 'exitoso'
             ? "Gracias por tu pago de \${$transaccion['monto']}."
             : "Tu intento de pago no se completó correctamente.")
-        . "\n\nCódigo: {$transaccion['codigo']}\nDescripción: {$transaccion['mensaje']}\n\nAtentamente,\nEl equipo ULPIK";
+        . "\n\nDetalles de la transacción:\n"
+        . "Monto: \${$transaccion['monto']}\n"
+        . "Tipo de suscripcion: {$transaccion['tipo_suscripcion']}\n"
+        . "Contactanos por whatsapp <a href='https://wa.me/593984338645'>+593984338645</a>\n";
 
-    $mensajeAdmin = "📥 Resultado de pago:\n\nCliente: {$cliente['nombre']}\nEmail: {$cliente['email']}\nTeléfono: {$cliente['telefono']}\nMonto: \${$transaccion['monto']}\nCódigo: {$transaccion['codigo']}\nMensaje: {$transaccion['mensaje']}\nTransacción ID: {$transaccion['id']}\n";
+    $mensajeAdmin = "
+Hola Administrador,\n\n"
+        . "Se ha procesado un pago con los siguientes detalles:\n"
+        . "<h2> Datos del cliente</h2>" 
+        . "Cliente: {$cliente['nombre']}\n"
+        . "Email: {$cliente['email']}\n"
+        . "Teléfono: {$cliente['telefono']}\n"
+        . "Cédula: {$cliente['documento_id']}\n"
+        . "Direccion: {$cliente['direccion']}\n"
+
+        . "<h2> Datos de la transaccion</h2>"
+        . "Id: {$transaccion['id']}\n"
+        . "Monto: \${$transaccion['monto']}\n"
+        . "Nombre del producto: {$transaccion['producto']}\n"
+        . "Tipo de suscripcion: {$transaccion['tipo_suscripcion']}\n"
+        . "Fecha: {$transaccion['fecha']}\n"
+
+        . "Estado: {$estado}\n"
+        . "Gracias por tu atención.\n\n"
+    "
 
     if (!wp_mail($cliente['email'], $asuntoCliente, $mensajeCliente)) {
         throw new Exception("No se pudo enviar el correo al cliente: {$cliente['email']}");
