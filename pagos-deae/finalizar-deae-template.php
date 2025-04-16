@@ -370,7 +370,7 @@ if (
             <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com</p>  
         ";
 
-        // wp_mail("cto@ulpik.com", "Asunto", "Mensaje");
+    wp_mail("cto@ulpik.com", "Asunto", "Mensaje");
 }
 
 else{
