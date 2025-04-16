@@ -374,8 +374,6 @@ if (
     );
 
 
-    $resultado = $wpdb->insert(...); // tu insert completo aquí
-
     if ($resultado && $wpdb->insert_id) {
         echo "<h3 style='color:green;'>✅ Cliente y pago registrados en la base de datos</h3>";
     } else {
