@@ -249,6 +249,35 @@ if (!$response || !isset($response['result']['code'])) {
 $resultadoPago = $response['result']['code'];
 $mensajePago = $response['result']['description'];
 
+
+global $wpdb;
+$wpdb->show_errors(); // Muestra errores de SQL en pantalla
+$table_transactions = $wpdb->prefix . "deae_transactions"; // transacciones
+$table_customers = $wpdb->prefix . "deae_customers"; // clientes
+
+// Extraer datos del response
+$registrationId = $response['registrationId'] ?? null;
+$paymentBrand = $response['paymentBrand'] ?? null;
+$amount = $response['amount'] ?? null;
+
+$customer = $response['customer'] ?? [];
+$card = $response['card'] ?? [];
+$cart = $response['cart']['items'][0] ?? [];
+
+// Datos del cliente
+$customerName = trim($customer['givenName'] . ' ' . ($customer['middleName'] ?? '') . ' ' . $customer['surname']);
+$customerEmail = $customer['email'] ?? null;
+$customerPhone = $customer['phone'] ?? null;
+$customerDocType = $customer['identificationDocType'] ?? null;
+$customerDocId = $customer['identificationDocId'] ?? null;
+
+// Datos de suscripción
+$tipoSuscripcion = $cart['name'] ?? "Desconocido"; // Nombre de la suscripción
+$montoSuscripcion = $cart['price'] ?? $amount;
+$estadoSuscripcion = 1; // Activo por defecto
+$ultimoPago = current_time('mysql'); // Fecha del último pago exitoso
+
+
 // Verificar si la transacción fue exitosa
 if (
     $resultadoPago === "000.100.110" || 
@@ -258,33 +287,7 @@ if (
     
     ) {
     
-    global $wpdb;
-    $wpdb->show_errors(); // Muestra errores de SQL en pantalla
-    $table_transactions = $wpdb->prefix . "deae_transactions"; // transacciones
-    $table_customers = $wpdb->prefix . "deae_customers"; // clientes
-
-    // Extraer datos del response
-    $registrationId = $response['registrationId'] ?? null;
-    $paymentBrand = $response['paymentBrand'] ?? null;
-    $amount = $response['amount'] ?? null;
     
-    $customer = $response['customer'] ?? [];
-    $card = $response['card'] ?? [];
-    $cart = $response['cart']['items'][0] ?? [];
-
-    // Datos del cliente
-    $customerName = trim($customer['givenName'] . ' ' . ($customer['middleName'] ?? '') . ' ' . $customer['surname']);
-    $customerEmail = $customer['email'] ?? null;
-    $customerPhone = $customer['phone'] ?? null;
-    $customerDocType = $customer['identificationDocType'] ?? null;
-    $customerDocId = $customer['identificationDocId'] ?? null;
-    
-    // Datos de suscripción
-    $tipoSuscripcion = $cart['name'] ?? "Desconocido"; // Nombre de la suscripción
-    $montoSuscripcion = $cart['price'] ?? $amount;
-    $estadoSuscripcion = 1; // Activo por defecto
-    $ultimoPago = current_time('mysql'); // Fecha del último pago exitoso
-
     // Comprobar si el cliente ya existe en la base de datos usando `customerDocId`
     $existing_customer = $wpdb->get_row($wpdb->prepare(
         "SELECT id FROM $table_customers WHERE document_id = %s",
@@ -357,6 +360,10 @@ if (
             'card_expiry' => $cardExpiry,
             'cart_name' => $tipoSuscripcion,
             'cart_price' => $montoSuscripcion,
+            'cart_description' => $cart['description'] ?? '',
+            'cart_quantity' => $cart['quantity'] ?? 1,
+            'transaction_status' => "Pago Exitoso",
+            'transaction_response' => json_encode($response),
             'created_at' => current_time('mysql')
         ],
         ['%s', '%s', '%s', '%f', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%f', '%s']
@@ -370,11 +377,44 @@ if (
             <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com</p>  
         ";
 
-    wp_mail("cto@ulpik.com", "Asunto", "Mensaje");
 }
 
 else{
     // Si el pago no fue exitoso, mostrar mensaje de error
+
+
+   // Datos de la tarjeta
+   $cardBin = $card['bin'] ?? null;
+   $cardLast4 = $card['last4Digits'] ?? null;
+   $cardExpiry = ($card['expiryMonth'] ?? '') . '/' . ($card['expiryYear'] ?? '');
+
+   // Insertar datos en la tabla de transacciones
+   $wpdb->insert(
+       $table_transactions,
+       [
+           'transaction_id' => $transactionId,
+           'registration_id' => $registrationId,
+           'payment_brand' => $paymentBrand,
+           'amount' => $amount,
+           'customer_name' => $customerName,
+           'customer_email' => $customerEmail,
+           'customer_phone' => $customerPhone,
+           'customer_doc_type' => $customerDocType,
+           'customer_doc_id' => $customerDocId,
+           'card_bin' => $cardBin,
+           'card_last4' => $cardLast4,
+           'card_expiry' => $cardExpiry,
+           'cart_name' => $tipoSuscripcion,
+           'cart_price' => $montoSuscripcion,
+           'cart_description' => $cart['description'] ?? '',
+           'cart_quantity' => $cart['quantity'] ?? 1,
+           'transaction_status' => "Pago RECHAZADO",
+           'transaction_response' => json_encode($response),
+           'created_at' => current_time('mysql')
+       ],
+       ['%s', '%s', '%s', '%f', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%f', '%s']
+   );
+
     echo "<h2 style='color:red;'>❌ Pago Fallido</h2>";
     echo "<p>Estado de la transacción: $resultadoPago</p>";
     echo "<p>Descripción: $mensajePago</p>";

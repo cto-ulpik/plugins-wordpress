@@ -104,6 +104,8 @@ function deae_create_transactions_table() {
         cart_description TEXT NOT NULL,
         cart_price DECIMAL(10,2) NOT NULL,
         cart_quantity INT NOT NULL,
+        transaction_status VARCHAR(50) DEFAULT NULL,
+        transaction_response LONGTEXT DEFAULT NULL,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     ) $charset_collate;";
 

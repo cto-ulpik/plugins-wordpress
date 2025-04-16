@@ -28,25 +28,62 @@ function deae_transactions_page() {
     echo '<a href="' . admin_url('admin-post.php?action=export_deae_transactions') . '" class="button button-primary">📤 Exportar CSV</a>';
 
     echo '<table class="widefat fixed striped">';
-    echo '<thead><tr><th>ID</th><th>Transacción</th><th>RegistrationId</th><th>Monto</th><th>Cliente</th><th>Email</th><th>Tarjeta</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr></thead>';
-    echo '<tbody>';
+echo '<thead>
+        <tr>
+            <th>ID</th>
+            <th>Transacción</th>
+            <th>RegistrationId</th>
+            <th>Marca</th>
+            <th>Monto</th>
+            <th>Cliente</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Tipo Doc</th>
+            <th>Doc ID</th>
+            <th>Bin</th>
+            <th>Últimos 4</th>
+            <th>Expira</th>
+            <th>Producto</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Estado</th>
+            <th>Respuesta completa</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+      </thead>';
+echo '<tbody>';
 
-    foreach ($transactions as $transaction) {
-        echo "<tr>
-                <td>{$transaction->id}</td>
-                <td>{$transaction->transaction_id}</td>
-                <td>{$transaction->registration_id}</td>
-                <td>\${$transaction->amount}</td>
-                <td>{$transaction->customer_name}</td>
-                <td>{$transaction->customer_email}</td>
-                <td>{$transaction->card_last4}</td>
-                <td>✅ Pago Exitoso</td>
-                <td>{$transaction->created_at}</td>
-                <td>
-                    <a href='" . admin_url("admin-post.php?action=delete_deae_transaction&id={$transaction->id}") . "' class='button button-danger' onclick='return confirm(\"¿Eliminar esta transacción?\");'>🗑️ Eliminar</a>
-                </td>
-              </tr>";
-    }
+foreach ($transactions as $transaction) {
+    echo "<tr>
+            <td>{$transaction->id}</td>
+            <td>{$transaction->transaction_id}</td>
+            <td>{$transaction->registration_id}</td>
+            <td>{$transaction->payment_brand}</td>
+            <td>\${$transaction->amount}</td>
+            <td>{$transaction->customer_name}</td>
+            <td>{$transaction->customer_email}</td>
+            <td>{$transaction->customer_phone}</td>
+            <td>{$transaction->customer_doc_type}</td>
+            <td>{$transaction->customer_doc_id}</td>
+            <td>{$transaction->card_bin}</td>
+            <td>{$transaction->card_last4}</td>
+            <td>{$transaction->card_expiry}</td>
+            <td>{$transaction->cart_name}</td>
+            <td>{$transaction->cart_description}</td>
+            <td>\${$transaction->cart_price}</td>
+            <td>{$transaction->cart_quantity}</td>
+            <td>{$transaction->transaction_status}</td>
+            <td><pre style='max-width:300px; max-height:150px; overflow:auto; white-space:pre-wrap;'>{$transaction->transaction_response}</pre></td>
+            <td>{$transaction->created_at}</td>
+            <td>
+                <a href='" . admin_url("admin-post.php?action=delete_deae_transaction&id={$transaction->id}") . "' class='button button-danger' onclick='return confirm(\"¿Eliminar esta transacción?\");'>🗑️ Eliminar</a>
+            </td>
+          </tr>";
+}
+
+echo '</tbody></table>';
 
     echo '</tbody></table>';
     echo '</div>';
