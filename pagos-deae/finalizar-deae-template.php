@@ -367,7 +367,10 @@ if (
             'transaction_response' => json_encode($response),
             'created_at' => current_time('mysql')
         ],
-        ['%s', '%s', '%s', '%f', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%f', '%s']
+        [
+            '%s', '%s', '%s', '%f', '%s', '%s', '%s', '%s', '%s',
+            '%s', '%s', '%s', '%s', '%f', '%s', '%d', '%s', '%s'
+        ]
     );
 
 
@@ -390,31 +393,34 @@ else{
    $cardExpiry = ($card['expiryMonth'] ?? '') . '/' . ($card['expiryYear'] ?? '');
 
    // Insertar datos en la tabla de transacciones
-   $wpdb->insert(
-       $table_transactions,
-       [
-           'transaction_id' => $transactionId,
-           'registration_id' => $registrationId,
-           'payment_brand' => $paymentBrand,
-           'amount' => $amount,
-           'customer_name' => $customerName,
-           'customer_email' => $customerEmail,
-           'customer_phone' => $customerPhone,
-           'customer_doc_type' => $customerDocType,
-           'customer_doc_id' => $customerDocId,
-           'card_bin' => $cardBin,
-           'card_last4' => $cardLast4,
-           'card_expiry' => $cardExpiry,
-           'cart_name' => $tipoSuscripcion,
-           'cart_price' => $montoSuscripcion,
-           'cart_description' => $cart['description'] ?? '',
-           'cart_quantity' => $cart['quantity'] ?? 1,
-           'transaction_status' => "Pago RECHAZADO",
-           'transaction_response' => json_encode($response),
-           'created_at' => current_time('mysql')
-       ],
-       ['%s', '%s', '%s', '%f', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%f', '%s']
-   );
+    $wpdb->insert(
+        $table_transactions,
+        [
+            'transaction_id' => $transactionId,
+            'registration_id' => $registrationId,
+            'payment_brand' => $paymentBrand,
+            'amount' => $amount,
+            'customer_name' => $customerName,
+            'customer_email' => $customerEmail,
+            'customer_phone' => $customerPhone,
+            'customer_doc_type' => $customerDocType,
+            'customer_doc_id' => $customerDocId,
+            'card_bin' => $cardBin,
+            'card_last4' => $cardLast4,
+            'card_expiry' => $cardExpiry,
+            'cart_name' => $tipoSuscripcion,
+            'cart_price' => $montoSuscripcion,
+            'cart_description' => $cart['description'] ?? '',
+            'cart_quantity' => $cart['quantity'] ?? 1,
+            'transaction_status' => "Pago Exitoso",
+            'transaction_response' => json_encode($response),
+            'created_at' => current_time('mysql')
+        ],
+        [
+            '%s', '%s', '%s', '%f', '%s', '%s', '%s', '%s', '%s',
+            '%s', '%s', '%s', '%s', '%f', '%s', '%d', '%s', '%s'
+        ]
+    );
 
     echo "<h2 style='color:red;'>❌ Pago Fallido</h2>";
     echo "<p>Estado de la transacción: $resultadoPago</p>";
