@@ -250,32 +250,6 @@ $resultadoPago = $response['result']['code'];
 $mensajePago = $response['result']['description'];
 
 
-global $wpdb;
-$wpdb->show_errors(); // Muestra errores de SQL en pantalla
-$table_transactions = $wpdb->prefix . "deae_transactions"; // transacciones
-$table_customers = $wpdb->prefix . "deae_customers"; // clientes
-
-// Extraer datos del response
-$registrationId = $response['registrationId'] ?? null;
-$paymentBrand = $response['paymentBrand'] ?? null;
-$amount = $response['amount'] ?? null;
-
-$customer = $response['customer'] ?? [];
-$card = $response['card'] ?? [];
-$cart = $response['cart']['items'][0] ?? [];
-
-// Datos del cliente
-$customerName = trim($customer['givenName'] . ' ' . ($customer['middleName'] ?? '') . ' ' . $customer['surname']);
-$customerEmail = $customer['email'] ?? null;
-$customerPhone = $customer['phone'] ?? null;
-$customerDocType = $customer['identificationDocType'] ?? null;
-$customerDocId = $customer['identificationDocId'] ?? null;
-
-// Datos de suscripción
-$tipoSuscripcion = $cart['name'] ?? "Suscripción 1 mes"; // Nombre de la suscripción
-$montoSuscripcion = $cart['price'] ?? $amount;
-$estadoSuscripcion = 1; // Activo por defecto
-$ultimoPago = current_time('mysql'); // Fecha del último pago exitoso
 
 
 // Verificar si la transacción fue exitosa
@@ -288,6 +262,33 @@ if (
     ) {
     
     
+    global $wpdb;
+    $wpdb->show_errors(); // Muestra errores de SQL en pantalla
+    $table_transactions = $wpdb->prefix . "deae_transactions"; // transacciones
+    $table_customers = $wpdb->prefix . "deae_customers"; // clientes
+
+    // Extraer datos del response
+    $registrationId = $response['registrationId'] ?? null;
+    $paymentBrand = $response['paymentBrand'] ?? null;
+    $amount = $response['amount'] ?? null;
+
+    $customer = $response['customer'] ?? [];
+    $card = $response['card'] ?? [];
+    $cart = $response['cart']['items'][0] ?? [];
+
+    // Datos del cliente
+    $customerName = trim($customer['givenName'] . ' ' . ($customer['middleName'] ?? '') . ' ' . $customer['surname']);
+    $customerEmail = $customer['email'] ?? null;
+    $customerPhone = $customer['phone'] ?? null;
+    $customerDocType = $customer['identificationDocType'] ?? null;
+    $customerDocId = $customer['identificationDocId'] ?? null;
+
+    // Datos de suscripción
+    $tipoSuscripcion = $cart['name'] ?? "Suscripción 1 mes"; // Nombre de la suscripción
+    $montoSuscripcion = $cart['price'] ?? $amount;
+    $estadoSuscripcion = 1; // Activo por defecto
+    $ultimoPago = current_time('mysql'); // Fecha del último pago exitoso
+
     // Comprobar si el cliente ya existe en la base de datos usando `customerDocId`
     $existing_customer = $wpdb->get_row($wpdb->prepare(
         "SELECT id FROM $table_customers WHERE document_id = %s",
