@@ -374,6 +374,13 @@ if (
     );
 
 
+    if ($wpdb->insert_id) {
+        error_log("✅ Insert exitoso. ID: " . $wpdb->insert_id);
+    } else {
+        error_log("❌ Error en insert: " . $wpdb->last_error);
+    }
+
+
     
     echo "
             <h3 style='color:green;'>✅ Cliente y pago registrados en la base de datos</h3>
@@ -412,7 +419,7 @@ else{
             'cart_price' => $montoSuscripcion,
             'cart_description' => $cart['description'] ?? '',
             'cart_quantity' => $cart['quantity'] ?? 1,
-            'transaction_status' => "Pago Exitoso",
+            'transaction_status' => "Pago RECHAZADO",
             'transaction_response' => json_encode($response),
             'created_at' => current_time('mysql')
         ],
@@ -421,6 +428,12 @@ else{
             '%s', '%s', '%s', '%s', '%f', '%s', '%d', '%s', '%s'
         ]
     );
+
+    if ($wpdb->insert_id) {
+        error_log("✅ Insert exitoso. ID: " . $wpdb->insert_id);
+    } else {
+        error_log("❌ Error en insert: " . $wpdb->last_error);
+    }
 
     echo "<h2 style='color:red;'>❌ Pago Fallido</h2>";
     echo "<p>Estado de la transacción: $resultadoPago</p>";
