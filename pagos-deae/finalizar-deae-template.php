@@ -91,92 +91,92 @@
             padding-left: 20px;
         }
 
-.descuento {
-            grid-column: 2;
-            grid-row: 2;
-            text-align: center;
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            color: white;
-            font-size: 1.5em;
-            font-weight: bold;
-            padding: 20px;
-            border-radius: 10px;
-  margin: 20px auto;
-            box-shadow: 0 0 15px rgba(255, 75, 43, 0.5);
-/*             animation: pulse 1.5s infinite; */
+        .descuento {
+                    grid-column: 2;
+                    grid-row: 2;
+                    text-align: center;
+                    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+                    color: white;
+                    font-size: 1.5em;
+                    font-weight: bold;
+                    padding: 20px;
+                    border-radius: 10px;
+        margin: 20px auto;
+                    box-shadow: 0 0 15px rgba(255, 75, 43, 0.5);
+        /*             animation: pulse 1.5s infinite; */
+                }
+
+        .cards{
+        margin: 10px auto;
+        width:50%
         }
 
-.cards{
-  margin: 10px auto;
-  width:50%
-}
-
-.logo{
-  margin: 10px auto;
-  width:50%
-}
-        
+        .logo{
+        margin: 10px auto;
+        width:50%
+        }
+                
 
 
-.modal {
-            background: #EAEAEA;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            margin: 0 auto;
-        }
-        .modal h2 {
-            font-size: 18px;
-            color: #000;
-        }
-        .modal .precio {
-            font-size: 36px;
-            font-weight: bold;
-            color: #7D2AE8;
-            margin: 10px 0;
-        }
-        .modal .ahorro {
-            font-size: 14px;
-            color: #555;
-        }
-        .modal button {
-            background: #7D2AE8;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 15px 0;
-        }
-        .modal button:hover {
-            background: #5A1EA8;
-        }
-        .seguridad {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            font-size: 12px;
-            color: #555;
-            margin: 10px 0;
-        }
-        .pago-recurrente {
-            font-size: 12px;
-            color: #555;
-        }
+        .modal {
+                    background: #EAEAEA;
+                    padding: 20px;
+                    border-radius: 12px;
+                    text-align: center;
+                    width: 300px;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                    margin: 0 auto;
+                }
+                .modal h2 {
+                    font-size: 18px;
+                    color: #000;
+                }
+                .modal .precio {
+                    font-size: 36px;
+                    font-weight: bold;
+                    color: #7D2AE8;
+                    margin: 10px 0;
+                }
+                .modal .ahorro {
+                    font-size: 14px;
+                    color: #555;
+                }
+                .modal button {
+                    background: #7D2AE8;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    margin: 15px 0;
+                }
+                .modal button:hover {
+                    background: #5A1EA8;
+                }
+                .seguridad {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    font-size: 12px;
+                    color: #555;
+                    margin: 10px 0;
+                }
+                .pago-recurrente {
+                    font-size: 12px;
+                    color: #555;
+                }
 
 
 
 
-@media only screen and (max-width: 600px) {
-  .container{
-    display:flex;
-    flex-direction:column;
-  }
-}
+        @media only screen and (max-width: 600px) {
+        .container{
+            display:flex;
+            flex-direction:column;
+        }
+        }
     </style>
 
     
