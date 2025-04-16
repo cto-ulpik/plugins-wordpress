@@ -190,7 +190,7 @@ if (
 
 
     
-        wp_mail("cto@ulpik.com", "Asunto", "Mensaje");
+        // wp_mail("cto@ulpik.com", "Asunto", "Mensaje");
 
 
 }
