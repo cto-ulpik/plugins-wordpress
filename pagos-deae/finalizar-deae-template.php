@@ -374,10 +374,12 @@ if (
     );
 
 
-    if ($wpdb->insert_id) {
-        error_log("✅ Insert exitoso. ID: " . $wpdb->insert_id);
+    $resultado = $wpdb->insert(...); // tu insert completo aquí
+
+    if ($resultado && $wpdb->insert_id) {
+        echo "✅ Insert exitoso. ID: " . $wpdb->insert_id;
     } else {
-        error_log("❌ Error en insert: " . $wpdb->last_error);
+        echo "❌ Error en el insert: " . $wpdb->last_error;
     }
 
 
@@ -429,10 +431,12 @@ else{
         ]
     );
 
-    if ($wpdb->insert_id) {
-        error_log("✅ Insert exitoso. ID: " . $wpdb->insert_id);
+    $resultado = $wpdb->insert(...); // tu insert completo aquí
+
+    if ($resultado && $wpdb->insert_id) {
+        echo "✅ Insert exitoso. ID: " . $wpdb->insert_id;
     } else {
-        error_log("❌ Error en insert: " . $wpdb->last_error);
+        echo "❌ Error en el insert: " . $wpdb->last_error;
     }
 
     echo "<h2 style='color:red;'>❌ Pago Fallido</h2>";
