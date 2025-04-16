@@ -199,8 +199,8 @@ if (
             'transaccion' => [
                 'id' => $transactionId,
                 'monto' => $montoSuscripcion,
-                'codigo' => $resultadoPago,
-                'mensaje' => $mensajePago
+                'codigo' => "",
+                'mensaje' => ""
             ],
             'estado' => 'exitoso' // o 'fallido' si aplica
         ];
