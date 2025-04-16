@@ -204,10 +204,10 @@ function obtener_estado_transaccion($transactionId) {
         $serv_datafast = $serv_datafast ?? null;
         $url_datafast = $url_datafast ?? null;
         // Verificar que las variables globales estén definidas
-        if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
-            echo "Error: Variables de configuración no definidas.";
-            exit;
-        }
+    if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
+        echo "Error: Variables de configuración no definidas.";
+        exit;
+    }
 
 
     $url = $url_datafast . "/v1/checkouts/{$transactionId}/payment";
@@ -219,7 +219,7 @@ function obtener_estado_transaccion($transactionId) {
         'Authorization:Bearer ' . $access_token_datafast
     ));
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // Cambiar a true en producción
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Cambiar a true en producción
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     
     $responseData = curl_exec($ch);
