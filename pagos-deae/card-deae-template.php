@@ -36,6 +36,7 @@ $decodedData = json_decode($inputJSON, true);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.datafast.com.ec https://test.datfast.com.ec 'unsafe-inline';">
     <title>Pagar con Tarjeta</title>
     
     <!-- Incluir el script de pago con el checkoutId -->
