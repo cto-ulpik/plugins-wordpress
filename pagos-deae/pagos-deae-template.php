@@ -346,35 +346,13 @@
             $redirectUrl = home_url('/card-deae?checkoutId=' . $checkoutId);
             echo "<h2>Redirigiendo al formulario de pago...</h2>";
             
-
-            // require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
-
-            // Preparar datos
-            // $datosParaCorreo = [
-            //     'cliente' => [
-            //         'nombre' => "$firstName $lastName<br>",
-            //         'email' => $email,
-            //         'telefono' => $telefono,
-            //         'cedula' => $cedula,
-            //         'direccion' => $direccion_cliente
-            //         ],
-            //     'transaccion' => [
-            //         'id' => $checkoutId,
-            //         'monto' => $precio,
-            //         'producto' => $name_product,
-            //         'tipo' => "Suscripción DEAE",
-            //         'tipo_suscripcion' => $months_subscription,
-            //         'fecha' => date('Y-m-d H:i:s'),
-            //     ],
-            //     'estado' => 'exitoso'
-            // ];
-
-            // // Enviar notificación
-            // notificarResultadoPago($datosParaCorreo);
-            $admin_email = get_option('admin_email'); // Correo del admin configurado en WordPress
-
-            wp_mail($email, "✅ Confirmación de tu pago en ULPIK", "Gracias por tu pago de \$$precio. Tu ID de transacción es: $checkoutId");
-
+            $result_mail = wp_mail($email, "Suscripción DEAE", "Gracias por tu compra. Tu ID de transacción es: $checkoutId");
+            
+            if ($result_mail) {
+                echo "<p>Correo enviado a: " . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . "</p>";
+            } else {
+                echo "<p>Error al enviar el correo.</p>";
+            }
 
             echo "<script>
                 setTimeout(function() {
