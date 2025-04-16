@@ -188,26 +188,26 @@ if (
             <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com</p>  
         ";
 
-        require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
+    // require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
 
-    // Preparar datos
-    $datosParaCorreo = [
-        'cliente' => [
-            'nombre' => $customerName,
-            'email' => $customerEmail,
-            'telefono' => $customerPhone
-        ],
-        'transaccion' => [
-            'id' => $transactionId,
-            'monto' => $montoSuscripcion,
-            'codigo' => $resultadoPago,
-            'mensaje' => $mensajePago
-        ],
-        'estado' => 'exitoso'
-    ];
+    // // Preparar datos
+    // $datosParaCorreo = [
+    //     'cliente' => [
+    //         'nombre' => $customerName,
+    //         'email' => $customerEmail,
+    //         'telefono' => $customerPhone
+    //     ],
+    //     'transaccion' => [
+    //         'id' => $transactionId,
+    //         'monto' => $montoSuscripcion,
+    //         'codigo' => $resultadoPago,
+    //         'mensaje' => $mensajePago
+    //     ],
+    //     'estado' => 'exitoso'
+    // ];
     
-    // Enviar notificación
-    notificarResultadoPago($datosParaCorreo);
+    // // Enviar notificación
+    // notificarResultadoPago($datosParaCorreo);
 
 
 }
@@ -219,22 +219,22 @@ else{
     echo "<p>Descripción: $mensajePago</p>";
     echo "<p>Por favor, verifica los detalles de tu pago y vuelve a intentarlo.</p>";
 
-    require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
-    notificarResultadoPago([
-        'cliente' => [
-            'nombre' => $customerName,
-            'email' => $customerEmail,
-            'telefono' => $customerPhone
-        ],
-        'transaccion' => [
-            'id' => $transactionId,
-            'monto' => $montoSuscripcion,
-            'codigo' => $resultadoPago,
-            'mensaje' => $mensajePago
-        ],
-        'estado' => 'fallido'
-    ]);
-    notificarResultadoPago($datosParaCorreo);
+    // require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
+    // notificarResultadoPago([
+    //     'cliente' => [
+    //         'nombre' => $customerName,
+    //         'email' => $customerEmail,
+    //         'telefono' => $customerPhone
+    //     ],
+    //     'transaccion' => [
+    //         'id' => $transactionId,
+    //         'monto' => $montoSuscripcion,
+    //         'codigo' => $resultadoPago,
+    //         'mensaje' => $mensajePago
+    //     ],
+    //     'estado' => 'fallido'
+    // ]);
+    // notificarResultadoPago($datosParaCorreo);
 
 }
 ?>
