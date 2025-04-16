@@ -347,36 +347,38 @@
             echo "<h2>Redirigiendo al formulario de pago...</h2>";
             
 
-            require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
+            // require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
 
             // Preparar datos
-            $datosParaCorreo = [
-                'cliente' => [
-                    'nombre' => "$firstName $lastName<br>",
-                    'email' => $email,
-                    'telefono' => $telefono,
-                    'cedula' => $cedula,
-                    'direccion' => $direccion_cliente
-                    ],
-                'transaccion' => [
-                    'id' => $checkoutId,
-                    'monto' => $precio,
-                    'producto' => $name_product,
-                    'tipo' => "Suscripción DEAE",
-                    'tipo_suscripcion' => $months_subscription,
-                    'fecha' => date('Y-m-d H:i:s'),
-                ],
-                'estado' => 'exitoso'
-            ];
+            // $datosParaCorreo = [
+            //     'cliente' => [
+            //         'nombre' => "$firstName $lastName<br>",
+            //         'email' => $email,
+            //         'telefono' => $telefono,
+            //         'cedula' => $cedula,
+            //         'direccion' => $direccion_cliente
+            //         ],
+            //     'transaccion' => [
+            //         'id' => $checkoutId,
+            //         'monto' => $precio,
+            //         'producto' => $name_product,
+            //         'tipo' => "Suscripción DEAE",
+            //         'tipo_suscripcion' => $months_subscription,
+            //         'fecha' => date('Y-m-d H:i:s'),
+            //     ],
+            //     'estado' => 'exitoso'
+            // ];
 
-            // Enviar notificación
-            notificarResultadoPago($datosParaCorreo);
+            // // Enviar notificación
+            // notificarResultadoPago($datosParaCorreo);
+
+            wp_mail($email, "✅ Confirmación de tu pago en ULPIK", "Gracias por tu pago de \$$precio. Tu ID de transacción es: $checkoutId");
 
 
             echo "<script>
                 setTimeout(function() {
                     window.location.href = '$redirectUrl';
-                }, 4000);
+                }, 2000);
             </script>";
 
             // echo "<script>window.location.href = '$redirectUrl';</script>";

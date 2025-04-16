@@ -344,7 +344,7 @@ if (
     $cardExpiry = ($card['expiryMonth'] ?? '') . '/' . ($card['expiryYear'] ?? '');
 
     // Insertar datos en la tabla de transacciones
-    $wpdb->insert(
+    $resultado = $wpdb->insert(
         $table_transactions,
         [
             'transaction_id' => $transactionId,
@@ -401,7 +401,7 @@ else{
    $cardExpiry = ($card['expiryMonth'] ?? '') . '/' . ($card['expiryYear'] ?? '');
 
    // Insertar datos en la tabla de transacciones
-    $wpdb->insert(
+   $resultado = $wpdb->insert(
         $table_transactions,
         [
             'transaction_id' => $transactionId,
@@ -430,7 +430,6 @@ else{
         ]
     );
 
-    $resultado = $wpdb->insert(...); // tu insert completo aquí
 
     if ($resultado && $wpdb->insert_id) {
         echo "Contactanos por whatsapp <a href='https://wa.me/593984338645'>+593984338645</a>" . $wpdb->insert_id;
