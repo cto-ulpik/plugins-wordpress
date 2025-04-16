@@ -4,18 +4,31 @@ function notificarResultadoPago($data) {
     $transaccion = $data['transaccion'];
     $estado = $data['estado'];
 
-    $admin_email = 'cto@ulpik.com';
+    $admin_email = 'admin@ulpik.com';
 
-    $asuntoCliente = "✅ Confirmación de tu pago en ULPIK";
-    $asuntoAdmin = "🧾 Nuevo pago procesado por Datafast";
+    if (empty($cliente['email'])) {
+        throw new Exception('El correo del cliente está vacío.');
+    }
 
-    $mensajeCliente = "Hola {$cliente['nombre']},\n\nGracias por tu pago de \${$transaccion['monto']}. Tu transacción fue exitosa.\n\nCódigo: {$transaccion['codigo']}\nDescripción: {$transaccion['mensaje']}\n\nAtentamente,\nEl equipo ULPIK";
+    $asuntoCliente = ($estado === 'exitoso')
+        ? "✅ Confirmación de tu pago en ULPIK"
+        : "❌ Problema con tu pago en ULPIK";
 
-    $mensajeAdmin = "📥 Nuevo pago registrado:\n\nCliente: {$cliente['nombre']}\nEmail: {$cliente['email']}\nTeléfono: {$cliente['telefono']}\nMonto: \${$transaccion['monto']}\nCódigo: {$transaccion['codigo']}\nMensaje: {$transaccion['mensaje']}\nTransacción ID: {$transaccion['id']}\n";
+    $asuntoAdmin = "🧾 Resultado de pago procesado por Datafast";
 
-    // Enviar al cliente
-    wp_mail($cliente['email'], $asuntoCliente, $mensajeCliente);
+    $mensajeCliente = "Hola {$cliente['nombre']},\n\n"
+        . ($estado === 'exitoso'
+            ? "Gracias por tu pago de \${$transaccion['monto']}."
+            : "Tu intento de pago no se completó correctamente.")
+        . "\n\nCódigo: {$transaccion['codigo']}\nDescripción: {$transaccion['mensaje']}\n\nAtentamente,\nEl equipo ULPIK";
 
-    // Enviar al admin
-    wp_mail($admin_email, $asuntoAdmin, $mensajeAdmin);
+    $mensajeAdmin = "📥 Resultado de pago:\n\nCliente: {$cliente['nombre']}\nEmail: {$cliente['email']}\nTeléfono: {$cliente['telefono']}\nMonto: \${$transaccion['monto']}\nCódigo: {$transaccion['codigo']}\nMensaje: {$transaccion['mensaje']}\nTransacción ID: {$transaccion['id']}\n";
+
+    if (!wp_mail($cliente['email'], $asuntoCliente, $mensajeCliente)) {
+        throw new Exception("No se pudo enviar el correo al cliente: {$cliente['email']}");
+    }
+
+    if (!wp_mail($admin_email, $asuntoAdmin, $mensajeAdmin)) {
+        throw new Exception("No se pudo enviar el correo al administrador.");
+    }
 }

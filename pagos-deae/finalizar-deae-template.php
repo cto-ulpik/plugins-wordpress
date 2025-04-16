@@ -188,26 +188,29 @@ if (
             <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com</p>  
         ";
 
-    // require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
+    require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
 
-    // // Preparar datos
-    // $datosParaCorreo = [
-    //     'cliente' => [
-    //         'nombre' => $customerName,
-    //         'email' => $customerEmail,
-    //         'telefono' => $customerPhone
-    //     ],
-    //     'transaccion' => [
-    //         'id' => $transactionId,
-    //         'monto' => $montoSuscripcion,
-    //         'codigo' => $resultadoPago,
-    //         'mensaje' => $mensajePago
-    //     ],
-    //     'estado' => 'exitoso'
-    // ];
+    try {
+        $datosParaCorreo = [
+            'cliente' => [
+                'nombre' => $customerName,
+                'email' => $customerEmail,
+                'telefono' => $customerPhone
+            ],
+            'transaccion' => [
+                'id' => $transactionId,
+                'monto' => $montoSuscripcion,
+                'codigo' => $resultadoPago,
+                'mensaje' => $mensajePago
+            ],
+            'estado' => 'exitoso' // o 'fallido' si aplica
+        ];
     
-    // // Enviar notificación
-    // notificarResultadoPago($datosParaCorreo);
+        notificarResultadoPago($datosParaCorreo);
+    } catch (Exception $e) {
+        error_log('Error al enviar correo de notificación: ' . $e->getMessage());
+        echo "<p style='color:red;'>⚠️ Hubo un problema al enviar el correo de notificación.</p>";
+    }
 
 
 }
