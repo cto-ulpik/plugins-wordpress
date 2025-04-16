@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.datafast.com.ec https://test.datfast.com.ec 'unsafe-inline';">
+    <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.datafast.com.ec https://test.datfast.com.ec 'unsafe-inline';"> -->
     <title>Estado de la Transacción</title>
 
 
@@ -369,36 +369,6 @@ if (
             <p>En las próximas 24 horas laborales te daremos acceso al material 🤗</p>
             <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com</p>  
         ";
-
-
-    // Datos necesarios
-    $admin_email = get_option('admin_email'); // Correo del admin configurado en WordPress
-    $contadora_email = "cpa@ulpik.com";
-    $directora_comunidad_email = "legal2@ulpik.com";
-    $cliente_email = $customerEmail ?? null;
-    $monto = $montoSuscripcion ?? '0.00';
-    $moneda = 'USD';
-    $estado = 'Aprobado';
-    $mensaje = "Puedes verificar la transaccion en el sistema de Administración:";
-    $transaccion = $transactionId;
-
-    // -------- 1. Correo al Cliente --------
-    if ($cliente_email && filter_var($cliente_email, FILTER_VALIDATE_EMAIL)) {
-        $asunto_cliente = "📄 Ulpik - Confirmación de tu pago en la suscripción";
-        $mensaje_cliente = "
-        
-        Hola,
-
-        Gracias por tu pago, te damos la bienvenida a la comunidad de Ulpriv. 
-
-        Si tienes preguntas puedes escribirnos al Whatsapp con el número +593 98 433 8645, o atraves del correo legal2@ulpik.com.
-
-        Saludos,
-        El equipo de Ulpik
-        ";
-
-        wp_mail($cliente_email, $asunto_cliente, $mensaje_cliente);
-    }
 
         // wp_mail("cto@ulpik.com", "Asunto", "Mensaje");
 }
