@@ -219,7 +219,7 @@ function obtener_estado_transaccion($transactionId) {
         'Authorization:Bearer ' . $access_token_datafast
     ));
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Cambiar a true en producción
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // Cambiar a true en producción
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     
     $responseData = curl_exec($ch);
@@ -235,8 +235,8 @@ function obtener_estado_transaccion($transactionId) {
 $response = obtener_estado_transaccion($transactionId);
 
 // Mostrar toda la respuesta en pantalla
-echo "<h2>Respuesta Completa de Datafast:</h2>";
-echo "<p>" . print_r($response, true) . "</p>";
+// echo "<h2>Respuesta Completa de Datafast:</h2>";
+// echo "<p>" . print_r($response, true) . "</p>";
 
 // Verificar si la respuesta es válida
 if (!$response || !isset($response['result']['code'])) {
@@ -377,7 +377,7 @@ if (
     $resultado = $wpdb->insert(...); // tu insert completo aquí
 
     if ($resultado && $wpdb->insert_id) {
-        echo "<h3 style='color:green;'>✅ Cliente y pago registrados en la base de datos</h3>" . $wpdb->insert_id;
+        echo "<h3 style='color:green;'>✅ Cliente y pago registrados en la base de datos</h3>";
     } else {
         echo "❌ Error: Insert no existe " . $wpdb->last_error;
     }
@@ -385,7 +385,6 @@ if (
 
     
     echo "
-            <p>En las próximas 24 horas laborales te daremos acceso al material 🤗</p>
             <p>Si tienes preguntas puedes escribirnos al Whatsapp con el número <a href='https://wa.me/593984338645'>+593984338645</a>, o atraves del correo legal2@ulpik.com</p>  
         ";
 
@@ -398,7 +397,7 @@ if (
             'email' => $customerEmail,
             'telefono' => $customerPhone,
             'documento_id' => $customerDocId,
-            'direccion' => $customer['address'] ?? null
+            'direccion' => $response['shipping']['street1'] ?? null
         ],
         'transaccion' => [
             'id' => $transactionId,

@@ -182,7 +182,7 @@
 
     // Obtener el ID de la suscripción y asegurarse de que es un número entero
     $months_subscription = intval($_GET['months_subscription']);
-    $precio = 6;
+    $precio = 29;
     $name_product = "";
     $days_product = 0;
     $ahorro = 0;
@@ -190,7 +190,7 @@
     // Determinar el precio basado en el número de meses de suscripción
     switch ($months_subscription) {
         case 1:
-            $precio = 6;
+            $precio = 29;
             $name_product = "Suscripción DEAE 1 Mes";
             $days_product = 30;
             break;
@@ -239,7 +239,7 @@
         }
 
         $firstName = limpiar_input($_POST['firstName']);
-        $secondName = "a";
+        $secondName = "";
         $lastName = limpiar_input($_POST['lastName']);
         $email = limpiar_input($_POST['email']);
         $cedula = limpiar_input($_POST['cedula']);
@@ -309,7 +309,7 @@
 
                     "&risk.parameters[USER_DATA2]=DATAFAST" .
                     "&customParameters[SHOPPER_VERSIONDF]=2" .
-                    "&testMode=EXTERNAL" .
+                    // "&testMode=EXTERNAL" .
 
                     "&cart.items[0].name=" . $name_product .
                     "&cart.items[0].description=" . $name_product .
@@ -317,7 +317,7 @@
                     "&cart.items[0].quantity=1";
 
 
-            echo "<p>" . $data . "</p>";
+            // echo "<p>" . $data . "</p>";
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -325,7 +325,7 @@
             ));
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // true en produccion
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true); // true en produccion
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $responseData = curl_exec($ch);
             if (curl_errno($ch)) {
@@ -351,7 +351,6 @@
                 window.location.href = '$redirectUrl';
                 }, 2000);
                 </script>";
-                
             echo "<p>Si no eres redirigido automáticamente, <a href='$redirectUrl'>haz clic aquí</a>.</p>";
             // echo "<script>window.location.href = '$redirectUrl';</script>";
         } else {
@@ -459,6 +458,7 @@
                 <li>Acceso a un grupo privado de WhatsAp</li>
                 <li>2 eBooks cada mes sobre visión de triple impacto</li>
                 <li>1 workbook mensual de marketing digital</li>
+                <li>Club del audiolibro: 1 audiolibro mensual</li>
                 <li>Replays ilimitados de cada sesión en vivo</li>
                 <li>Descuentos exclusivos en programas ULPIK y acceso preferencial a eventos VIP.</li>
             </ul>
