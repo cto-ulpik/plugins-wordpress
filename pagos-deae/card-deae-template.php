@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.datafast.com.ec https://test.datfast.com.ec 'unsafe-inline';">
+    <title>Pagar con Tarjeta</title>
+    
 <?php
 require_once plugin_dir_path(__FILE__) . 'env/env.php';
 
@@ -31,13 +39,7 @@ $inputJSON = file_get_contents('php://input');
 $decodedData = json_decode($inputJSON, true);
 
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.datafast.com.ec https://test.datfast.com.ec 'unsafe-inline';">
-    <title>Pagar con Tarjeta</title>
+
     
     <!-- Incluir el script de pago con el checkoutId -->
     <script src="<?php echo $url; ?>/paymentWidgets.js?checkoutId=<?php echo $checkoutId; ?>"></script>
