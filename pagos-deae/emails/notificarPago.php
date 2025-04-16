@@ -25,8 +25,8 @@ function notificarResultadoPago($data) {
         . "Tipo de suscripcion: {$transaccion['tipo_suscripcion']}\n"
         . "Contactanos por whatsapp <a href='https://wa.me/593984338645'>+593984338645</a>\n";
 
-    $mensajeAdmin = "
-Hola Administrador,\n\n"
+    $mensajeAdmin = '
+        Hola Administrador,\n\n"
         . "Se ha procesado un pago con los siguientes detalles:\n"
         . "<h2> Datos del cliente</h2>" 
         . "Cliente: {$cliente['nombre']}\n"
@@ -44,7 +44,7 @@ Hola Administrador,\n\n"
 
         . "Estado: {$estado}\n"
         . "Gracias por tu atención.\n\n"
-    ";
+    ';
 
     if (!wp_mail($cliente['email'], $asuntoCliente, $mensajeCliente)) {
         throw new Exception("No se pudo enviar el correo al cliente: {$cliente['email']}");
