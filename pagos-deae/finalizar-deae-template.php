@@ -109,7 +109,6 @@ if (
 
     if ($existing_customer) {
         // Actualizar los datos de suscripción y último pago
-        echo "<p>Inicio de que existe el usuario</p>";
         $wpdb->update(
             $table_customers,
             [
@@ -121,7 +120,6 @@ if (
             ],
             ['id' => $existing_customer->id]
         );
-        echo "<p>Fin de que existe el usuario</p>";
     } else {
         // Insertar nuevo cliente
         echo "<p>Inicio de que NO EXISTE el usuario</p>";
@@ -189,10 +187,36 @@ if (
         ";
 
 
+    // Datos necesarios
+    $admin_email = get_option('admin_email'); // Correo del admin configurado en WordPress
+    $contadora_email = "cpa@ulpik.com";
+    $directora_comunidad_email = "legal2@ulpik.com";
+    $cliente_email = $customerEmail ?? null;
+    $monto = $montoSuscripcion ?? '0.00';
+    $moneda = 'USD';
+    $estado = 'Aprobado';
+    $mensaje = "Puedes verificar la transaccion en el sistema de Administración:";
+    $transaccion = $transactionId;
     
+    // -------- 1. Correo al Cliente --------
+    if ($cliente_email && filter_var($cliente_email, FILTER_VALIDATE_EMAIL)) {
+        $asunto_cliente = "📄 Ulpik - Confirmación de tu pago en la suscripción";
+        $mensaje_cliente = "
+        
+        Hola,
+
+        Gracias por tu pago, te damos la bienvenida a la comunidad de Ulpriv. 
+
+        Si tienes preguntas puedes escribirnos al Whatsapp con el número +593 98 433 8645, o atraves del correo legal2@ulpik.com.
+
+        Saludos,
+        El equipo de Ulpik
+        ";
+
+        wp_mail($cliente_email, $asunto_cliente, $mensaje_cliente);
+    }
+
         // wp_mail("cto@ulpik.com", "Asunto", "Mensaje");
-
-
 }
 
 else{
@@ -201,23 +225,6 @@ else{
     echo "<p>Estado de la transacción: $resultadoPago</p>";
     echo "<p>Descripción: $mensajePago</p>";
     echo "<p>Por favor, verifica los detalles de tu pago y vuelve a intentarlo.</p>";
-
-    // require_once plugin_dir_path(__FILE__) . 'emails/notificarPago.php';
-    // notificarResultadoPago([
-    //     'cliente' => [
-    //         'nombre' => $customerName,
-    //         'email' => $customerEmail,
-    //         'telefono' => $customerPhone
-    //     ],
-    //     'transaccion' => [
-    //         'id' => $transactionId,
-    //         'monto' => $montoSuscripcion,
-    //         'codigo' => $resultadoPago,
-    //         'mensaje' => $mensajePago
-    //     ],
-    //     'estado' => 'fallido'
-    // ]);
-    // notificarResultadoPago($datosParaCorreo);
 
 }
 ?>
@@ -410,8 +417,8 @@ else{
         if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112" || $resultadoPago === "000.000.000") { 
         ?>
         <h2 style="color: green;">✅ Pago Exitoso, Revisa tu correo electrónico, en las próximas 24 horas laborales te daremos acceso a todos los beneficios de la suscripción.</h2>
-    <?php } else { ?>
-        <h2 style="color: red;">❌ Pago Fallido</h2>
-    <?php } ?>
+        <?php } else { ?>
+            <h2 style="color: red;">❌ Pago Fallido</h2>
+        <?php } ?>
 </body>
 </html>
