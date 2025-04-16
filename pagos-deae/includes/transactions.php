@@ -53,7 +53,7 @@ echo '<tbody>';
 
 foreach ($transactions as $transaction) {
 
-    $esActivo = $cus->estado_suscripcion ? true : false;
+    $esActivo = $transaction->transaction_status == "Pago Exitoso" ? true : false;
         $estado = $esActivo ? "✅ Activa" : "❌ Inactiva";
         $claseFila = $esActivo ? "style=' background-color: #d4edda'" : "style='background-color: #f8d7da'";
 
