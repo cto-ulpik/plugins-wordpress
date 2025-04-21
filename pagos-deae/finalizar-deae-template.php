@@ -196,12 +196,12 @@ $transactionId = sanitize_text_field($_GET['id']);
 //************ Función para consultar el estado de la transacción en Datafast
 function obtener_estado_transaccion($transactionId) {
     require_once plugin_dir_path(__FILE__) . 'env/env.php';
-    $id_entidad_datafast = $id_entidad_datafast ?? null;
-        $access_token_datafast = $access_token_datafast ?? null;
-        $mid_datafast = $mid_datafast ?? null;
-        $tid_datafast = $tid_datafast ?? null;
-        $serv_datafast = $serv_datafast ?? null;
-        $url_datafast = $url_datafast ?? null;
+    $id_entidad_datafast = $id_entidad_datafast ?? '';
+        $access_token_datafast = $access_token_datafast ?? '';
+        $mid_datafast = $mid_datafast ?? '';
+        $tid_datafast = $tid_datafast ?? '';
+        $serv_datafast = $serv_datafast ?? '';
+        $url_datafast = $url_datafast ?? '';
         // Verificar que las variables globales estén definidas
         if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
             echo "Error: Variables de configuración no definidas.";
@@ -267,9 +267,9 @@ if (
     $table_customers = $wpdb->prefix . "deae_customers"; // clientes
 
     // Extraer datos del response
-    $registrationId = $response['registrationId'] ?? null;
-    $paymentBrand = $response['paymentBrand'] ?? null;
-    $amount = $response['amount'] ?? null;
+    $registrationId = $response['registrationId'] ?? '';
+    $paymentBrand = $response['paymentBrand'] ?? '';
+    $amount = $response['amount'] ?? '';
 
     $customer = $response['customer'] ?? [];
     $card = $response['card'] ?? [];
@@ -277,10 +277,10 @@ if (
 
     // Datos del cliente
     $customerName = trim($customer['givenName'] . ' ' . ($customer['middleName'] ?? '') . ' ' . $customer['surname']);
-    $customerEmail = $customer['email'] ?? null;
-    $customerPhone = $customer['phone'] ?? null;
-    $customerDocType = $customer['identificationDocType'] ?? null;
-    $customerDocId = $customer['identificationDocId'] ?? null;
+    $customerEmail = $customer['email'] ?? '';
+    $customerPhone = $customer['phone'] ?? '';
+    $customerDocType = $customer['identificationDocType'] ?? '';
+    $customerDocId = $customer['identificationDocId'] ?? '';
 
     // Datos de suscripción
     $tipoSuscripcion = $cart['name'] ?? "Suscripción 1 mes"; // Nombre de la suscripción
@@ -338,8 +338,8 @@ if (
     }
 
     // Datos de la tarjeta
-    $cardBin = $card['bin'] ?? null;
-    $cardLast4 = $card['last4Digits'] ?? null;
+    $cardBin = $card['bin'] ?? '';
+    $cardLast4 = $card['last4Digits'] ?? '';
     $cardExpiry = ($card['expiryMonth'] ?? '') . '/' . ($card['expiryYear'] ?? '');
 
     // Insertar datos en la tabla de transacciones
@@ -394,7 +394,7 @@ if (
             'email' => $customerEmail,
             'telefono' => $customerPhone,
             'documento_id' => $customerDocId,
-            'direccion' => $response['shipping']['street1'] ?? null
+            'direccion' => $response['shipping']['street1'] ?? ''
         ],
         'transaccion' => [
             'id' => $transactionId,
@@ -419,9 +419,9 @@ else{
     $table_customers = $wpdb->prefix . "deae_customers"; // clientes
 
     // Extraer datos del response
-    $registrationId = $response['registrationId'] ?? null;
-    $paymentBrand = $response['paymentBrand'] ?? null;
-    $amount = $response['amount'] ?? null;
+    $registrationId = $response['registrationId'] ?? '';
+    $paymentBrand = $response['paymentBrand'] ?? '';
+    $amount = $response['amount'] ?? '';
 
     $customer = $response['customer'] ?? [];
     $card = $response['card'] ?? [];
@@ -429,10 +429,10 @@ else{
 
     // Datos del cliente
     $customerName = trim($customer['givenName'] . ' ' . ($customer['middleName'] ?? '') . ' ' . $customer['surname']);
-    $customerEmail = $customer['email'] ?? null;
-    $customerPhone = $customer['phone'] ?? null;
-    $customerDocType = $customer['identificationDocType'] ?? null;
-    $customerDocId = $customer['identificationDocId'] ?? null;
+    $customerEmail = $customer['email'] ?? '';
+    $customerPhone = $customer['phone'] ?? '';
+    $customerDocType = $customer['identificationDocType'] ?? '';
+    $customerDocId = $customer['identificationDocId'] ?? '';
 
     // Datos de suscripción
     $tipoSuscripcion = $cart['name'] ?? "Suscripción 1 mes"; // Nombre de la suscripción
@@ -490,8 +490,8 @@ else{
     }
 
     // Datos de la tarjeta
-    $cardBin = $card['bin'] ?? null;
-    $cardLast4 = $card['last4Digits'] ?? null;
+    $cardBin = $card['bin'] ?? '';
+    $cardLast4 = $card['last4Digits'] ?? '';
     $cardExpiry = ($card['expiryMonth'] ?? '') . '/' . ($card['expiryYear'] ?? '');
 
     // Insertar datos en la tabla de transacciones
@@ -547,7 +547,7 @@ else{
             'email' => $customerEmail,
             'telefono' => $customerPhone,
             'documento_id' => $customerDocId,
-            'direccion' => $customer['address'] ?? null
+            'direccion' => $customer['address'] ?? ''
         ],
         'transaccion' => [
             'id' => $transactionId,
