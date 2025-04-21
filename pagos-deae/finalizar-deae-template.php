@@ -398,7 +398,7 @@ if (
         ],
         'transaccion' => [
             'id' => $transactionId,
-            'monto' => $amount,
+            'monto' => $montoSuscripcion,
             'producto' => $tipoSuscripcion,
             'fecha' => current_time('mysql')
         ],
@@ -410,8 +410,6 @@ if (
 
 else{
     // Si el pago no fue exitoso, mostrar mensaje de error
-
-
 
     global $wpdb;
     $wpdb->show_errors(); // Muestra errores de SQL en pantalla
@@ -551,7 +549,7 @@ else{
         ],
         'transaccion' => [
             'id' => $transactionId,
-            'monto' => $amount,
+            'monto' => $montoSuscripcion,
             'producto' => $tipoSuscripcion,
             'fecha' => current_time('mysql')
         ],
