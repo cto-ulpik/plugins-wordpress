@@ -17,7 +17,7 @@ function notificarResultadoPago($data) {
         ? "✅ Confirmación de tu pago en ULPIK"
         : "❌ Problema con tu pago en ULPIK";
 
-    $asuntoAdmin = "🧾 Resultado de pago procesado por Datafast";
+    $asuntoAdmin = "🧾 {$cliente['nombre']} | {$cliente['documento_id']} | {$cliente['email']} - Resultado de pago procesado por Datafast";
 
     $mensajeCliente = "Hola {$cliente['nombre']},\n\n"
         . ($estado === 'exitoso'
