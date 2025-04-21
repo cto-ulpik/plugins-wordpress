@@ -284,7 +284,7 @@ if (
 
     // Datos de suscripción
     $tipoSuscripcion = $cart['name'] ?? "Suscripción 1 mes"; // Nombre de la suscripción
-    $montoSuscripcion = $cart['price'] ?? $amount;
+    $montoSuscripcion = $cart['price'];
     $estadoSuscripcion = 1; // Activo por defecto
     $ultimoPago = current_time('mysql'); // Fecha del último pago exitoso
 
@@ -434,7 +434,7 @@ else{
 
     // Datos de suscripción
     $tipoSuscripcion = $cart['name'] ?? "Suscripción 1 mes"; // Nombre de la suscripción
-    $montoSuscripcion = $cart['price'] ?? $amount;
+    $montoSuscripcion = $cart['price'];
     $estadoSuscripcion = 1; // Activo por defecto
     $ultimoPago = current_time('mysql'); // Fecha del último pago exitoso
 
