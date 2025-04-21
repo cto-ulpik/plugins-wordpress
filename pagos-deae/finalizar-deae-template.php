@@ -514,7 +514,7 @@ else{
             'cart_price' => $montoSuscripcion,
             'cart_description' => $cart['description'] ?? '',
             'cart_quantity' => $cart['quantity'] ?? 1,
-            'transaction_status' => "Pago Exitoso",
+            'transaction_status' => "Pago Fallido",
             'transaction_response' => json_encode($response),
             'created_at' => current_time('mysql')
         ],
@@ -565,7 +565,12 @@ else{
 
         <?php 
         $resultadoPago = $resultadoPago ?? null; // prevenir error de variable no definida
-        if ($resultadoPago === "000.100.110" || $resultadoPago === "000.100.112" || $resultadoPago === "000.000.000") { 
+        if (
+            $resultadoPago === "000.100.110" || 
+            $resultadoPago === "000.100.112" || 
+            $resultadoPago === "000.000.000" ||
+            $resultadoPago === "000.200.100" 
+            ) { 
         ?>
         <h2 style="color: green;">✅ Pago Exitoso, Revisa tu correo electrónico, en las próximas 24 horas laborales te daremos acceso a todos los beneficios de la suscripción.</h2>
         <?php } else { ?>
