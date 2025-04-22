@@ -252,14 +252,14 @@
 
             require_once plugin_dir_path(__FILE__) . 'env/env.php';
 
-        $id_entidad_datafast = $id_entidad_datafast ?? null;
+        $id_entidad_datafast_normal = $id_entidad_datafast_normal ?? null;
         $access_token_datafast = $access_token_datafast ?? null;
         $mid_datafast = $mid_datafast ?? null;
         $tid_datafast = $tid_datafast ?? null;
         $serv_datafast = $serv_datafast ?? null;
         $url_datafast = $url_datafast ?? null;
         // Verificar que las variables globales estén definidas
-        if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
+        if (is_null($id_entidad_datafast_normal) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
             echo "Error: Variables de configuración no definidas.";
             exit;
         }
@@ -273,7 +273,7 @@
             $base0 = ($iva == 0) ? $amount : 0.00;
 
             $url = $url_datafast . "/v1/checkouts";
-            $data = "entityId=" . $id_entidad_datafast .
+            $data = "entityId=" . $id_entidad_datafast_normal .
                     "&amount=" . number_format($amount, 2, '.', '') .
                     "&currency=USD" .
                     "&paymentType=DB" .
@@ -307,7 +307,7 @@
                     "&customParameters[SHOPPER_MID]=" . $mid_datafast .
                     "&customParameters[SHOPPER_TID]=" . $tid_datafast .
 
-                    "&risk.parameters[USER_DATA2]=DATAFAST" .
+                    "&risk.parameters[USER_DATA2]=ULPIK" .
                     "&customParameters[SHOPPER_VERSIONDF]=2" .
                     // "&testMode=EXTERNAL" .
 
@@ -454,13 +454,13 @@
 
             <h2>Beneficios de la Suscripción</h2>
             <ul>
-                <li>3 clases en vivo con el equipo de ULPIK</li>
-                <li>Acceso a un grupo privado de WhatsAp</li>
-                <li>2 eBooks cada mes sobre visión de triple impacto</li>
-                <li>1 workbook mensual de marketing digital</li>
-                <li>Club del audiolibro: 1 audiolibro mensual</li>
-                <li>Replays ilimitados de cada sesión en vivo</li>
-                <li>Descuentos exclusivos en programas ULPIK y acceso preferencial a eventos VIP.</li>
+            <li>Masterclass mensual de ventas en vivo con NRM ($250)</li>
+            <li>Masterclass mensual en vivo con el equipo Legal ($70)</li>
+            <li>Masterclass mensual en vivo con el equipo de Contabilidad ($40)</li>
+            <li>El reto de los 12 libros al año ($30)</li>
+            <li>Ebook mensual "Cómo ser una marca que impacta" ($20)</li>
+            <li>Workbook mensual "Creación de contenido" ($20)</li>
+            <li>Newsletter mensual sobre "Apps de negocios" ($11)</li>
             </ul>
         </div>
     </div>

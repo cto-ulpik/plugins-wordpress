@@ -183,14 +183,14 @@
 <?php
 require_once plugin_dir_path(__FILE__) . 'env/env.php';
 
-$id_entidad_datafast = $id_entidad_datafast ?? null;
+$id_entidad_datafast_normal = $id_entidad_datafast_normal ?? null;
         $access_token_datafast = $access_token_datafast ?? null;
         $mid_datafast = $mid_datafast ?? null;
         $tid_datafast = $tid_datafast ?? null;
         $serv_datafast = $serv_datafast ?? null;
         $url_datafast = $url_datafast ?? null;
         // Verificar que las variables globales estén definidas
-        if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
+        if (is_null($id_entidad_datafast_normal) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
             echo "Error: Variables de configuración no definidas.";
             exit;
         }
