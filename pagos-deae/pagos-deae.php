@@ -126,7 +126,7 @@ function deae_update_customers_table() {
         $sql = "CREATE TABLE $table_name (
             id BIGINT(20) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
-            email VARCHAR(100) NOT NULL UNIQUE,
+            email VARCHAR(100) NOT NULL,
             phone VARCHAR(50) NOT NULL,
             document_type VARCHAR(50) NOT NULL,
             document_id VARCHAR(50) NOT NULL UNIQUE,
