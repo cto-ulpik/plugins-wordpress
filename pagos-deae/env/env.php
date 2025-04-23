@@ -22,7 +22,7 @@
 
 /// ACCESOS DE PRODUCCION para pagos normales
 // $id_entidad_datafast_normal="8ac9a4ca8ab1f6e3018acca6c2f170a0" // dado por datafast
-$id_entidad_datafast="8ac7a4c994bb78290194bd40497301d5" // dado por datafast
+$id_entidad_datafast="8ac9a4ca8ab1f6e3018acca6c2f170a0" // dado por datafast
 $access_token_datafast = "OGE4Mjk0MTg1YTY1YmY1ZTAxNWE2YzhjNzI4YzBkOTV8YmZxR3F3UTMyWA==";
 $mid_datafast = "1000000505";
 $tid_datafast = "PD100406";
