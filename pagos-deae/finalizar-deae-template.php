@@ -196,21 +196,21 @@ $transactionId = sanitize_text_field($_GET['id']);
 //************ Función para consultar el estado de la transacción en Datafast
 function obtener_estado_transaccion($transactionId) {
     require_once plugin_dir_path(__FILE__) . 'env/env.php';
-    $id_entidad_datafast_normal = $id_entidad_datafast_normal ?? '';
+    $id_entidad_datafast = $id_entidad_datafast ?? '';
         $access_token_datafast = $access_token_datafast ?? '';
         $mid_datafast = $mid_datafast ?? '';
         $tid_datafast = $tid_datafast ?? '';
         $serv_datafast = $serv_datafast ?? '';
         $url_datafast = $url_datafast ?? '';
         // Verificar que las variables globales estén definidas
-        if (is_null($id_entidad_datafast_normal) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
+        if (is_null($id_entidad_datafast) || is_null($access_token_datafast) || is_null($mid_datafast) || is_null($tid_datafast) || is_null($serv_datafast) || is_null($url_datafast)) {
             echo "Error: Variables de configuración no definidas.";
             exit;
         }
 
 
     $url = $url_datafast . "/v1/checkouts/{$transactionId}/payment";
-    $data = "?entityId=" . $id_entidad_datafast_normal;
+    $data = "?entityId=" . $id_entidad_datafast;
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url . $data);

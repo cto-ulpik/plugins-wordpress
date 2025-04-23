@@ -12,7 +12,7 @@
 /// ACCESOS DE PRODUCCION
 $id_entidad_datafast_normal="8ac9a4ca8ab1f6e3018acca6c2f170a0"
 
-$id_entidad_datafast = "8acda4cc95f5c7b70196112c671c0531";
+$id_entidad_datafast = "8ac9a4ca8ab1f6e3018acca6c2f170a0"; // Normal
 $id_entidad_datafast_recurrente = "8acda4cc95f5c7b70196112c671c0531";
 $access_token_datafast = "OGFjOWE0Y2E4YWIxZjZlMzAxOGFjY2E2MTgzYzcwOTZ8NzlUTkpkd0ZqZA==";
 
